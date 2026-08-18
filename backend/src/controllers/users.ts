@@ -1,31 +1,33 @@
 import { RequestHandler } from "express";
-import createHttpError, { CreateHttpError } from "http-errors";
-import users from "../models/users";
 import bcrypt from "bcrypt"
+import users from "../models/users"
+import createHttpError from "http-errors";
 
 function userResponse(user: { username: string; email: string }) {
-    return { username: user.username, email: user.email };
+    return {
+        username: user.username,
+        email: user.email,
+    };
 }
 
 export const getAuthenticatedUser: RequestHandler = async (req, res, next) => {
-    const authenticatedUserId = req.session.userId
-
+    const authenticatedUser = req.session.userId
     try {
-        if (!getAuthenticatedUser) {
+
+        if (!authenticatedUser) {
             throw (createHttpError(401, "User not authenticated"))
         }
-        const user = await users.findById(authenticatedUserId).select("+email").exec()
-
+        const user = await users.findById(authenticatedUser).select("+email").exec()
         if (!user) {
             throw (createHttpError(404, "User not found"))
         }
-
         res.status(200).json(userResponse(user))
+
     }
     catch (error) {
         next(error)
     }
-};
+}
 
 interface SignUp {
     username: string
@@ -34,22 +36,20 @@ interface SignUp {
 }
 
 export const signup: RequestHandler<unknown, unknown, SignUp, unknown> = async (req, res, next) => {
-
-    const username = req.body.username
-    const email = req.body.email
-    const passwordRaw = req.body.password
+    const { username, email, password: passwordRaw } = req.body
 
     try {
         if (!username || !email || !passwordRaw) {
-            throw (createHttpError(400, "Parameters not available"))
+            throw (createHttpError(400, "Parameters missing"))
         }
-        const existingUsername = await users.findOne({ username: username }).exec
-        if (!existingUsername) {
+
+        const existingUsername = await users.findOne({ username: username }).exec()
+        if (existingUsername) {
             throw (createHttpError(409, "Username Already Exists"))
         }
 
-        const existingEmail = await users.findOne({ emai: email }).exec()
-        if (!existingEmail) {
+        const existingEmail = await users.findOne({ email: email }).exec()
+        if (existingEmail) {
             throw (createHttpError(409, "Email Already Exists"))
         }
 
@@ -60,7 +60,38 @@ export const signup: RequestHandler<unknown, unknown, SignUp, unknown> = async (
         req.session.userId = newUser._id.toString()
 
         res.status(201).json(userResponse(newUser))
+    }
+    catch (error) {
+        next(error)
+    }
+}
 
+interface LogIn {
+    username: string
+    password: string
+}
+
+export const login: RequestHandler<unknown, unknown, LogIn, unknown> = async (req, res, next) => {
+const { username, password: passwordRaw } = req.body
+
+    try {
+        if (!username || !passwordRaw) {
+            throw (createHttpError(400, "Parameters missing"))
+        }
+
+        const user = await users.findOne({ username: username }).select("+password +email").exec()
+        if (!user) {
+            throw (createHttpError(401, "Invalid Credentials"))
+        }
+
+        const passwordMatch = await bcrypt.compare(passwordRaw, user.password)
+        if (!passwordMatch) {
+            throw (createHttpError(401, "Invalid Credentials"))
+        }
+
+        req.session.userId = user._id.toString()
+
+        res.status(201).json(userResponse(user))
 
     }
     catch (error) {
@@ -68,48 +99,12 @@ export const signup: RequestHandler<unknown, unknown, SignUp, unknown> = async (
     }
 }
 
-interface Login {
-    username: string
-    password: string
-}
-
-export const login: RequestHandler<unknown, unknown, Login, unknown> = async (req, res, next) => {
-
-    const username = req.body.username;
-    const passwordRaw = req.body.password;
-
-    try {
-        if (!username || !passwordRaw) {
-            throw createHttpError(400, "Parameters missing");
-        }
-
-        const user = await users.findOne({ username: username }).select("+password +email").exec();
-
-        if (!user) {
-            throw createHttpError(401, "Invalid credentials");
-        }
-
-        const passwordMatch = await bcrypt.compare(passwordRaw, user.password);
-
-        if (!passwordMatch) {
-            throw createHttpError(401, "Invalid credentials");
-        }
-
-        req.session.userId = user._id.toString();
-
-        res.status(200).json(userResponse(user));
-
-    } catch (error) {
-        next(error);
-    }
-};
-
 export const logout: RequestHandler = (req, res, next) => {
     req.session.destroy((error) => {
         if (error) {
-            next(error);
+            next(error)
         } else {
-            res.status(200).json({ message: "Logged out successfully" });
+            res.status(201).json({ message: "Logged out successfully" })
         }
-    });
-};
+    })
+}
