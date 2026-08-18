@@ -1,6 +1,7 @@
 import "dotenv/config"
 import express, { Request, Response, NextFunction } from "express"
 import createHttpError, { isHttpError } from "http-errors"
+import router from "./routes/users"
 
 import session from "express-session";
 import env from "./util/validateEnv";
@@ -33,7 +34,7 @@ app.use(session({
   }),
 }));
 
-
+app.use("/api/users", router)
 
 app.use(( req, res, next) => {
     next(createHttpError(404, "Endpoint not found"))
