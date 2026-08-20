@@ -2,7 +2,6 @@ import "dotenv/config"
 import express, { Request, Response, NextFunction } from "express"
 import createHttpError, { isHttpError } from "http-errors"
 import router from "./routes/users"
-
 import session from "express-session";
 import env from "./util/validateEnv";
 import MongoStore from "connect-mongo";
@@ -18,12 +17,16 @@ app.get("/", (req, res) => {
   });
 });
 
+app.set("trust proxy", 1) // Required if HTTPS/TLS terminates at a reverse proxy
+
 app.use(session({
   secret: env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
   cookie: {
     maxAge: 1000 * 60 * 60,
+    secure: true,
+    sameSite: "lax",
   },
   rolling: true, // Reset the cookie expiration time on every request
 
@@ -36,8 +39,8 @@ app.use(session({
 
 app.use("/api/users", router)
 
-app.use(( req, res, next) => {
-    next(createHttpError(404, "Endpoint not found"))
+app.use((req, res, next) => {
+  next(createHttpError(404, "Endpoint not found"))
 })
 
 app.use((error: unknown, req: Request, res: Response, next: NextFunction) => {

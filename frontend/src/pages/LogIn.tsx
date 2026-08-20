@@ -2,7 +2,8 @@
 
 const SignUp = () => {
   return (
-    <div>
+    <div id="/login">
+
       
     </div>
   )
