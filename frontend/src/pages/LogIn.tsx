@@ -23,7 +23,7 @@ const Login = () => {
                             <input className="text-gray-700 w-full rounded-lg border border-gray-300 px-4 py-3 text-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20" id="password" type="password" placeholder="Enter your password" />
                         </div>
                         <div className="mt-3 flex justify-end">
-                            <button className="text-sm font-medium text-blue-600 hover:text-blue-700" type="button">Forgot password?</button>
+                            <button className="text-sm font-medium text-blue-600 hover:text-blue-700" type="button">Forgot your password?</button>
                         </div>
                         <button className="mt-6 w-full rounded-lg bg-blue-600 px-4 py-3 font-semibold text-white transitionhover:bg-blue-700 active:scale-[0.99]" type="button">Login</button>
                         <div className="my-6 flex items-center gap-3">
