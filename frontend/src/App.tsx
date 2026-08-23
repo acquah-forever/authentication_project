@@ -1,6 +1,6 @@
 import Home from "./pages/Home"
 import Navbar from "./components/Navbar"
-import LogIn from './pages/LogIn'
+import Login from "./pages/LogIn"
 
 import { Routes, Route } from "react-router-dom"
 
@@ -14,7 +14,7 @@ const App = () => {
           <main className='flex-1'>
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/login" element={<LogIn />} />
+              <Route path="/login" element={<Login />} />
             </Routes>
           </main>
         </div>
