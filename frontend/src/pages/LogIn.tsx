@@ -34,7 +34,7 @@ const Login = () => {
                         <button className="text-black flex w-full items-center justify-center rounded-lg border border-gray-300 px-4 py-3" type="button">Login with Google</button>
                         <p className="mt-6 text-center text-sm text-gray-600">
                             Don't have an account?{" "}
-                            <button className="font-semibold text-blue-600 hover:text-blue-700" type="button">Sign up</button>
+                            <button className="font-semibold text-blue-600 hover:text-blue-700" type="button">Sign Up</button>
                         </p>
                     </div>
                 </div>
