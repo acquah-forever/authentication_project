@@ -25,7 +25,7 @@ app.use(session({
   saveUninitialized: false,
   cookie: {
     maxAge: 1000 * 60 * 60,
-    secure: true,
+    secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
   },
   rolling: true, // Reset the cookie expiration time on every request

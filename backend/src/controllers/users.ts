@@ -90,11 +90,9 @@ export const signup: RequestHandler<unknown, unknown, SignUp, unknown> = async (
             if (error) {
                 return next(error)
             }
+            req.session.userId = newUser._id.toString()
+            res.status(201).json(userResponse(newUser))
         })
-
-        req.session.userId = newUser._id.toString()
-
-        res.status(201).json(userResponse(newUser))
     }
     catch (error) {
         next(error)
@@ -111,7 +109,7 @@ export const login: RequestHandler<unknown, unknown, LogIn, unknown> = async (re
     try {
         const { username, password: passwordRaw } = req.body
 
-        if (typeof username!== "string" || typeof passwordRaw !== "string") {
+        if (typeof username !== "string" || typeof passwordRaw !== "string") {
             throw (createHttpError(400, "Invalid Parameters"))
         }
 
@@ -123,11 +121,11 @@ export const login: RequestHandler<unknown, unknown, LogIn, unknown> = async (re
         }
 
         if (usernameTrimmed.length > 50) {
-            throw(createHttpError(401, "Invalid Credentials"))
+            throw (createHttpError(401, "Invalid Credentials"))
         }
 
-        if (!password || password.length >128) {
-            throw(createHttpError(401, "Invalid Credentials"))
+        if (!password || password.length > 128) {
+            throw (createHttpError(401, "Invalid Credentials"))
         }
 
         const user = await users.findOne({ username: usernameTrimmed }).select("+password +email").exec()
@@ -144,12 +142,9 @@ export const login: RequestHandler<unknown, unknown, LogIn, unknown> = async (re
             if (error) {
                 return next(error)
             }
+            req.session.userId = user._id.toString()
+            res.status(201).json(userResponse(user))
         })
-
-        req.session.userId = user._id.toString()
-
-        res.status(201).json(userResponse(user))
-
     }
     catch (error) {
         next(error)
