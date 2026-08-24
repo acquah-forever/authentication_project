@@ -41,7 +41,7 @@ const Login = () => {
                             {errors.username.message} </span>}
                         <div className="mt-5">
                             <label className="mb-2 block text-sm font-medium text-gray-700" htmlFor="password">Password</label>
-                            <input className="text-gray-700 w-full rounded-lg border border-gray-300 px-4 py-3 text-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20" id="password" type="password" placeholder="Enter your password"{...register("password", { required: "This field is required" })} />
+                            <input className="text-gray-700 w-full rounded-lg border border-gray-300 px-4 py-3 text-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20" id="password" type="password" placeholder="Enter your password"{...register("password", { required: "Enter your password" })} />
                         </div>
                         {errors.password && <span className="text-red-500 text-sm font-semibold flex items-center mt-2">
                             <CircleAlert className="mr-1" size={15} />
