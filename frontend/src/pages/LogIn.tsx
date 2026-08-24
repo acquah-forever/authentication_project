@@ -1,7 +1,8 @@
-import { useForm } from "react-hook-form"
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { CircleAlert } from "lucide-react";
 import { NavLink } from "react-router-dom";
+import { useLogin } from "../hooks/useAuth";
 
 interface FormBody {
     username: string,
@@ -11,12 +12,19 @@ interface FormBody {
 const Login = () => {
 
     const { handleSubmit, register, formState: { errors } } = useForm<FormBody>()
+
     const navigate = useNavigate()
 
-    function onsubmit(data: FormBody) {
-        console.log(data)
-        navigate("/")
-    }
+    const loginMutation = useLogin();
+
+
+  function onsubmit(data: FormBody) {
+    loginMutation.mutate(data, {
+      onSuccess: () => {
+        navigate("/");
+      },
+    });
+  }
 
     return (
         <div id="/login" className="min-h-screen flex items-center justify-center p-4">

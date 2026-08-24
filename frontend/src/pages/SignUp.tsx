@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router-dom";
 import { CircleAlert } from "lucide-react";
 import { NavLink } from "react-router-dom";
+import { useSignup } from "../hooks/useAuth";
 
 
 interface FormBody {
@@ -12,11 +13,17 @@ interface FormBody {
 
 const SignUp = () => {
   const { handleSubmit, register, formState: { errors } } = useForm<FormBody>()
-   const navigate = useNavigate()
+
+  const navigate = useNavigate()
+
+  const signupMutation = useSignup();
 
   function onsubmit(data: FormBody) {
-    console.log(data)
-    navigate("/")
+    signupMutation.mutate(data, {
+      onSuccess: () => {
+        navigate("/");
+      },
+    });
   }
 
   return (
