@@ -16,10 +16,10 @@ const SignUp = () => {
 
   const navigate = useNavigate()
 
-  const signupMutation = useSignup();
+  const { mutate, isPending, isError, error } = useSignup();
 
   function onsubmit(data: FormBody) {
-    signupMutation.mutate(data, {
+    mutate(data, {
       onSuccess: () => {
         navigate("/");
       },
@@ -40,6 +40,7 @@ const SignUp = () => {
           <form onSubmit={handleSubmit(onsubmit)} className="mx-auto w-full max-w-md">
             <h1 className="text-3xl font-bold text-gray-900">SignUp</h1>
             <h2 className="mt-2 text-sm text-gray-500">Welcome! Please enter your details</h2>
+            {isError && <p className="text-red-500 text-sm font-semibold flex items-center my-2">{error.message}</p>}
             <div className="mt-8">
               <label className="mb-2 block text-sm font-medium text-gray-700" htmlFor="username">Username</label>
               <input className="text-gray-700 w-full rounded-lg border border-gray-300 px-4 py-3 text-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20" id="username" type="text" placeholder="Enter your username"{...register("username", { required: "Enter your username" })} />
@@ -61,7 +62,7 @@ const SignUp = () => {
             {errors.password && <span className="text-red-500 text-sm font-semibold flex items-center mt-2">
               <CircleAlert className="mr-1" size={15} />
               {errors.password.message}</span>}
-            <button className="cursor-pointer mt-6 w-full rounded-lg bg-blue-600 px-4 py-3 font-semibold text-white transitionhover:bg-blue-700 active:scale-[0.99]" type="submit">Sign Up</button>
+            <button className="cursor-pointer mt-6 w-full rounded-lg bg-blue-600 px-4 py-3 font-semibold text-white transitionhover:bg-blue-700 active:scale-[0.99]" type="submit" disabled={isPending}>{isPending ? "Creating account" : "Sign up"}</button>
             <p className="mt-6 text-center text-sm text-gray-600">
               Already have an account?{" "}
               <NavLink to="/login" className="cursor-pointer font-semibold text-blue-600 hover:text-blue-700" type="button">Log In</NavLink>
