@@ -19,6 +19,7 @@ export function useAuthenticatedUser() {
 
 export function useSignup() {
     const queryClient = useQueryClient();
+
     return useMutation({
         mutationFn: (data: SignupData) => signupUser(data),
         onSuccess: (user) => {
@@ -29,6 +30,7 @@ export function useSignup() {
 
 export function useLogin() {
     const queryClient = useQueryClient();
+
     return useMutation({
         mutationFn: (data: LoginData) => loginUser(data),
         onSuccess: (user) => {
@@ -39,6 +41,7 @@ export function useLogin() {
 
 export function useLogout() {
     const queryClient = useQueryClient();
+    
     return useMutation({
         mutationFn: logoutUser,
         onSuccess: () => {
