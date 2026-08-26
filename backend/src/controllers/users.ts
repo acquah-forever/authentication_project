@@ -95,7 +95,7 @@ export const signup: RequestHandler<unknown, unknown, SignUp, unknown> = async (
         })
     }
     catch (error) {
-        next(error)
+       return next(error)
     }
 }
 
@@ -118,14 +118,6 @@ export const login: RequestHandler<unknown, unknown, LogIn, unknown> = async (re
 
         if (!usernameTrimmed || !password) {
             throw (createHttpError(400, "Parameters missing"))
-        }
-
-        if (usernameTrimmed.length > 50) {
-            throw (createHttpError(401, "Invalid Credentials"))
-        }
-
-        if (!password || password.length > 128) {
-            throw (createHttpError(401, "Invalid Credentials"))
         }
 
         const user = await users.findOne({ username: usernameTrimmed }).select("+password +email").exec()
