@@ -15,16 +15,15 @@ const Login = () => {
 
     const navigate = useNavigate()
 
-    const loginMutation = useLogin();
+    const { mutate, isPending, isError, error } = useLogin();
 
-
-  function onsubmit(data: FormBody) {
-    loginMutation.mutate(data, {
-      onSuccess: () => {
-        navigate("/");
-      },
-    });
-  }
+    function onsubmit(data: FormBody) {
+        mutate(data, {
+            onSuccess: () => {
+                navigate("/");
+            },
+        });
+    }
 
     return (
         <div id="/login" className="min-h-screen flex items-center justify-center p-4">
@@ -40,6 +39,7 @@ const Login = () => {
                     <form onSubmit={handleSubmit(onsubmit)} className="mx-auto w-full max-w-md">
                         <h1 className="text-3xl font-bold text-gray-900">Login</h1>
                         <h2 className="mt-2 text-sm text-gray-500">Welcome back! Please enter your details</h2>
+                        {isError && <p className="text-red-500 text-sm font-semibold flex items-center my-2">{error.message}</p>}
                         <div className="mt-8">
                             <label className="mb-2 block text-sm font-medium text-gray-700" htmlFor="username">Username</label>
                             <input className="text-gray-700 w-full rounded-lg border border-gray-300 px-4 py-3 text-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20" id="username" type="text" placeholder="Enter your username"{...register("username", { required: "Enter your username" })} />
@@ -57,7 +57,7 @@ const Login = () => {
                         <div className="mt-3 flex justify-end">
                             <button className="text-sm font-medium text-blue-600 hover:text-blue-700" type="button">Forgot your password?</button>
                         </div>
-                        <button className="cursor-pointer mt-6 w-full rounded-lg bg-blue-600 px-4 py-3 font-semibold text-white transitionhover:bg-blue-700 active:scale-[0.99]" type="submit">Login</button>
+                        <button className="cursor-pointer mt-6 w-full rounded-lg bg-blue-600 px-4 py-3 font-semibold text-white transitionhover:bg-blue-700 active:scale-[0.99]" type="submit" disabled={isPending}>{isPending ? "Logging in" : "Login"}</button>
                         <div className="my-6 flex items-center gap-3">
                             <div className="h-px flex-1 bg-gray-300"></div>
                             <span className="text-sm font-medium text-gray-500"> OR</span>
