@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import { useLogout, useAuthenticatedUser } from "../hooks/useAuth";
-import { ChevronDown, House, TableOfContents, Handshake, Menu, X, BriefcaseBusiness, UserRoundArrowLeft } from 'lucide-react'
+import { ChevronDown, House, TableOfContents, Handshake, Menu, X, UserRoundArrowLeft } from 'lucide-react'
 import { motion, AnimatePresence } from 'motion/react'
 
 
@@ -16,6 +16,7 @@ const Navbar = () => {
         hidden: { opacity: 0, y: -70 },
         visible: { opacity: 1, y: 0 }
     }
+
     const { mutate } = useLogout()
     const { data: user, isLoading, isPending } = useAuthenticatedUser();
     const navigate = useNavigate()
@@ -71,7 +72,7 @@ const Navbar = () => {
                                 <div className='mt-3 flex space-x-4'>
                                     <House size={20} />
                                     <motion.div variants={children} whileHover={{ scale: 1.05 }}>
-                                        <NavLink className='text-sm font-semibold underline' onClick={close}>Blog</NavLink>
+                                        <NavLink to="/" className='text-sm font-semibold underline' onClick={close}>Blog</NavLink>
                                         <h2 className='text-sm'>Read Industry Insights.</h2>
                                     </motion.div>
                                 </div>
@@ -87,7 +88,7 @@ const Navbar = () => {
                                 <div className='mt-2 flex space-x-4'>
                                     <Handshake />
                                     <motion.div variants={children} whileHover={{ scale: 1.05 }}>
-                                        <NavLink className='text-sm font-semibold underline' onClick={close}>Support</NavLink>
+                                        <NavLink to="/" className='text-sm font-semibold underline' onClick={close}>Support</NavLink>
                                         <h2 className='text-sm'>We are here to help.</h2>
                                     </motion.div>
                                 </div>
@@ -107,17 +108,6 @@ const Navbar = () => {
                                     </div>
                                 </div>
 
-                                <div className='mt-3 flex space-x-3'>
-                                    <motion.div variants={children} whileHover={{ scale: 1.05 }} className='w-50 p-10 bg-gray-400 rounded-xl bg-[url("https://cdn.pixabay.com/photo/2023/12/15/11/13/programming-8450423_1280.png")] bg-cover bg-center bg-no-repeat'>
-                                    </motion.div>
-                                    <div>
-                                        <h1 className='text-sm font-semibold'>Remote Work Trends</h1>
-                                        <h2 className='text-sm'>What companies are hiring.</h2>
-                                        <motion.div variants={children} whileHover={{ scale: 1.05 }}>
-                                            <NavLink to='/jobpost' className='text-sm underline' onClick={close}>Read More</NavLink>
-                                        </motion.div>
-                                    </div>
-                                </div>
 
                             </motion.div>
 
@@ -131,7 +121,6 @@ const Navbar = () => {
                                     <label htmlFor="email">Email</label>
                                     <motion.span variants={children} whileHover={{ scale: 1.05 }} className='font-semibold'>nothtekayjay@icloud.com</motion.span>
                                 </div>
-
 
                                 <div className=' text-sm flex flex-col'>
                                     <label htmlFor="mobile">Telephone</label>

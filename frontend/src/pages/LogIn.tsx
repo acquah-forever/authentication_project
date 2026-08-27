@@ -26,7 +26,7 @@ const Login = () => {
     }
 
     return (
-        <div id="/login" className="min-h-screen flex items-center justify-center p-4">
+        <div id="/login" className="mt-35 flex items-center justify-center p-4">
             <div className="w-full max-w-5xl overflow-hidden rounded-2xl bg-white md:flex">
                 <div className="relative min-h-62.5 w-full bg-[url('https://cdn.pixabay.com/photo/2014/03/10/18/46/clouds-284688_960_720.jpg')] bg-cover bg-center bg-no-repeat  md:w-1/2">
                     <div className="absolute inset-0 bg-black/30"></div>
