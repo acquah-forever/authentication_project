@@ -3,7 +3,7 @@ import { NavLink, Link, useNavigate } from "react-router-dom";
 import { useLogout, useAuthenticatedUser } from "../hooks/useAuth";
 import { ChevronDown, House, TableOfContents, Handshake, Menu, X, UserRoundArrowLeft } from 'lucide-react'
 import { motion, AnimatePresence } from 'motion/react'
-import { nav } from "motion/react-client";
+
 
 
 const Navbar = () => {
@@ -25,6 +25,7 @@ const Navbar = () => {
     const [open, setOpen] = useState<boolean>(false)
     const [menu, setMenu] = useState<boolean>(false)
 
+
     function handleClick() {
         mutate(undefined, {
             onSuccess: () => {
@@ -33,7 +34,7 @@ const Navbar = () => {
         });
     }
 
-    const toggle = (prev => !prev)
+    const toggle = ((prev: boolean) => !prev)
 
     function handleOpen(e: React.MouseEvent<HTMLButtonElement>) {
         e.preventDefault()
@@ -45,15 +46,20 @@ const Navbar = () => {
         setMenu(toggle)
     }
 
+    function handleClose(){
+        setMenu(false)
+    }
+
+
     return (
         <header>
             <nav className="flex justify-between items-center px-15 py-5">
                 <NavLink to="/" className="cursor-pointer text-lg">
                     <House className="cursor-pointer flex justify-center items-center transition-all hover:scale-125 hover:underline duration-300" size={34} />
                 </NavLink>
-                <ul className="flex space-x-5 hidden sm:flex">
-                    <li className="text-md cursor-pointer cursor-pointer flex justify-center items-center transition-all hover:scale-125 hover:underline duration-300">About</li>
-                    <li className="text-md cursor-pointer cursor-pointer flex justify-center items-center transition-all hover:scale-125 hover:underline duration-300">Jobs</li>
+                <ul className="space-x-5 hidden sm:flex">
+                    <li className="text-md cursor-pointer flex justify-center items-center transition-all hover:scale-125 hover:underline duration-300">About</li>
+                    <li className="text-md cursor-pointer flex justify-center items-center transition-all hover:scale-125 hover:underline duration-300">Jobs</li>
                     <button className="text-md cursor-pointer gap-0.5 flex justify-center items-center transition-all hover:scale-125 hover:underline duration-300" onClick={handleOpen}>
                         More
                         <ChevronDown className="mt-1" size={18} />
@@ -76,10 +82,10 @@ const Navbar = () => {
             <AnimatePresence>
                 {
                     menu && (
-                        <motion.nav variants={parent} initial="hidden" animate="visible" exit={{ opacity: 0, y: 50 }}>
+                        <motion.nav className="border sm:border-0 py-3 mx-10" variants={parent} initial="hidden" animate="visible" exit={{ opacity: 0, y: 50 }}>
                             <ul className="flex flex-col space-y-5 justify-start sm:hidden">
-                                <li className="text-md cursor-pointer cursor-pointer flex justify-center items-center transition-all hover:scale-125 hover:underline duration-300">About</li>
-                                <li className="text-md cursor-pointer cursor-pointer flex justify-center items-center transition-all hover:scale-125 hover:underline duration-300">Jobs</li>
+                                <li className="text-md cursor-pointer flex justify-center items-center transition-all hover:scale-125 hover:underline duration-300" onClick={handleClose}>About</li>
+                                <li className="text-md cursor-pointer flex justify-center items-center transition-all hover:scale-125 hover:underline duration-300" onClick={handleClose}>Jobs</li>
                                 {
                                     !isLoading && user ?
                                         <button className="flex sm:hidden cursor-pointer bg-linear-to-br from-sky-400 to-sky-800 px-5 py-2" onClick={handleClick}>Log Out</button>
@@ -104,7 +110,7 @@ const Navbar = () => {
                                 <div className='mt-3 flex space-x-4'>
                                     <House size={20} />
                                     <motion.div variants={children} whileHover={{ scale: 1.05 }}>
-                                        <NavLink to="/" className='text-sm font-semibold underline' onClick={close}>Blog</NavLink>
+                                        <NavLink to="/" className='text-sm font-semibold underline' >Blog</NavLink>
                                         <h2 className='text-sm'>Read Industry Insights.</h2>
                                     </motion.div>
                                 </div>
@@ -112,7 +118,7 @@ const Navbar = () => {
                                 <div className='mt-2 flex space-x-4'>
                                     <TableOfContents size={20} />
                                     <motion.div variants={children} whileHover={{ scale: 1.05 }}>
-                                        <Link to='/#faq' className='text-sm font-semibold underline' onClick={close}>FAQ</Link>
+                                        <Link to='/#faq' className='text-sm font-semibold underline' >FAQ</Link>
                                         <h2 className='text-sm'>Common Questions Asked.</h2>
                                     </motion.div>
                                 </div>
@@ -120,7 +126,7 @@ const Navbar = () => {
                                 <div className='mt-2 flex space-x-4'>
                                     <Handshake />
                                     <motion.div variants={children} whileHover={{ scale: 1.05 }}>
-                                        <NavLink to="/" className='text-sm font-semibold underline' onClick={close}>Support</NavLink>
+                                        <NavLink to="/" className='text-sm font-semibold underline' >Support</NavLink>
                                         <h2 className='text-sm'>We are here to help.</h2>
                                     </motion.div>
                                 </div>
@@ -135,7 +141,7 @@ const Navbar = () => {
                                         <h1 className='text-sm font-semibold'>Finding Your Next Role</h1>
                                         <h2 className='text-sm'>Tips for landing positions.</h2>
                                         <motion.div variants={children} whileHover={{ scale: 1.05 }}>
-                                            <NavLink to='/blogpost' className='text-sm underline' onClick={close}>Read More</NavLink>
+                                            <NavLink to='/blogpost' className='text-sm underline' >Read More</NavLink>
                                         </motion.div>
                                     </div>
                                 </div>
