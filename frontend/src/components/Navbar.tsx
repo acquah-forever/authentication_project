@@ -3,6 +3,7 @@ import { NavLink, Link, useNavigate } from "react-router-dom";
 import { useLogout, useAuthenticatedUser } from "../hooks/useAuth";
 import { ChevronDown, House, TableOfContents, Handshake, Menu, X, UserRoundArrowLeft } from 'lucide-react'
 import { motion, AnimatePresence } from 'motion/react'
+import { nav } from "motion/react-client";
 
 
 const Navbar = () => {
@@ -39,7 +40,7 @@ const Navbar = () => {
         setOpen(toggle)
     }
 
-    function handleMenu(e: React.MouseEvent<HTMLButtonElement>){
+    function handleMenu(e: React.MouseEvent<HTMLButtonElement>) {
         e.preventDefault()
         setMenu(toggle)
     }
@@ -60,21 +61,39 @@ const Navbar = () => {
                 </ul>
                 {
                     !isLoading && user ?
-                        <button className="hidden sm:flex cursor-pointer bg-linear-to-br from-sky-400 to-sky-800 px-5 py-2 rounded-sm border-2 border-white" onClick={handleClick}>
-                            Log Out
-                        </button>
+                        <button className="hidden sm:flex cursor-pointer bg-linear-to-br from-sky-400 to-sky-800 px-5 py-2 rounded-sm border-2 border-white" onClick={handleClick}>Log Out</button>
                         :
-                        <NavLink className="hidden sm:flex flex justify-center items-center gap-2 px-5 py-2 rounded-sm border-2 border-white cursor-pointer transition-all hover:scale-110 hover:underline duration-300" to="/login">
+                        <NavLink className="hidden sm:flex justify-center items-center gap-2 px-5 py-2 rounded-sm border-2 border-white cursor-pointer transition-all hover:scale-110 hover:underline duration-300" to="/login">
                             <UserRoundArrowLeft className='border bg-gray-500 rounded-full px-1' size={27} />
                             Log In
                         </NavLink>
                 }
-                {
-                    <div className="flex sm:hidden">
-                        menu ? (<X />) : (<Menu />)
-                    </div>
-                }
+                <motion.button variants={children} whileHover={{ scale: 1.25 }} className="cursor-pointer flex sm:hidden" onClick={handleMenu}>
+                    {menu ? (<X size={27} />) : (<Menu size={27} />)}
+                </motion.button>
             </nav>
+
+            <AnimatePresence>
+                {
+                    menu && (
+                        <motion.nav variants={parent} initial="hidden" animate="visible" exit={{ opacity: 0, y: 50 }}>
+                            <ul className="flex flex-col space-y-5 justify-start sm:hidden">
+                                <li className="text-md cursor-pointer cursor-pointer flex justify-center items-center transition-all hover:scale-125 hover:underline duration-300">About</li>
+                                <li className="text-md cursor-pointer cursor-pointer flex justify-center items-center transition-all hover:scale-125 hover:underline duration-300">Jobs</li>
+                                {
+                                    !isLoading && user ?
+                                        <button className="flex sm:hidden cursor-pointer bg-linear-to-br from-sky-400 to-sky-800 px-5 py-2" onClick={handleClick}>Log Out</button>
+                                        :
+                                        <NavLink className="flex sm:hidden justify-center items-center gap-2 px-5 py-2cursor-pointer transition-all hover:scale-110 hover:underline duration-300" to="/login">
+                                            <UserRoundArrowLeft className='border bg-gray-500 rounded-full px-1' size={27} />
+                                            Log In
+                                        </NavLink>
+                                }
+                            </ul>
+                        </motion.nav>
+                    )
+                }
+            </AnimatePresence>
 
             <AnimatePresence>
                 {open && (
