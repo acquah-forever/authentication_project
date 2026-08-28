@@ -4,8 +4,6 @@ import { useLogout, useAuthenticatedUser } from "../hooks/useAuth";
 import { ChevronDown, House, TableOfContents, Handshake, Menu, X, UserRoundArrowLeft } from 'lucide-react'
 import { motion, AnimatePresence } from 'motion/react'
 
-
-
 const Navbar = () => {
 
     const parent = {
@@ -18,12 +16,12 @@ const Navbar = () => {
         visible: { opacity: 1, y: 0 }
     }
 
-    const { mutate } = useLogout()
+    const { mutate } = useLogout();
     const { data: user, isLoading } = useAuthenticatedUser();
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
-    const [open, setOpen] = useState<boolean>(false)
-    const [menu, setMenu] = useState<boolean>(false)
+    const [open, setOpen] = useState<boolean>(false);
+    const [menu, setMenu] = useState<boolean>(false);
 
 
     function handleClick() {
@@ -34,19 +32,19 @@ const Navbar = () => {
         });
     }
 
-    const toggle = (prev: boolean) => !prev
+    const toggle = (prev: boolean) => !prev;
 
     function handleOpen() {
         setOpen(toggle)
-    }
+    };
 
     function handleMenu() {
         setMenu(toggle)
-    }
+    };
 
     function handleClose(){
         setMenu(false)
-    }
+    };
 
 
     return (
