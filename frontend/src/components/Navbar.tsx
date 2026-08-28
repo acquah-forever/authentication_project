@@ -71,7 +71,7 @@ const Navbar = () => {
                         </NavLink>
                 }
                 <motion.button type="button" variants={children} whileHover={{ scale: 1.25 }} className="cursor-pointer flex sm:hidden" onClick={handleMenu}>
-                    {menu ? (<X size={27} />) : (<Menu size={27} />)}
+                    {menu ? (<X size={26} />) : (<Menu size={27} />)}
                 </motion.button>
             </nav>
 
