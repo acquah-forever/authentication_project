@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink, Link, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useLogout, useAuthenticatedUser } from "../hooks/useAuth";
 import { ChevronDown, House, TableOfContents, Handshake, Menu, X, UserRoundArrowLeft } from 'lucide-react'
 import { motion, AnimatePresence } from 'motion/react'
@@ -34,15 +34,13 @@ const Navbar = () => {
         });
     }
 
-    const toggle = ((prev: boolean) => !prev)
+    const toggle = (prev: boolean) => !prev
 
-    function handleOpen(e: React.MouseEvent<HTMLButtonElement>) {
-        e.preventDefault()
+    function handleOpen() {
         setOpen(toggle)
     }
 
-    function handleMenu(e: React.MouseEvent<HTMLButtonElement>) {
-        e.preventDefault()
+    function handleMenu() {
         setMenu(toggle)
     }
 
@@ -60,21 +58,21 @@ const Navbar = () => {
                 <ul className="space-x-5 hidden sm:flex">
                     <li className="text-md cursor-pointer flex justify-center items-center transition-all hover:scale-125 hover:underline duration-300">About</li>
                     <li className="text-md cursor-pointer flex justify-center items-center transition-all hover:scale-125 hover:underline duration-300">Jobs</li>
-                    <button className="text-md cursor-pointer gap-0.5 flex justify-center items-center transition-all hover:scale-125 hover:underline duration-300" onClick={handleOpen}>
+                    <button type="button" className="text-md cursor-pointer gap-0.5 flex justify-center items-center transition-all hover:scale-125 hover:underline duration-300" onClick={handleOpen}>
                         More
                         <ChevronDown className="mt-1" size={18} />
                     </button>
                 </ul>
                 {
                     !isLoading && user ?
-                        <button className="hidden sm:flex cursor-pointer bg-linear-to-br from-sky-400 to-sky-800 px-5 py-2 rounded-sm border-2 border-white" onClick={handleClick}>Log Out</button>
+                        <button type="button" className="hidden sm:flex cursor-pointer bg-linear-to-br from-sky-400 to-sky-800 px-5 py-2 rounded-sm border-2 border-white" onClick={handleClick}>Log Out</button>
                         :
                         <NavLink className="hidden sm:flex justify-center items-center gap-2 px-5 py-2 rounded-sm border-2 border-white cursor-pointer transition-all hover:scale-110 hover:underline duration-300" to="/login">
                             <UserRoundArrowLeft className='border bg-gray-500 rounded-full px-1' size={27} />
                             Log In
                         </NavLink>
                 }
-                <motion.button variants={children} whileHover={{ scale: 1.25 }} className="cursor-pointer flex sm:hidden" onClick={handleMenu}>
+                <motion.button type="button" variants={children} whileHover={{ scale: 1.25 }} className="cursor-pointer flex sm:hidden" onClick={handleMenu}>
                     {menu ? (<X size={27} />) : (<Menu size={27} />)}
                 </motion.button>
             </nav>
@@ -106,7 +104,7 @@ const Navbar = () => {
                     <motion.nav variants={parent} initial="hidden" animate="visible" exit={{ opacity: 0, y: 50 }} className='px-5'>
                         <section className='px-5 hidden md:grid md:grid-cols-2 lg:grid-cols-3 justify-items-center mt-3'>
                             <motion.div variants={children} className='space-y-4'>
-                                <label className='text-md font-bold tracking-tighter' htmlFor="resources">Resources</label>
+                                <h2 className='text-md font-bold tracking-tighter' >Resources</h2>
                                 <div className='mt-3 flex space-x-4'>
                                     <House size={20} />
                                     <motion.div variants={children} whileHover={{ scale: 1.05 }}>
@@ -118,7 +116,7 @@ const Navbar = () => {
                                 <div className='mt-2 flex space-x-4'>
                                     <TableOfContents size={20} />
                                     <motion.div variants={children} whileHover={{ scale: 1.05 }}>
-                                        <Link to='/#faq' className='text-sm font-semibold underline' >FAQ</Link>
+                                        <a href='/#faq' className='text-sm font-semibold underline' >FAQ</a>
                                         <h2 className='text-sm'>Common Questions Asked.</h2>
                                     </motion.div>
                                 </div>
@@ -133,7 +131,7 @@ const Navbar = () => {
                             </motion.div>
 
                             <motion.div variants={children} className='space-y-4'>
-                                <label className='text-md font-bold tracking-tighter' htmlFor="insights">Latest Insights</label>
+                                <h2 className='text-md font-bold tracking-tighter' >Latest Insights</h2>
                                 <div className='mt-3 flex space-x-3'>
                                     <motion.div variants={children} whileHover={{ scale: 1.05 }} className='p-10 w-50 rounded-xl bg-[url("https://cdn.pixabay.com/photo/2019/07/14/16/27/pen-4337521_1280.jpg")] bg-cover bg-center bg-no-repeat'>
                                     </motion.div>
@@ -150,19 +148,19 @@ const Navbar = () => {
                             </motion.div>
 
                             <motion.div variants={children} className='space-y-4'>
-                                <label className='text-md font-bold tracking-tighter' htmlFor="contact">Contact</label>
+                                <h2 className='text-md font-bold tracking-tighter' >Contact</h2>
                                 <div>
                                     <h2 className='text-sm'>Get In touch with us.</h2>
                                 </div>
 
                                 <div className=' text-sm flex flex-col'>
-                                    <label htmlFor="email">Email</label>
-                                    <motion.span variants={children} whileHover={{ scale: 1.05 }} className='font-semibold'>nothtekayjay@icloud.com</motion.span>
+                                    <p>Email</p>
+                                    <motion.a variants={children} whileHover={{ scale: 1.05 }} className='font-semibold' href="nothtekayjay@icloud.com<">nothtekayjay@icloud.com</motion.a>
                                 </div>
 
                                 <div className=' text-sm flex flex-col'>
-                                    <label htmlFor="mobile">Telephone</label>
-                                    <motion.span variants={children} whileHover={{ scale: 1.05 }} className='font-semibold'>+44 (0)7931 55 8921</motion.span>
+                                    <p>Telephone</p>
+                                    <motion.a variants={children} whileHover={{ scale: 1.05 }} className='font-semibold'href="tel:+447931558921">+44 (0)7931 55 8921</motion.a>
                                 </div>
                             </motion.div>
                         </section>
