@@ -100,8 +100,8 @@ const Navbar = () => {
             <AnimatePresence>
                 {open && (
                     <motion.nav variants={parent} initial="hidden" animate="visible" exit={{ opacity: 0, y: 50 }} className='px-5'>
-                        <section className='px-5 hidden md:grid md:grid-cols-2 lg:grid-cols-3 justify-items-center mt-3'>
-                            <motion.div variants={children} className='space-y-4'>
+                        <section className='px-5 hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 justify-items-center mt-3'>
+                            <motion.div variants={children} className='space-y-4 mb-7'>
                                 <h2 className='text-md font-bold tracking-tighter' >Resources</h2>
                                 <div className='mt-3 flex space-x-4'>
                                     <House size={20} />
@@ -145,8 +145,8 @@ const Navbar = () => {
 
                             </motion.div>
 
-                            <motion.div variants={children} className='space-y-4'>
-                                <h2 className='text-md font-bold tracking-tighter' >Contact</h2>
+                            <motion.div variants={children} className='space-y-4 sm:space-y-2'>
+                                <h2 className='text-md font-bold tracking-tighter sm:pr-12' >Contact</h2>
                                 <div>
                                     <h2 className='text-sm'>Get In touch with us.</h2>
                                 </div>
