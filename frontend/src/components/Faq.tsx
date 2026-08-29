@@ -14,7 +14,7 @@ const Faq = () => {
         visible: { opacity: 1, y: 0 }
     }
 
-    const [open, setOpen] = useState<boolean>(false)
+    const [open, setOpen] = useState<number | null>(null)
 
     function handleClick(index) {
         setOpen((prev) => (prev === index ? null : index))
