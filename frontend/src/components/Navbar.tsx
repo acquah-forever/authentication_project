@@ -42,7 +42,7 @@ const Navbar = () => {
         setMenu(toggle)
     };
 
-    function handleClose(){
+    function handleClose() {
         setMenu(false)
     };
 
@@ -54,7 +54,7 @@ const Navbar = () => {
                     <House className="cursor-pointer flex justify-center items-center transition-all hover:scale-125 hover:underline duration-300" size={33} />
                     <h1>TechJob Finder</h1>
                 </NavLink>
-                <ul className="space-x-5 hidden sm:flex">
+                <ul className="space-x-5 hidden md:flex">
                     <li className="text-md cursor-pointer flex justify-center items-center transition-all hover:scale-125 hover:underline duration-300">About</li>
                     <li className="text-md cursor-pointer flex justify-center items-center transition-all hover:scale-125 hover:underline duration-300">Jobs</li>
                     <button type="button" className="text-md cursor-pointer gap-0.5 flex justify-center items-center transition-all hover:scale-125 hover:underline duration-300" onClick={handleOpen}>
@@ -62,16 +62,23 @@ const Navbar = () => {
                         <ChevronDown className="mt-1" size={18} />
                     </button>
                 </ul>
-                {
-                    !isLoading && user ?
-                        <button type="button" className="hidden sm:flex cursor-pointer bg-linear-to-br from-sky-400 to-sky-800 px-5 py-2 rounded-sm border-2 border-white" onClick={handleClick}>Log Out</button>
-                        :
-                        <NavLink className="hidden sm:flex justify-center items-center gap-2 px-5 py-2 rounded-sm border-2 border-white cursor-pointer transition-all hover:scale-110 hover:underline duration-300" to="/login">
-                            <UserRoundArrowLeft className='border bg-gray-500 rounded-full px-1' size={27} />
-                            Log In
-                        </NavLink>
-                }
-                <motion.button type="button" variants={children} whileHover={{ scale: 1.25 }} className="cursor-pointer flex sm:hidden" onClick={handleMenu}>
+                <div className="flex justify-center items-center ">
+                    {
+                        !isLoading && user ? (
+                            <div className="border rounded-lg hidden md:flex gap-2 p-2 items-center">
+                                <h1>{user.username}</h1>
+                                <div>|</div>
+                                <button type="button"className="cursor-pointer"onClick={handleClick}>Log Out</button>
+                            </div>
+                        ) : (
+                            <NavLink className="hidden sm:flex justify-center items-center gap-2 px-5 py-2 rounded-sm border-2 border-white cursor-pointer transition-all hover:scale-110 hover:underline duration-300"to="/login">
+                                <UserRoundArrowLeft className="border bg-gray-500 rounded-full px-1" size={27} />
+                                Log In
+                            </NavLink>
+                        )
+                    }
+                </div>
+                <motion.button type="button" variants={children} whileHover={{ scale: 1.25 }} className="cursor-pointer flex md:hidden" onClick={handleMenu}>
                     {menu ? (<X size={26} />) : (<Menu size={27} />)}
                 </motion.button>
             </nav>
@@ -159,7 +166,7 @@ const Navbar = () => {
 
                                 <div className=' text-sm flex flex-col'>
                                     <p>Telephone</p>
-                                    <motion.a variants={children} whileHover={{ scale: 1.05 }} className='font-semibold'href="tel:+447931558921">+44 (0)7931 55 8921</motion.a>
+                                    <motion.a variants={children} whileHover={{ scale: 1.05 }} className='font-semibold' href="tel:+447931558921">+44 (0)7931 55 8921</motion.a>
                                 </div>
                             </motion.div>
                         </section>
