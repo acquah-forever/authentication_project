@@ -32,8 +32,10 @@ const SignUp = () => {
         <div className="relative min-h-62.5 w-full bg-[url('https://cdn.pixabay.com/photo/2014/03/10/18/46/clouds-284688_960_720.jpg')] bg-cover bg-center bg-no-repeat  md:w-1/2">
           <div className="absolute inset-0 bg-black/30"></div>
           <div className="relative z-10  h-full flex flex-col items-center justify-center px-6 text-white">
-            <h1 className="text-3xl font-bold text-center md:text-4xl">Welcome!</h1>
-            <p className="mt-2 text-center text-sm md:text-base">Sign up to create an account</p>
+            <div className="mt-20 md:mt-0">
+              <h1 className="text-3xl font-bold text-center md:text-4xl">Welcome!</h1>
+              <p className="mt-2 text-center text-sm md:text-base">Sign up to create an account</p>
+            </div>
           </div>
         </div>
         <div className="w-full px-6 py-8 sm:px-10 md:w-1/2 md:px-12 lg:px-16">
