@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { ChevronDown, ChevronUp } from 'lucide-react'
-import { motion, spring } from 'motion/react'
+import { motion } from 'motion/react'
 
 const Faq = () => {
 
@@ -20,16 +20,16 @@ const Faq = () => {
         setOpen((prev) => (prev === index ? null : index))
     }
     return (
-        <motion.section id='faq' variants={parent} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.05 }} className='flex min-h-screen w-full flex-col items-center px-4 py-16 sm:px-6 sm:py-24'>
+        <motion.section id='faq' variants={parent} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.05 }} className='flex  w-full flex-col items-center px-4 sm:px-6 sm:py-24'>
             <div className='mb-10 max-w-3xl space-y-3 text-center sm:mb-16 sm:space-y-4'>
                 <motion.h1 variants={children} className='text-3xl font-bold sm:text-4xl'>FAQ</motion.h1>
                 <motion.p variants={children} className='text-lg font-semibold sm:text-2xl'>Questions about how TechJob Finder works and what we offer.</motion.p>
             </div>
 
-            <motion.div variants={parent} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} whileHover={{scale:1.02}} className='mb-5 w-full max-w-5xl border p-4 sm:mb-7 sm:p-7'>
+            <motion.div variants={parent} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} whileHover={{scale:1.02}} className='mb-5 w-full max-w-5xl border p-4 sm:mb-7 sm:p-7'onClick={() => handleClick(1)}>
                 <motion.div variants={children} className='mb-4 flex items-center justify-between gap-4'>
                     <h3>How often are jobs posted ?</h3>
-                    <button type="button" aria-expanded={open === 1} aria-label="Toggle answer: How often are jobs posted?" className="shrink-0" onClick={() => handleClick(1)}>
+                    <button type="button" aria-expanded={open === 1} aria-label="Toggle answer: How often are jobs posted?" className="shrink-0" >
                         {open === 1 ? <ChevronUp /> : <ChevronDown />}
                     </button>
                 </motion.div>
@@ -44,10 +44,10 @@ const Faq = () => {
 
             </motion.div>
 
-            <motion.div variants={parent} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} whileHover={{scale:1.02}} className='mb-5 w-full max-w-5xl border p-4 sm:mb-7 sm:p-7'>
+            <motion.div variants={parent} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} whileHover={{scale:1.02}} className='mb-5 w-full max-w-5xl border p-4 sm:mb-7 sm:p-7'onClick={() => handleClick(2)}>
                 <motion.div variants={children} className='mb-4 flex items-center justify-between gap-4'>
                     <h3>Can I filter by location ?</h3>
-                    <button type="button" aria-expanded={open === 2} aria-label="Toggle answer: Can I filter by location?" className="shrink-0" onClick={() => handleClick(2)}>
+                    <button type="button" aria-expanded={open === 2} aria-label="Toggle answer: Can I filter by location?" className="shrink-0" >
                         {open === 2 ? <ChevronUp /> : <ChevronDown />}
                     </button>
                 </motion.div>
@@ -61,10 +61,10 @@ const Faq = () => {
                 )}
             </motion.div>
 
-            <motion.div variants={parent} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} whileHover={{scale:1.02}} className='mb-5 w-full max-w-5xl border p-4 sm:mb-7 sm:p-7'>
+            <motion.div variants={parent} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} whileHover={{scale:1.02}} className='mb-5 w-full max-w-5xl border p-4 sm:mb-7 sm:p-7'onClick={() => handleClick(3)}>
                 <motion.div variants={children} className='mb-4 flex items-center justify-between gap-4'>
                     <h3>Is there a cost to use this ?</h3>
-                    <button type="button" aria-expanded={open === 3} aria-label="Toggle answer: Is there a cost to use this?" className="shrink-0" onClick={() => handleClick(3)}>
+                    <button type="button" aria-expanded={open === 3} aria-label="Toggle answer: Is there a cost to use this?" className="shrink-0" >
                         {open === 3 ? <ChevronUp /> : <ChevronDown />}
                     </button>
                 </motion.div>
@@ -78,10 +78,10 @@ const Faq = () => {
                 )}
             </motion.div>
 
-            <motion.div variants={parent} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} whileHover={{scale:1.02}} className='mb-5 w-full max-w-5xl border p-4 sm:mb-7 sm:p-7'>
+            <motion.div variants={parent} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} whileHover={{scale:1.02}} className='mb-5 w-full max-w-5xl border p-4 sm:mb-7 sm:p-7'onClick={() => handleClick(4)}>
                 <motion.div variants={children} className='mb-4 flex items-center justify-between gap-4'>
                     <h3>How do you curate jobs?</h3>
-                    <button type="button" aria-expanded={open === 4} aria-label="Toggle answer: How do you curate jobs?" className="shrink-0" onClick={() => handleClick(4)}>
+                    <button type="button" aria-expanded={open === 4} aria-label="Toggle answer: How do you curate jobs?" className="shrink-0">
                         {open === 4 ? <ChevronUp /> : <ChevronDown />}
                     </button>
                 </motion.div>
@@ -96,10 +96,10 @@ const Faq = () => {
 
             </motion.div>
 
-            <motion.div variants={parent} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} whileHover={{scale:1.02}} className='mb-5 w-full max-w-5xl border p-4 sm:mb-7 sm:p-7'>
+            <motion.div variants={parent} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} whileHover={{scale:1.02}} className='mb-5 w-full max-w-5xl border p-4 sm:mb-7 sm:p-7'onClick={() => handleClick(5)}>
                 <motion.div variants={children} className='mb-4 flex items-center justify-between gap-4'>
                     <h3>Can I set job alerts ?</h3>
-                    <button type="button" aria-expanded={open === 5} aria-label="Toggle answer: Can I set job alerts?" className="shrink-0" onClick={() => handleClick(5)}>
+                    <button type="button" aria-expanded={open === 5} aria-label="Toggle answer: Can I set job alerts?" className="shrink-0" >
                         {open === 5 ? <ChevronUp /> : <ChevronDown />}
                     </button>
                 </motion.div>
@@ -111,14 +111,6 @@ const Faq = () => {
                         </motion.p>
                     </motion.div>
                 )}
-            </motion.div>
-
-            <motion.div variants={parent} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} className='mt-8 space-y-3 pb-4 text-center sm:mt-10'>
-                <motion.h1 variants={children} className='text-2xl font-semibold sm:text-3xl'>Need more Help?</motion.h1>
-                <motion.p variants={children} className='text-lg font-semibold sm:text-xl'>Reach out to us directly with your questions.</motion.p>
-                <motion.div variants={children} whileHover={{ scale:1.08 }} whileTap={{ scale: 0.8 }}  transition={{type:spring, stiffness: 120, damping: 7 }} className='mt-7'>
-                    <button  className='cursor-pointer bg-linear-to-br  from-emerald-400  to-sky-400 p-4 text-black rounded-md'>Contact</button>
-                </motion.div>
             </motion.div>
         </motion.section>
     )
