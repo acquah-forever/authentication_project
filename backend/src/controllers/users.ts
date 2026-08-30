@@ -88,14 +88,22 @@ export const signup: RequestHandler<unknown, unknown, SignUp, unknown> = async (
 
         req.session.regenerate((error) => {
             if (error) {
-                return next(error)
+                return next(error);
             }
-            req.session.userId = newUser._id.toString()
-            res.status(201).json(userResponse(newUser))
-        })
+
+            req.session.userId = newUser._id.toString();
+
+            req.session.save((error) => {
+                if (error) {
+                    return next(error);
+                }
+
+                res.status(200).json(userResponse(newUser));
+            });
+        });
     }
     catch (error) {
-       return next(error)
+        return next(error)
     }
 }
 
@@ -130,13 +138,22 @@ export const login: RequestHandler<unknown, unknown, LogIn, unknown> = async (re
             throw (createHttpError(401, "Invalid Credentials"))
         }
 
+
         req.session.regenerate((error) => {
             if (error) {
-                return next(error)
+                return next(error);
             }
-            req.session.userId = user._id.toString()
-            res.status(201).json(userResponse(user))
-        })
+
+            req.session.userId = user._id.toString();
+
+            req.session.save((error) => {
+                if (error) {
+                    return next(error);
+                }
+
+                res.status(200).json(userResponse(user));
+            });
+        });
     }
     catch (error) {
         next(error)

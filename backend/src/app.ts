@@ -9,17 +9,20 @@ import MongoStore from "connect-mongo";
 
 const app = express()
 
+app.set("trust proxy", 1);
+
 app.use(express.json())
 
 app.get("/", (req, res) => {
   res.json({
-    message: "Backend is running successfully"
+    message: "Backend is running smoothly"
   });
 });
 
-app.set("trust proxy", 1) // Required if HTTPS/TLS terminates at a reverse proxy
+
 
 app.use(session({
+  name: "sessionId",
   secret: env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
