@@ -65,13 +65,13 @@ const Navbar = () => {
                 <div className="flex justify-center items-center ">
                     {
                         !isLoading && user ? (
-                            <div className="border rounded-lg hidden md:flex gap-2 p-2 items-center">
-                                <h1>{user.username}</h1>
+                            <div className="border rounded-lg hidden md:flex gap-2 px-4 py-2 items-center">
+                                <h1 className="cursor-pointer transition-all hover:scale-107 hover:underline duration-300 bg-linear-to-tr from-slate-100 to-cyan-400 text-transparent bg-clip-text">{user.username}</h1>
                                 <div>|</div>
-                                <button type="button"className="cursor-pointer"onClick={handleClick}>Log Out</button>
+                                <button type="button" className="cursor-pointer transition-all hover:scale-107 hover:underline duration-300" onClick={handleClick}>Log Out</button>
                             </div>
                         ) : (
-                            <NavLink className="hidden sm:flex justify-center items-center gap-2 px-5 py-2 rounded-sm border-2 border-white cursor-pointer transition-all hover:scale-110 hover:underline duration-300"to="/login">
+                            <NavLink className="hidden md:flex justify-center items-center gap-2 px-5 py-2 rounded-sm border-2 border-white cursor-pointer transition-all hover:scale-110 hover:underline duration-300" to="/login">
                                 <UserRoundArrowLeft className="border bg-gray-500 rounded-full px-1" size={27} />
                                 Log In
                             </NavLink>
@@ -86,17 +86,21 @@ const Navbar = () => {
             <AnimatePresence>
                 {
                     menu && (
-                        <motion.nav className="border sm:border-0 py-3 mx-10" variants={parent} initial="hidden" animate="visible" exit={{ opacity: 0, y: 50 }}>
-                            <ul className="flex flex-col space-y-5 justify-start sm:hidden">
+                        <motion.nav className=" px-10 py-3 mx-10" variants={parent} initial="hidden" animate="visible" exit={{ opacity: 0, y: 50 }}>
+                            <ul className="flex flex-col space-y-2 justify-start md:hidden">
                                 <li className="text-md cursor-pointer flex justify-center items-center transition-all hover:scale-125 hover:underline duration-300" onClick={handleClose}>About</li>
                                 <li className="text-md cursor-pointer flex justify-center items-center transition-all hover:scale-125 hover:underline duration-300" onClick={handleClose}>Jobs</li>
                                 {
                                     !isLoading && user ?
-                                        <button className="flex sm:hidden cursor-pointer bg-linear-to-br from-sky-400 to-sky-800 px-5 py-2" onClick={handleClick}>Log Out</button>
+                                        <div className="rounded-lg flex md:hidden gap-2 p-2 justify-center items-center">
+                                            <h1 className="cursor-pointer transition-all hover:scale-107 hover:underline duration-300 bg-linear-to-tr from-slate-100 to-cyan-400 text-transparent bg-clip-text text-md">{user.username}</h1>
+                                            <div className="text-3xl text-emerald-500">|</div>
+                                            <button type="button" className="text-md transition-all hover:scale-107 hover:underline duration-300 cursor-pointer border px-2 py-1" onClick={handleClick}>Log Out</button>
+                                        </div>
                                         :
-                                        <NavLink className="flex sm:hidden justify-center items-center gap-2 px-5 py-2cursor-pointer transition-all hover:scale-110 hover:underline duration-300" to="/login">
-                                            <UserRoundArrowLeft className='border bg-gray-500 rounded-full px-1' size={27} />
-                                            Log In
+                                        <NavLink className="flex md:hidden justify-center items-center gap-2 px-5 py-2cursor-pointer transition-all hover:scale-110 hover:underline duration-300" to="/login">
+                                            <UserRoundArrowLeft className='border bg-gray-500 rounded-full px-' size={22} />
+                                            <h1 className="text-md">Log In</h1>
                                         </NavLink>
                                 }
                             </ul>

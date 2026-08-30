@@ -2,6 +2,7 @@ import Home from "./pages/Home"
 import Navbar from "./components/Navbar"
 import SignUp from "./pages/SignUp"
 import Login from "./pages/LogIn"
+import Footer from "./components/Footer"
 
 
 import { Routes, Route } from "react-router-dom"
@@ -20,6 +21,7 @@ const App = () => {
             <Route path="/signup" element={<SignUp />}/>
           </Routes>
         </main>
+        <Footer />
       </div>
     </div>
   )
