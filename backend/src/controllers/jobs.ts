@@ -1,5 +1,5 @@
 import { RequestHandler } from "express"
-import { CreateHttpError } from "http-errors"
+import createHttpError, { CreateHttpError } from "http-errors"
 import Jobs from "../models/jobs"
 import mongoose from "mongoose"
 
@@ -14,10 +14,19 @@ export const getDatum: RequestHandler = async (req, res, next) => {
 }
 
 export const getData: RequestHandler = async (req, res, next) => {
+    const jobId = req.params.jobId
     try {
 
+        if (!mongoose.isValidObjectId(jobId)) {
+            throw (createHttpError(400, "Invalid Job Id"))
+        }
+        const job = await Jobs.findById(jobId).exec
+        if (!job) {
+            throw (createHttpError(404, "Job not found"))
+        }
+        res.status(200).json(job)
     }
-    catch(error) {
+    catch (error) {
         next(error)
     }
 }
