@@ -56,7 +56,7 @@ const Navbar = () => {
                 </NavLink>
                 <ul className="space-x-5 hidden md:flex">
                     <li className="text-md cursor-pointer flex justify-center items-center transition-all hover:scale-125 hover:underline duration-300">About</li>
-                    <li className="text-md cursor-pointer flex justify-center items-center transition-all hover:scale-125 hover:underline duration-300">Jobs</li>
+                    <NavLink to="/jobs" className="text-md cursor-pointer flex justify-center items-center transition-all hover:scale-125 hover:underline duration-300">Jobs</NavLink>
                     <button type="button" className="text-md cursor-pointer gap-0.5 flex justify-center items-center transition-all hover:scale-125 hover:underline duration-300" onClick={handleOpen}>
                         More
                         <ChevronDown className="mt-1" size={18} />
@@ -89,7 +89,7 @@ const Navbar = () => {
                         <motion.nav className=" px-10 py-3 mx-10" variants={parent} initial="hidden" animate="visible" exit={{ opacity: 0, y: 50 }}>
                             <ul className="flex flex-col space-y-2 justify-start md:hidden">
                                 <li className="text-md cursor-pointer flex justify-center items-center transition-all hover:scale-125 hover:underline duration-300" onClick={handleClose}>About</li>
-                                <li className="text-md cursor-pointer flex justify-center items-center transition-all hover:scale-125 hover:underline duration-300" onClick={handleClose}>Jobs</li>
+                                <NavLink to="/jobs" className="text-md cursor-pointer flex justify-center items-center transition-all hover:scale-125 hover:underline duration-300" onClick={handleClose}>Jobs</NavLink>
                                 {
                                     !isLoading && user ?
                                         <div className="rounded-lg flex md:hidden gap-2 p-2 justify-center items-center">

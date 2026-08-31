@@ -3,6 +3,7 @@ import Navbar from "./components/Navbar"
 import SignUp from "./pages/SignUp"
 import Login from "./pages/LogIn"
 import Profile from "./pages/Profile"
+import Jobs from "./pages/Jobs"
 import Footer from "./components/Footer"
 
 
@@ -21,6 +22,8 @@ const App = () => {
             <Route path="/login" element={<Login />}/>
             <Route path="/signup" element={<SignUp />}/>
             <Route path="/profile" element={<Profile />}/>
+            <Route path="/jobs" element={<Jobs />}/>
+
           </Routes>
         </main>
         <Footer />
