@@ -1,10 +1,10 @@
 import express from "express"
-import { getDatum, getData } from "../controllers/jobs";
+import { getJobs, getJobById } from "../controllers/jobs";
 
 const router = express.Router();
 
-router.get("/", getDatum);
+router.get("/", getJobs);
 
-router.get("/:jodId", getData)
+router.get("/:jodId", getJobById)
 
 export default router
