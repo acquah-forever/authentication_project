@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useLogout, useAuthenticatedUser } from "../hooks/useAuth";
+import { useLogout, useAuthenticatedUser } from "../authContext/useAuth";
 import { ChevronDown, House, TableOfContents, Handshake, Menu, X, UserRoundArrowLeft } from 'lucide-react'
 import { motion, AnimatePresence } from 'motion/react'
 
