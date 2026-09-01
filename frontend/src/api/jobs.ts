@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = import.meta.env.VITE_API_URL ?? "/api";
 
 export const getJobs = async () => {
     const response = await fetch(`${API_URL}/jobs`);
@@ -10,7 +10,7 @@ export const getJobs = async () => {
     return response.json();
 };
 
-export const getJob = async (jobId: string) => {
+export const getJobById = async (jobId: string) => {
     const response = await fetch(`${API_URL}/jobs/${jobId}`);
 
     if (!response.ok) {
