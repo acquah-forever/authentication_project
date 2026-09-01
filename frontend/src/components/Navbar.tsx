@@ -72,7 +72,7 @@ const Navbar = () => {
                             </div>
                         ) : (
                             <NavLink className="hidden md:flex justify-center items-center gap-2 px-5 py-2 rounded-sm border-2 border-white cursor-pointer transition-all hover:scale-110 hover:underline duration-300" to="/login">
-                                <UserRoundArrowLeft className="border bg-gray-500 rounded-full px-1" size={27} />
+                                <UserRoundArrowLeft className="border bg-gray-500 rounded-full px-1" size={28} />
                                 Log In
                             </NavLink>
                         )
