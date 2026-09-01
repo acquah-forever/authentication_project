@@ -7,7 +7,7 @@ const jobsSchema = new Schema({
     jobLocation: {type: String, required:true, trim: true},
     employmentType: {type: String, required:true, enum: ["Part-Time","Full-Time","Contract","Volunteer"]},
     experienceLevel: {type: String, required:true, enum: ["Entry-Level","Junior","Senior","Manager"]},
-    requirements: {type: [String], required:true, trim: true},
+    requirements: [{type: String, required:true, trim: true}],
     jobDescription: {type: String, required:true, trim: true}
 },{timestamps: true})
 

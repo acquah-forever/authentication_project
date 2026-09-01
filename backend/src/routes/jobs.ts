@@ -5,6 +5,6 @@ const router = express.Router();
 
 router.get("/", getJobs);
 
-router.get("/:jodId", getJobById)
+router.get("/:jobId", getJobById)
 
 export default router

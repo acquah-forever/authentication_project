@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { CircleAlert } from "lucide-react";
 import { NavLink } from "react-router-dom";
-import { useLogin } from "../hooks/useAuth";
+import { useLogin } from "../authContext/useAuth";
 
 interface FormBody {
     username: string,

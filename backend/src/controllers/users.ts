@@ -42,7 +42,7 @@ export const signup: RequestHandler<unknown, unknown, SignUp, unknown> = async (
 
         // Runtime type validation
         if (typeof username !== "string" || typeof email !== "string" || typeof passwordRaw !== "string") {
-            throw (createHttpError(400, "Invalid Parameters"))
+            throw createHttpError(400, "Invalid Parameters")
         }
 
         // Normalize input
@@ -52,16 +52,16 @@ export const signup: RequestHandler<unknown, unknown, SignUp, unknown> = async (
 
         // Validate empty values
         if (!usernameTrimmed || !emailTrimmed || !password) {
-            throw (createHttpError(400, "Parameters missing"))
+            throw createHttpError(400, "Parameters missing")
         }
 
         // Enforce field limits before database queries
         if (usernameTrimmed.length > 50) {
-            throw (createHttpError(400, "Username is too long"))
+            throw createHttpError(400, "Username is too long")
         }
 
         if (emailTrimmed.length > 254) {
-            throw (createHttpError(400, "Email is too long"))
+            throw createHttpError(400, "Email is too long")
         }
 
         if (!password || password.length > 128) {
@@ -70,12 +70,12 @@ export const signup: RequestHandler<unknown, unknown, SignUp, unknown> = async (
 
         const existingUsername = await users.findOne({ username: usernameTrimmed }).exec()
         if (existingUsername) {
-            throw (createHttpError(409, "Username Already Exists"))
+            throw createHttpError(409, "Username Already Exists")
         }
 
         const existingEmail = await users.findOne({ email: emailTrimmed }).exec()
         if (existingEmail) {
-            throw (createHttpError(409, "Email Already Exists"))
+            throw createHttpError(409, "Email Already Exists")
         }
 
         const passwordHashed = await bcrypt.hash(passwordRaw, 12)
@@ -90,14 +90,12 @@ export const signup: RequestHandler<unknown, unknown, SignUp, unknown> = async (
             if (error) {
                 return next(error);
             }
-
             req.session.userId = newUser._id.toString();
 
             req.session.save((error) => {
                 if (error) {
                     return next(error);
                 }
-
                 res.status(200).json(userResponse(newUser));
             });
         });
