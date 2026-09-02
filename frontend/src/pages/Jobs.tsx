@@ -15,6 +15,8 @@ const Jobs = () => {
   const { register, formState: { errors } } = useForm<Query>()
   const [open, setOpen] = useState<number | null>(null)
   const [query, setQuery] = useState<string>('')
+  const [page, setPage] = useState(1)
+
   const navigate = useNavigate()
   const jobsPerPage = 5
 
@@ -62,6 +64,19 @@ const Jobs = () => {
     )
   }, [jobs, query])
 
+  function handlePrevious() {
+    setPage((prev) => Math.max(prev - 1, 1))
+  }
+
+  function handleNext() {
+    setPage((prev) => Math.min(prev + 1, totalPages))
+  }
+
+  const totalPages = Math.ceil(filteredJobs.length / jobsPerPage)
+  const startIndex = (page - 1) * jobsPerPage
+  const endIndex = startIndex + jobsPerPage
+
+  const paginatedJobs = filteredJobs.slice(startIndex, endIndex)
 
   return (
     <div className="px-5 py-4 sm:px-10 sm:py-5 lg:px-15" id="/jobs">
@@ -138,26 +153,28 @@ const Jobs = () => {
           }
         </div>
       </div>
-      <div className='mt-20 border w-full border-white/50 max-w-lg h-140'>
-        <div className='mt-5'>
-          <h2 className='text-lg font-semibold'>Job Listings</h2>
-          {jobs?.length === 0 ?
-            (<p>Jobs not found</p>)
-            :
-            (
-              jobs?.map((item) => (
-                <NavLink className="flex flex-col" key={item.id} to={`/jobs/${item.id}`}>
-                  {item.jobTitle}
-                  {item.company}
-                  {item.location}
-                  {item.employmentType}
-                  {item.experienceLevel}
-                </NavLink>
-              ))
-            )}
 
+      <div className='mt-5 border border-slate-400/50 rounded-lg p-5 max-w-md w-full'>
+        <h2 className='text-lg font-semibold'>Job Listings</h2>
+        {paginatedJobs?.length === 0 ?
+          (<p>Jobs not found</p>)
+          :
+          (
+            paginatedJobs?.map((item) => (
+              <NavLink to="/" key={item.id}>
+                <h1>{item.jobTitle}</h1>
+                {/* <h1>{item.company}</h1>
+                <h1>{item.location}</h1> */}
+              </NavLink>
+            ))
+          )}
+        <div className='flex flex-row space-x-3 mt-4'>
+          <button type='button' className='px-5 py-2 rounded-lg cursor-pointer transition-all duration-200 hover:scale-105' onClick={handlePrevious} >Previous Page</button>
+          <button type='button' className='px-5 py-2 rounded-lg cursor-pointer transition-all duration-200 hover:scale-105' onClick={handleNext} >Next Page</button>
         </div>
+
       </div>
+
 
 
     </div>
