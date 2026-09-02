@@ -2,17 +2,18 @@
   "name": "backend",
   "version": "1.0.0",
   "main": "index.js",
- "scripts": {
-  "dev": "nodemon --exec ts-node --files src/server.ts",
-   "test": "echo \"Error: no test specified\" && exit 1",
-   "start": "ts-node src/server.ts"
- },
+  "scripts": {
+    "dev": "nodemon --exec ts-node --files src/server.ts",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "ts-node src/server.ts"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/express-session": "^1.19.0",
     "@types/http-errors": "^2.0.5",
@@ -24,6 +25,7 @@
   "dependencies": {
     "bcrypt": "^6.0.0",
     "connect-mongo": "^6.0.0",
+    "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "envalid": "^8.2.0",
     "express": "^5.2.1",
