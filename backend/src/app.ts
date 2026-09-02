@@ -1,5 +1,6 @@
 import "dotenv/config"
 import express, { Request, Response, NextFunction } from "express"
+import cors from "cors";
 import createHttpError, { isHttpError } from "http-errors"
 import router from "./routes/users"
 import jobs from "./routes/jobs"
@@ -9,6 +10,12 @@ import MongoStore from "connect-mongo";
 
 
 const app = express()
+
+app.use(
+  cors({
+    origin: "http://localhost:5177",
+  })
+);
 
 app.set("trust proxy", 1);
 
