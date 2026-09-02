@@ -31,25 +31,6 @@ const Jobs = () => {
   }
 
 
-  if (isLoading) {
-    return (
-      <div className='flex justify-center items-center min-h-screen'>
-        <ClipLoader color="#36d7b7" size={100} />
-      </div>
-    )
-  }
-
-  if (isError) {
-    return (
-      <div className='flex flex-col justify-center items-center min-h-screen'>
-        <p className='text-red-500 font-semibold'>
-          {error.message}
-        </p>
-        <button className='cursor-pointer mt-4 bg-blue-500 text-white py-2 px-4 rounded' onClick={handleHome}>Back Home</button>
-      </div>
-    )
-  }
-
   const filteredJobs = useMemo(() => {
 
     if (!query) return jobs
@@ -77,6 +58,27 @@ const Jobs = () => {
   const endIndex = startIndex + jobsPerPage
 
   const paginatedJobs = filteredJobs.slice(startIndex, endIndex)
+
+
+  if (isLoading) {
+    return (
+      <div className='flex justify-center items-center min-h-screen'>
+        <ClipLoader color="#36d7b7" size={100} />
+      </div>
+    )
+  }
+
+  if (isError) {
+    return (
+      <div className='flex flex-col justify-center items-center min-h-screen'>
+        <p className='text-red-500 font-semibold'>
+          {error.message}
+        </p>
+        <button className='cursor-pointer mt-4 bg-blue-500 text-white py-2 px-4 rounded' onClick={handleHome}>Back Home</button>
+      </div>
+    )
+  }
+
 
   return (
     <div className="px-5 py-4 sm:px-10 sm:py-5 lg:px-15" id="/jobs">
