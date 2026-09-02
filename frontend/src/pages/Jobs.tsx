@@ -1,5 +1,5 @@
 import { Search, X, ChevronDown, ChevronUp } from "lucide-react"
-import { useState } from "react"
+import { useState, useMemo } from "react"
 import { NavLink, useNavigate } from "react-router-dom"
 import { useForm } from "react-hook-form"
 import { useJobs } from "../authContext/useAuth1"
@@ -14,7 +14,10 @@ const Jobs = () => {
   const { data: jobs, isLoading, isError, error } = useJobs()
   const { register, formState: { errors } } = useForm<Query>()
   const [open, setOpen] = useState<number | null>(null)
+  const [query, setQuery] = useState<string>('')
   const navigate = useNavigate()
+  const jobsPerPage = 5
+
 
 
   function handleClick(index: number) {
@@ -45,6 +48,20 @@ const Jobs = () => {
     )
   }
 
+  const filteredJobs = useMemo(() => {
+
+    if (!query) return jobs
+    if (query.trim() === "") return jobs
+
+    return jobs?.filter((job) =>
+      job.jobTitle.toLowerCase().includes(query.toLowerCase()) ||
+      job.company.toLowerCase().includes(query.toLowerCase()) ||
+      job.location.toLowerCase().includes(query.toLowerCase()) ||
+      job.employmentType.toLowerCase().includes(query.toLowerCase()) ||
+      job.experienceLevel.toLowerCase().includes(query.toLowerCase())
+    )
+  }, [jobs, query])
+
 
   return (
     <div className="px-5 py-4 sm:px-10 sm:py-5 lg:px-15" id="/jobs">
@@ -58,7 +75,7 @@ const Jobs = () => {
       <div className="flex gap-3 mt-5 items-center">
         <button className="cursor-pointer flex items-center gap-2 border rounded-full px-3 py-2 hover:bg-slate-500/50" onClick={() => handleClick(1)}>
           <h1 className="font-semibold">Employment Type</h1>
-          {open === 1 ? <ChevronDown size={20} /> : <ChevronUp size={20} />}
+          {open === 1 ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
         </button>
         <div>
           {open === 1 &&
@@ -91,7 +108,7 @@ const Jobs = () => {
 
         <button className="cursor-pointer flex items-center gap-2 border rounded-full px-3 py-2 hover:bg-slate-500/50" onClick={() => handleClick(2)}>
           <h1 className="font-semibold">Experience Level</h1>
-          {open === 2 ? <ChevronDown size={20} /> : <ChevronUp size={20} />}
+          {open === 2 ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
         </button>
         <div>
           {open === 2 &&
@@ -122,21 +139,24 @@ const Jobs = () => {
         </div>
       </div>
       <div className='mt-20 border w-full border-white/50 max-w-lg h-140'>
-      <div className='mt-5'>
-        <h2 className='text-lg font-semibold'>Job Listings</h2>
-        {jobs?.length === 0 ? 
-        (<p>Jobs not found</p>) 
-        : 
-        (
-          jobs?.map((item) => (
-            <NavLink className="flex flex-col" key={item.id} to ={`/jobs/${item.id}`}>
-              {item.jobTitle}
+        <div className='mt-5'>
+          <h2 className='text-lg font-semibold'>Job Listings</h2>
+          {jobs?.length === 0 ?
+            (<p>Jobs not found</p>)
+            :
+            (
+              jobs?.map((item) => (
+                <NavLink className="flex flex-col" key={item.id} to={`/jobs/${item.id}`}>
+                  {item.jobTitle}
+                  {item.company}
+                  {item.location}
+                  {item.employmentType}
+                  {item.experienceLevel}
+                </NavLink>
+              ))
+            )}
 
-            </NavLink>
-          ))
-        )}
-
-      </div>
+        </div>
       </div>
 
 
