@@ -82,6 +82,10 @@ const Jobs = () => {
     setEmploymentType(e.target.value)
   }
 
+  function handleExperienceLevel(e: React.ChangeEvent<HTMLInputElement>) {
+    setExperienceLevel(e.target.value)
+  }
+
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -157,22 +161,22 @@ const Jobs = () => {
             <div className='max-w-sm w-full absolute left-16 top-53 p-5 mt-2 bg-white/90 text-black text-sm font-semibold rounded max-h-75 overflow-auto z-10 space-y-3'>
               <label className="flex items-center gap-1">
                 <input type="radio" name='experience' value="entry-level"
-                 />
+                  checked={experienceLevel === "entry-level"} onChange={handleExperienceLevel} />
                 <p>Entry-Level</p>
               </label>
               <label className="flex -items-center gap-1">
                 <input type="radio" name='experience' value="junior"
-                 />
+                  checked={experienceLevel === "junior"} onChange={handleExperienceLevel} />
                 <p>Junior</p>
               </label>
               <label className="flex items-center gap-1">
                 <input type="radio" name='experience' value="senior"
-                 />
+                  checked={experienceLevel === "senior"} onChange={handleExperienceLevel} />
                 <p>Senior</p>
               </label>
               <label className="flex items-center gap-1">
                 <input type="radio" name='experience' value="manager"
-                 />
+                  checked={experienceLevel === "manager"} onChange={handleExperienceLevel} />
                 <p>Manager</p>
               </label>
               <div className='border w-full border-slate-500/50'></div>
@@ -199,9 +203,15 @@ const Jobs = () => {
               </NavLink>
             ))
           )}
+          
         <div className='flex flex-row space-x-3 mt-4'>
-          <button type='button' className='px-5 py-2 rounded-lg cursor-pointer transition-all duration-200 hover:scale-105' onClick={handlePrevious} >Previous Page</button>
-          <button type='button' className='px-5 py-2 rounded-lg cursor-pointer transition-all duration-200 hover:scale-105' onClick={handleNext} >Next Page</button>
+          <button type='button' className='px-5 py-2 rounded-lg cursor-pointer transition-all duration-200 hover:scale-105 disabled:opacity-50'
+            disabled={page === 1}
+            onClick={handlePrevious} >Previous Page</button>
+
+          <button type='button' className='px-5 py-2 rounded-lg cursor-pointer transition-all duration-200 hover:scale-105 disabled:opacity-50'
+            disabled={page === totalPages}
+            onClick={handleNext} >Next Page</button>
         </div>
 
       </div>
