@@ -14,9 +14,9 @@ const Jobs = () => {
   const { register, formState: { errors }, watch, reset } = useForm<QueryValue>()
   const query = watch("text", "")
   const [open, setOpen] = useState<number | null>(null)
-  const [page, setPage] = useState(1)
-  const [employmentType, setEmploymentType] = useState("")
-  const [experienceLevel, setExperienceLevel] = useState("")
+  const [page, setPage] = useState<number>(1)
+  const [employmentType, setEmploymentType] = useState<string>("")
+  const [experienceLevel, setExperienceLevel] = useState<string>("")
   const navigate = useNavigate()
   const jobsPerPage = 5
 
