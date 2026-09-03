@@ -5,15 +5,13 @@ import { useForm } from "react-hook-form"
 import { useJobs } from "../authContext/useAuth1"
 import { ClipLoader } from "react-spinners";
 
-
-
 interface QueryValue {
   text: string
 }
 
 const Jobs = () => {
   const { data: jobs, isLoading, isError, error } = useJobs()
-  const { register, formState: { errors },watch } = useForm<QueryValue>()
+  const { register, formState: { errors },watch,reset } = useForm<QueryValue>()
   const query = watch("text", "")
   const [open, setOpen] = useState<number | null>(null)
   const [page, setPage] = useState(1)
@@ -79,8 +77,10 @@ const Jobs = () => {
     <div className="px-5 py-4 sm:px-10 sm:py-5 lg:px-15" id="/jobs">
       <form className="flex items-center gap-2 border border-slate-400 max-w-xl w-full px-4 py-2 rounded-2xl"  >
         <Search size={20} />
-        <input className="w-full outline-none" type="text" placeholder="Describe the job you want..." {...register("text", { required: "Enter job search" })} />
+        <input className="w-full outline-none" type="text" placeholder="Describe the job you want..." {...register("text")} />
+        <button className="cursor-pointer" type="button" onClick={() => reset({text: ""})}>
         <X size={17} />
+        </button>
       </form>
       {errors.text && <p>{errors.text.message}</p>}
 
