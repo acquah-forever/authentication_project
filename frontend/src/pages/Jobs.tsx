@@ -1,5 +1,5 @@
+import { useState, useMemo, useEffect } from "react"
 import { Search, X, ChevronDown, ChevronUp } from "lucide-react"
-import { useState, useMemo } from "react"
 import { NavLink, useNavigate } from "react-router-dom"
 import { useForm } from "react-hook-form"
 import { useJobs } from "../authContext/useAuth1"
@@ -11,10 +11,12 @@ interface QueryValue {
 
 const Jobs = () => {
   const { data: jobs, isLoading, isError, error } = useJobs()
-  const { register, formState: { errors },watch,reset } = useForm<QueryValue>()
+  const { register, formState: { errors }, watch, reset } = useForm<QueryValue>()
   const query = watch("text", "")
   const [open, setOpen] = useState<number | null>(null)
   const [page, setPage] = useState(1)
+  const [employmentType, setEmploymentType] = useState("")
+  const [experienceLevel, setExperienceLevel] = useState("")
   const navigate = useNavigate()
   const jobsPerPage = 5
 
@@ -31,16 +33,33 @@ const Jobs = () => {
 
   const filteredJobs = useMemo(() => {
     if (!jobs) return []
-    if (query.trim() === "") return jobs
 
-    return jobs?.filter((job) =>
-      job.jobTitle.toLowerCase().includes(query.toLowerCase()) ||
-      job.company.toLowerCase().includes(query.toLowerCase()) ||
-      job.location.toLowerCase().includes(query.toLowerCase()) ||
-      job.employmentType.toLowerCase().includes(query.toLowerCase()) ||
-      job.experienceLevel.toLowerCase().includes(query.toLowerCase())
-    )
-  }, [jobs, query])
+    const searchTerm = query.trim().toLowerCase()
+
+    return jobs.filter((job) => {
+      const matchesSearch =
+        searchTerm === "" ||
+        job.jobTitle.toLowerCase().includes(searchTerm) ||
+        job.company.toLowerCase().includes(searchTerm) ||
+        job.location.toLowerCase().includes(searchTerm) ||
+        job.employmentType.toLowerCase().includes(searchTerm) ||
+        job.experienceLevel.toLowerCase().includes(searchTerm)
+
+      const matchesEmployment =
+        employmentType === "" ||
+        job.employmentType.toLowerCase() === employmentType.toLowerCase()
+
+      const matchesExperience =
+        experienceLevel === "" ||
+        job.experienceLevel.toLowerCase() === experienceLevel.toLowerCase()
+
+      return (
+        matchesSearch &&
+        matchesEmployment &&
+        matchesExperience
+      )
+    })
+  }, [jobs, query, employmentType, experienceLevel])
 
   function handlePrevious() {
     setPage((prev) => Math.max(prev - 1, 1))
@@ -50,16 +69,23 @@ const Jobs = () => {
     setPage((prev) => Math.min(prev + 1, totalPages))
   }
 
+  useEffect(() => {
+    setPage(1)
+  }, [query, employmentType, experienceLevel])
+
   const totalPages = Math.ceil(filteredJobs.length / jobsPerPage)
   const startIndex = (page - 1) * jobsPerPage
   const endIndex = startIndex + jobsPerPage
-
   const paginatedJobs = filteredJobs.slice(startIndex, endIndex)
+
+  function handleEmploymentType(e: React.ChangeEvent<HTMLInputElement>) {
+    setEmploymentType(e.target.value)
+  }
 
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
-        <ClipLoader size={50} color="#123abc" loading={isLoading} />
+        <ClipLoader size={50} color="#123abc" />
       </div>
     )
   }
@@ -78,8 +104,8 @@ const Jobs = () => {
       <form className="flex items-center gap-2 border border-slate-400 max-w-xl w-full px-4 py-2 rounded-2xl"  >
         <Search size={20} />
         <input className="w-full outline-none" type="text" placeholder="Describe the job you want..." {...register("text")} />
-        <button className="cursor-pointer" type="button" onClick={() => reset({text: ""})}>
-        <X size={17} />
+        <button className="cursor-pointer" type="button" onClick={() => reset({ text: "" })}>
+          <X size={17} />
         </button>
       </form>
       {errors.text && <p>{errors.text.message}</p>}
@@ -93,19 +119,23 @@ const Jobs = () => {
           {open === 1 &&
             <div className='max-w-sm w-full absolute left-16 top-53 p-5 mt-2 bg-white/90 text-black text-sm font-semibold rounded max-h-75 overflow-auto z-10 space-y-3'>
               <label className="flex items-center gap-1">
-                <input type="radio" name='employment' value="part-time" />
+                <input type="radio" name='employment' value="part-time"
+                  checked={employmentType === "part-time"} onChange={handleEmploymentType} />
                 <p>Part-time</p>
               </label>
               <label className="flex -items-center gap-1">
-                <input type="radio" name='employment' value="Full-time" />
+                <input type="radio" name='employment' value="Full-time"
+                  checked={employmentType === "full-time"} onChange={handleEmploymentType} />
                 <p>Full-time</p>
               </label>
               <label className="flex items-center gap-1">
-                <input type="radio" name='employment' value="Contract" />
+                <input type="radio" name='employment' value="Contract"
+                  checked={employmentType === "contract"} onChange={handleEmploymentType} />
                 <p>Contract</p>
               </label>
               <label className="flex items-center gap-1">
-                <input type="radio" name='employment' value="Volunteer" />
+                <input type="radio" name='employment' value="Volunteer"
+                  checked={employmentType === "volunteered"} onChange={handleEmploymentType} />
                 <p>Volunteer</p>
               </label>
               <div className='border w-full border-slate-500/50'></div>
@@ -126,19 +156,23 @@ const Jobs = () => {
           {open === 2 &&
             <div className='max-w-sm w-full absolute left-16 top-53 p-5 mt-2 bg-white/90 text-black text-sm font-semibold rounded max-h-75 overflow-auto z-10 space-y-3'>
               <label className="flex items-center gap-1">
-                <input type="radio" name='experience' value="entry-level" />
+                <input type="radio" name='experience' value="entry-level"
+                 />
                 <p>Entry-Level</p>
               </label>
               <label className="flex -items-center gap-1">
-                <input type="radio" name='experience' value="junior" />
+                <input type="radio" name='experience' value="junior"
+                 />
                 <p>Junior</p>
               </label>
               <label className="flex items-center gap-1">
-                <input type="radio" name='experience' value="senior" />
+                <input type="radio" name='experience' value="senior"
+                 />
                 <p>Senior</p>
               </label>
               <label className="flex items-center gap-1">
-                <input type="radio" name='experience' value="manager" />
+                <input type="radio" name='experience' value="manager"
+                 />
                 <p>Manager</p>
               </label>
               <div className='border w-full border-slate-500/50'></div>
