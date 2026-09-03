@@ -6,17 +6,17 @@ import { useJobs } from "../authContext/useAuth1"
 import { ClipLoader } from "react-spinners";
 
 
-interface Query {
+
+interface QueryValue {
   text: string
 }
 
 const Jobs = () => {
   const { data: jobs, isLoading, isError, error } = useJobs()
-  const { register, formState: { errors } } = useForm<Query>()
+  const { register, formState: { errors },watch } = useForm<QueryValue>()
+  const query = watch("text", "")
   const [open, setOpen] = useState<number | null>(null)
-  const [query, setQuery] = useState<string>('')
   const [page, setPage] = useState(1)
-
   const navigate = useNavigate()
   const jobsPerPage = 5
 
@@ -32,8 +32,7 @@ const Jobs = () => {
 
 
   const filteredJobs = useMemo(() => {
-
-    if (!query) return jobs
+    if (!jobs) return []
     if (query.trim() === "") return jobs
 
     return jobs?.filter((job) =>
@@ -59,26 +58,22 @@ const Jobs = () => {
 
   const paginatedJobs = filteredJobs.slice(startIndex, endIndex)
 
-
   if (isLoading) {
     return (
-      <div className='flex justify-center items-center min-h-screen'>
-        <ClipLoader color="#36d7b7" size={100} />
+      <div className="flex justify-center items-center h-screen">
+        <ClipLoader size={50} color="#123abc" loading={isLoading} />
       </div>
     )
   }
 
   if (isError) {
     return (
-      <div className='flex flex-col justify-center items-center min-h-screen'>
-        <p className='text-red-500 font-semibold'>
-          {error.message}
-        </p>
-        <button className='cursor-pointer mt-4 bg-blue-500 text-white py-2 px-4 rounded' onClick={handleHome}>Back Home</button>
+      <div className="flex justify-center items-center h-screen">
+        <p>{error.message}</p>
+        <button className="cursor-pointer mt-4 bg-blue-500 text-white py-2 px-4 rounded" onClick={handleHome}>Back Home</button>
       </div>
     )
   }
-
 
   return (
     <div className="px-5 py-4 sm:px-10 sm:py-5 lg:px-15" id="/jobs">
