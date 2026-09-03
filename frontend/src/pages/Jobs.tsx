@@ -41,7 +41,7 @@ const Jobs = () => {
         searchTerm === "" ||
         job.jobTitle.toLowerCase().includes(searchTerm) ||
         job.company.toLowerCase().includes(searchTerm) ||
-        job.location.toLowerCase().includes(searchTerm) ||
+        job.jobLocation.toLowerCase().includes(searchTerm) ||
         job.employmentType.toLowerCase().includes(searchTerm) ||
         job.experienceLevel.toLowerCase().includes(searchTerm)
 
@@ -129,17 +129,17 @@ const Jobs = () => {
               </label>
               <label className="flex -items-center gap-1">
                 <input type="radio" name='employment' value="Full-time"
-                  checked={employmentType === "full-time"} onChange={handleEmploymentType} />
+                  checked={employmentType === "Full-time"} onChange={handleEmploymentType} />
                 <p>Full-time</p>
               </label>
               <label className="flex items-center gap-1">
                 <input type="radio" name='employment' value="Contract"
-                  checked={employmentType === "contract"} onChange={handleEmploymentType} />
+                  checked={employmentType === "Contract"} onChange={handleEmploymentType} />
                 <p>Contract</p>
               </label>
               <label className="flex items-center gap-1">
                 <input type="radio" name='employment' value="Volunteer"
-                  checked={employmentType === "volunteered"} onChange={handleEmploymentType} />
+                  checked={employmentType === "Volunteer"} onChange={handleEmploymentType} />
                 <p>Volunteer</p>
               </label>
               <div className='border w-full border-slate-500/50'></div>
@@ -190,20 +190,22 @@ const Jobs = () => {
       </div>
 
       <div className='mt-5 border border-slate-400/50 rounded-lg p-5 max-w-md w-full'>
-        <h2 className='text-lg font-semibold'>Job Listings</h2>
+        <h1 className='text-xl font-semibold text-center mb-4'>Job Listings</h1>
         {paginatedJobs?.length === 0 ?
           (<p>Jobs not found</p>)
           :
           (
             paginatedJobs?.map((item) => (
-              <NavLink to="/" key={item.id}>
-                <h1>{item.jobTitle}</h1>
-                {/* <h1>{item.company}</h1>
-                <h1>{item.location}</h1> */}
+              <div className="bg-linear-to-br from-amber-300 to-teal-700 p-3 rounded-lg cursor-pointer mb-4 text-slate-800 border-2 border-white">
+              <NavLink  to="/" key={item.id}>
+                <h1 className="text-xl">{item.jobTitle}</h1>
+                <p className="text-sm">{item.company}</p>
+                <p className="text-sm">{item.jobLocation}</p>
               </NavLink>
+              </div>
             ))
           )}
-          
+
         <div className='flex flex-row space-x-3 mt-4'>
           <button type='button' className='px-5 py-2 rounded-lg cursor-pointer transition-all duration-200 hover:scale-105 disabled:opacity-50'
             disabled={page === 1}
