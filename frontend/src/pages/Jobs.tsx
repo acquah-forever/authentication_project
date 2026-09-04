@@ -197,7 +197,7 @@ const Jobs = () => {
           :
           (
             paginatedJobs?.map((item) => (
-              <div className="bg-linear-to-br from-amber-300 to-teal-700 p-3 rounded-lg cursor-pointer mb-4 text-slate-800 border-2 border-white">
+              <div className="bg-linear-to-br from-amber-300 to-teal-700 p-3 rounded-lg cursor-pointer mb-4 text-slate-800 border-2 border-white hover:scale-105 duration-180">
               <NavLink  to="/" key={item.id}>
                 <h1 className="text-xl">{item.jobTitle}</h1>
                 <p className="text-sm">{item.company}</p>
