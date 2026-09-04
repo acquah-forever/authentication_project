@@ -73,7 +73,7 @@ const Jobs = () => {
     setPage(1)
   }, [query, employmentType, experienceLevel])
 
-  const totalPages = Math.ceil(filteredJobs.length / jobsPerPage)
+  const totalPages = Math.max(1, Math.ceil(filteredJobs.length / jobsPerPage))
   const startIndex = (page - 1) * jobsPerPage
   const endIndex = startIndex + jobsPerPage
   const paginatedJobs = filteredJobs.slice(startIndex, endIndex)
@@ -105,7 +105,8 @@ const Jobs = () => {
 
   return (
     <div className="px-5 py-4 sm:px-10 sm:py-5 lg:px-15" id="/jobs">
-      <form className="flex items-center gap-2 border border-slate-400 max-w-xl w-full px-4 py-2 rounded-2xl"  >
+      <form className="flex items-center gap-2 border border-slate-400 max-w-xl w-full px-4 py-2 rounded-2xl"
+        onSubmit={(event) => event.preventDefault()}  >
         <Search size={20} />
         <input className="w-full outline-none" type="text" placeholder="Describe the job you want..." {...register("text")} />
         <button className="cursor-pointer" type="button" onClick={() => reset({ text: "" })}>
@@ -197,11 +198,11 @@ const Jobs = () => {
           (
             paginatedJobs?.map((item) => (
               <div className="bg-linear-to-br from-amber-300 to-teal-700 p-3 rounded-lg cursor-pointer mb-4 text-slate-800 border-2 border-white">
-              <NavLink  to="/" key={item.id}>
-                <h1 className="text-xl">{item.jobTitle}</h1>
-                <p className="text-sm">{item.company}</p>
-                <p className="text-sm">{item.jobLocation}</p>
-              </NavLink>
+                <NavLink to="/" key={item.id}>
+                  <h1 className="text-xl">{item.jobTitle}</h1>
+                  <p className="text-sm">{item.company}</p>
+                  <p className="text-sm">{item.jobLocation}</p>
+                </NavLink>
               </div>
             ))
           )}

@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getAuthenticatedUser, signupUser, loginUser, logoutUser, type LoginData, type SignupData, type User } from "../api/users";
 
 export function useAuthenticatedUser() {
+
     return useQuery({
         queryKey: ["authenticatedUser"],
         queryFn: getAuthenticatedUser,
