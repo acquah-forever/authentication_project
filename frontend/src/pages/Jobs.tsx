@@ -88,16 +88,17 @@ const Jobs = () => {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <ClipLoader size={50} color="#123abc" />
+      <div className="flex justify-center items-center min-h-screen">
+        <ClipLoader size={70} color="#123abc" />
       </div>
     )
   }
 
   if (isError) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <p>{error.message}</p>
+      <div className="flex flex-col justify-center items-center min-h-screen">
+        <h1 className="text-2xl">404</h1>
+        <p className="text-2xl">{error.message}</p>
         <button className="cursor-pointer mt-4 bg-blue-500 text-white py-2 px-4 rounded" onClick={handleHome}>Back Home</button>
       </div>
     )
@@ -105,7 +106,7 @@ const Jobs = () => {
 
   return (
     <div className="px-5 py-4 sm:px-10 sm:py-5 lg:px-15" id="/jobs">
-      <form className="flex items-center gap-2 border border-slate-400 max-w-xl w-full px-4 py-2 rounded-2xl"  >
+      <form className="flex items-center gap-2 border border-white max-w-xl w-full px-4 py-2 rounded-2xl"  >
         <Search size={20} />
         <input className="w-full outline-none" type="text" placeholder="Describe the job you want..." {...register("text")} />
         <button className="cursor-pointer" type="button" onClick={() => reset({ text: "" })}>
@@ -189,7 +190,7 @@ const Jobs = () => {
         </div>
       </div>
 
-      <div className='mt-5 border border-slate-400/50 rounded-lg p-5 max-w-md w-full'>
+      <div className='mt-5 border border-white rounded-lg p-5 max-w-md w-full min-h-150'>
         <h1 className='text-xl font-semibold text-center mb-4'>Job Listings</h1>
         {paginatedJobs?.length === 0 ?
           (<p>Jobs not found</p>)
@@ -206,12 +207,12 @@ const Jobs = () => {
             ))
           )}
 
-        <div className='flex flex-row space-x-3 mt-4'>
-          <button type='button' className='px-5 py-2 rounded-lg cursor-pointer transition-all duration-200 hover:scale-105 disabled:opacity-50'
+        <div className='flex justify-center space-x-3 mt-4'>
+          <button type='button' className='bg-slate-500 px-5 py-3 rounded-lg cursor-pointer transition-all duration-200 hover:scale-105 disabled:opacity-50'
             disabled={page === 1}
             onClick={handlePrevious} >Previous Page</button>
 
-          <button type='button' className='px-5 py-2 rounded-lg cursor-pointer transition-all duration-200 hover:scale-105 disabled:opacity-50'
+          <button type='button' className='bg-slate-500 px-5 py-2 rounded-lg cursor-pointer transition-all duration-200 hover:scale-105 disabled:opacity-50'
             disabled={page === totalPages}
             onClick={handleNext} >Next Page</button>
         </div>
