@@ -5,7 +5,6 @@ export function useJobs() {
     return useQuery({
         queryKey: ["jobs"],
         queryFn: getJobs,
-
     })
 };
 

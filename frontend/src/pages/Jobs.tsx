@@ -13,7 +13,7 @@ const Jobs = () => {
   const { data: jobs, isLoading, isError, error } = useJobs()
   const [selectedJob, setSelectedJob] = useState<string | null>(null)
   const { data: job, } = useJob(selectedJob)
-  const { register, formState: { errors }, watch, reset } = useForm<QueryValue>()
+  const { register, watch, reset } = useForm<QueryValue>()
   const query = watch("text", "")
   const [open, setOpen] = useState<number | null>(null)
   const [page, setPage] = useState<number>(1)
@@ -25,7 +25,7 @@ const Jobs = () => {
 
 
   function handleClick(index: number) {
-    setOpen((prev) => (prev === index ? null : index))
+    setOpen((prev) => prev === index ? null : index)
   }
 
   function handleHome() {
@@ -120,7 +120,7 @@ const Jobs = () => {
             <X size={17} />
           </button>
         </form>
-        {errors.text && <p>{errors.text.message}</p>}
+
 
         <div className="flex gap-3 mt-5 items-center">
           <button className="cursor-pointer flex items-center gap-2 border rounded-full px-3 py-2 hover:bg-slate-500/50" onClick={() => handleClick(1)}>
@@ -161,7 +161,7 @@ const Jobs = () => {
                   >
                     Reset
                   </button>
-                  <button type="button" className='cursor-pointer border-2 text-white border-black bg-linear-to-br from-sky-300 to-sky-700 text-md px-4 py-2 rounded-full'>Show Results</button>
+                  <button type="button" className='cursor-pointer border-2 text-white border-black bg-linear-to-br from-sky-300 to-sky-700 text-md px-4 py-2 rounded-full'onClick={() => setOpen(null)}>Show Results</button>
                 </div>
               </div>
             }
@@ -206,7 +206,7 @@ const Jobs = () => {
                   >
                     Reset
                   </button>
-                  <button type="button" className='cursor-pointer border-2 text-white border-black bg-linear-to-br from-sky-300 to-sky-700 text-md px-4 py-2 rounded-full'>Show Results</button>
+                  <button type="button" className='cursor-pointer border-2 text-white border-black bg-linear-to-br from-sky-300 to-sky-700 text-md px-4 py-2 rounded-full'onClick={() => setOpen(null)}>Show Results</button>
                 </div>
               </div>
             }
