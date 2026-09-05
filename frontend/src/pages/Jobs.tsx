@@ -75,7 +75,7 @@ const Jobs = () => {
     setPage(1)
   }, [query, employmentType, experienceLevel])
 
-  const totalPages = Math.ceil(filteredJobs.length / jobsPerPage)
+  const totalPages = Math.max(1, Math.ceil(filteredJobs.length / jobsPerPage))
   const startIndex = (page - 1) * jobsPerPage
   const endIndex = startIndex + jobsPerPage
   const paginatedJobs = filteredJobs.slice(startIndex, endIndex)
