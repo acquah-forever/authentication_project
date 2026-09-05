@@ -13,7 +13,7 @@ const app = express()
 
 app.use(
   cors({
-    origin: "http://localhost:5177",
+    origin: "http://localhost:5173",
   })
 );
 
@@ -26,8 +26,6 @@ app.get("/", (req, res) => {
     message: "Backend is running smoothly"
   });
 });
-
-
 
 app.use(session({
   name: "sessionId",

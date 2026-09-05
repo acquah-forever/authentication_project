@@ -4,7 +4,7 @@ export async function getJobs() {
     const response = await fetch(`${API_URL}/jobs`);
 
     if (!response.ok) {
-        throw new Error("Failed to fetch jobs");
+        throw new Error("Failed to Fetch jobs");
     }
 
     return response.json();
@@ -14,7 +14,7 @@ export async function getJobById(jobId: string) {
     const response = await fetch(`${API_URL}/jobs/${jobId}`);
 
     if (!response.ok) {
-        throw new Error("Failed to fetch job");
+        throw new Error("Failed to Fetch job");
     }
 
     return response.json();
