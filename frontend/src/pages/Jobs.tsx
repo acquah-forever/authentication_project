@@ -161,7 +161,7 @@ const Jobs = () => {
                   >
                     Reset
                   </button>
-                  <button type="button" className='cursor-pointer border-2 text-white border-black bg-linear-to-br from-sky-300 to-sky-700 text-md px-4 py-2 rounded-full'onClick={() => setOpen(null)}>Show Results</button>
+                  <button type="button" className='cursor-pointer border-2 text-white border-black bg-linear-to-br from-sky-300 to-sky-700 text-md px-4 py-2 rounded-full' onClick={() => setOpen(null)}>Show Results</button>
                 </div>
               </div>
             }
@@ -206,63 +206,66 @@ const Jobs = () => {
                   >
                     Reset
                   </button>
-                  <button type="button" className='cursor-pointer border-2 text-white border-black bg-linear-to-br from-sky-300 to-sky-700 text-md px-4 py-2 rounded-full'onClick={() => setOpen(null)}>Show Results</button>
+                  <button type="button" className='cursor-pointer border-2 text-white border-black bg-linear-to-br from-sky-300 to-sky-700 text-md px-4 py-2 rounded-full' onClick={() => setOpen(null)}>Show Results</button>
                 </div>
               </div>
             }
           </div>
         </div>
 
-        <div className='mt-5 border border-white rounded-lg p-5 max-w-md w-full min-h-150'>
-          <h1 className='text-xl font-semibold text-center mb-4'>Job Listings</h1>
-          {paginatedJobs?.length === 0 ?
-            (<p>Jobs not found</p>)
-            :
-            (
-              paginatedJobs?.map((item) => (
-                <div key={item.id} className="bg-linear-to-br from-amber-300 to-teal-700 p-3 rounded-lg cursor-pointer mb-4 text-slate-800 border-2 border-white hover:scale-105 duration-180">
-                  <div onClick={() => handleSelect(item._id)}>
-                    <h1 className="text-xl">{item.jobTitle}</h1>
-                    <p className="text-sm">{item.company}</p>
-                    <p className="text-sm">{item.jobLocation}</p>
+        <div className="flex space-x-7">
+          <div className='mt-5 border border-white rounded-lg p-5 max-w-md w-full min-h-150'>
+            <h1 className='text-xl font-semibold text-center mb-4'>Job Listings</h1>
+            {paginatedJobs?.length === 0 ?
+              (<p>Jobs not found</p>)
+              :
+              (
+                paginatedJobs?.map((item) => (
+                  <div key={item.id} className="bg-linear-to-br from-sky-400 to-white p-3 rounded-lg cursor-pointer mb-4 text-slate-800 border-2 border-white hover:scale-105 duration-180">
+                    <div onClick={() => handleSelect(item._id)}>
+                      <h1 className="text-xl">{item.jobTitle}</h1>
+                      <p className="text-sm">{item.company}</p>
+                      <p className="text-sm">{item.jobLocation}</p>
+                    </div>
                   </div>
-                </div>
-              ))
-            )}
+                ))
+              )}
 
-          <div className='flex justify-center space-x-3 mt-4'>
-            <button type='button' className='bg-slate-500 px-5 py-3 rounded-lg cursor-pointer transition-all duration-200 hover:scale-105 disabled:opacity-50'
-              disabled={page === 1}
-              onClick={handlePrevious} >Previous Page</button>
+            <div className='flex justify-center space-x-3 mt-4'>
+              <button type='button' className='bg-slate-500 px-5 py-3 rounded-lg cursor-pointer transition-all duration-200 hover:scale-105 disabled:opacity-50'
+                disabled={page === 1}
+                onClick={handlePrevious} >Previous Page</button>
 
-            <button type='button' className='bg-slate-500 px-5 py-2 rounded-lg cursor-pointer transition-all duration-200 hover:scale-105 disabled:opacity-50'
-              disabled={page === totalPages}
-              onClick={handleNext} >Next Page</button>
+              <button type='button' className='bg-slate-500 px-5 py-2 rounded-lg cursor-pointer transition-all duration-200 hover:scale-105 disabled:opacity-50'
+                disabled={page === totalPages}
+                onClick={handleNext} >Next Page</button>
+            </div>
           </div>
+
+         {selectedJob && (
+          <div className="max-w-6xl w-full">
+            <div className="bg-white p-5 mt-5 rounded-lg border text-black min-h-210">
+              <h1 className="text-xl font-semibold mb-4">
+                {job?.jobTitle}
+              </h1>
+              <p>{job?.company}</p>
+              <p>{job?.jobLocation}</p>
+              <p>{job?.employmentType}</p>
+              <p>{job?.experienceLevel}</p>
+
+              <button
+                type="button"
+                onClick={() => setSelectedJob(null)}
+                className="mt-4 bg-slate-500 text-white px-4 py-2 rounded-lg"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+         )}
         </div>
       </div>
 
-      {selectedJob && (
-        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
-          <div className="bg-white p-5 rounded-lg max-w-md w-full text-black">
-            <h1 className="text-xl font-semibold mb-4">
-              {job?.jobTitle}
-            </h1>
-            <p>{job?.company}</p>
-            <p>{job?.jobLocation}</p>
-            <p>{job?.employmentType}</p>
-            <p>{job?.experienceLevel}</p>
-
-            <button
-              type="button"
-              onClick={() => setSelectedJob(null)}
-              className="mt-4 bg-slate-500 text-white px-4 py-2 rounded-lg"
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      )}
     </>
   )
 }
