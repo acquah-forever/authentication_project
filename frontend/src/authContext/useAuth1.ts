@@ -8,7 +8,7 @@ export function useJobs() {
     })
 };
 
-export function useJob(jobId: string) {
+export function useJob(jobId: string | null) {
     return useQuery({
         queryKey: ["job", jobId],
         queryFn: () => getJobById(jobId)

@@ -27,8 +27,6 @@ app.get("/", (req, res) => {
   });
 });
 
-
-
 app.use(session({
   name: "sessionId",
   secret: env.SESSION_SECRET,

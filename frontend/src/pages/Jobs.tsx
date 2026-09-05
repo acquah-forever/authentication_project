@@ -2,7 +2,7 @@ import { useState, useMemo, useEffect } from "react"
 import { Search, X, ChevronDown, ChevronUp } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 import { useForm } from "react-hook-form"
-import { useJobs,useJob } from "../authContext/useAuth1"
+import { useJobs, useJob } from "../authContext/useAuth1"
 import { ClipLoader } from "react-spinners";
 
 interface QueryValue {
@@ -11,14 +11,14 @@ interface QueryValue {
 
 const Jobs = () => {
   const { data: jobs, isLoading, isError, error } = useJobs()
-  const { data: job, isJobLoading, isError: isJobError, error: jobError } = useJob()
+  const [selectedJob, setSelectedJob] = useState<string | null>(null)
+  const { data: job, } = useJob(selectedJob)
   const { register, formState: { errors }, watch, reset } = useForm<QueryValue>()
   const query = watch("text", "")
   const [open, setOpen] = useState<number | null>(null)
   const [page, setPage] = useState<number>(1)
   const [employmentType, setEmploymentType] = useState<string>("")
   const [experienceLevel, setExperienceLevel] = useState<string>("")
-  const [selectedJob, setSelectedJob] = useState<number | null>(null)
   const navigate = useNavigate()
   const jobsPerPage = 5
 
@@ -88,7 +88,7 @@ const Jobs = () => {
     setExperienceLevel(e.target.value)
   }
 
-  function handleSelect(jobId: number) {
+  function handleSelect(jobId: string) {
     setSelectedJob(jobId)
   }
 
@@ -152,8 +152,16 @@ const Jobs = () => {
                 </label>
                 <div className='border w-full border-slate-500/50'></div>
                 <div className='flex  justify-end gap-3'>
-                  <button className='cursor-pointer bg-gray-300 text-md px-4 py-1 rounded-full' onClick={() => setOpen(null)} >Reset</button>
-                  <button className='cursor-pointer border-2 text-white border-black bg-linear-to-br from-sky-300 to-sky-700 text-md px-4 py-2 rounded-full'>Show Results</button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setEmploymentType("")
+                      setOpen(null)
+                    }}
+                  >
+                    Reset
+                  </button>
+                  <button type="button" className='cursor-pointer border-2 text-white border-black bg-linear-to-br from-sky-300 to-sky-700 text-md px-4 py-2 rounded-full'>Show Results</button>
                 </div>
               </div>
             }
@@ -189,8 +197,16 @@ const Jobs = () => {
                 </label>
                 <div className='border w-full border-slate-500/50'></div>
                 <div className='flex  justify-end gap-3'>
-                  <button className='cursor-pointer bg-gray-300 text-md px-4 py-1 rounded-full' onClick={() => setOpen(null)} >Reset</button>
-                  <button className='cursor-pointer border-2 text-white border-black bg-linear-to-br from-sky-300 to-sky-700 text-md px-4 py-2 rounded-full'>Show Results</button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setExperienceLevel("")
+                      setOpen(null)
+                    }}
+                  >
+                    Reset
+                  </button>
+                  <button type="button" className='cursor-pointer border-2 text-white border-black bg-linear-to-br from-sky-300 to-sky-700 text-md px-4 py-2 rounded-full'>Show Results</button>
                 </div>
               </div>
             }
@@ -204,8 +220,8 @@ const Jobs = () => {
             :
             (
               paginatedJobs?.map((item) => (
-                <div className="bg-linear-to-br from-amber-300 to-teal-700 p-3 rounded-lg cursor-pointer mb-4 text-slate-800 border-2 border-white hover:scale-105 duration-180">
-                  <div key={item.id} onClick={() => handleSelect(item.id)}>
+                <div key={item.id} className="bg-linear-to-br from-amber-300 to-teal-700 p-3 rounded-lg cursor-pointer mb-4 text-slate-800 border-2 border-white hover:scale-105 duration-180">
+                  <div onClick={() => handleSelect(item._id)}>
                     <h1 className="text-xl">{item.jobTitle}</h1>
                     <p className="text-sm">{item.company}</p>
                     <p className="text-sm">{item.jobLocation}</p>
@@ -226,16 +242,27 @@ const Jobs = () => {
         </div>
       </div>
 
-      {
-        selectedJob && (
-          <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
-            <div className="bg-white p-5 rounded-lg max-w-md w-full">
-              <h1 className="text-xl font-semibold mb-4">Job Details</h1>
-              <p>Details for job ID: {selectedJob}</p>
-              <button className="mt-4 bg-blue-500 text-white px-4 py-2 rounded" onClick={() => setSelectedJob(null)}>Close</button>
-            </div>
+      {selectedJob && (
+        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
+          <div className="bg-white p-5 rounded-lg max-w-md w-full text-black">
+            <h1 className="text-xl font-semibold mb-4">
+              {job?.jobTitle}
+            </h1>
+            <p>{job?.company}</p>
+            <p>{job?.jobLocation}</p>
+            <p>{job?.employmentType}</p>
+            <p>{job?.experienceLevel}</p>
+
+            <button
+              type="button"
+              onClick={() => setSelectedJob(null)}
+              className="mt-4 bg-slate-500 text-white px-4 py-2 rounded-lg"
+            >
+              Close
+            </button>
           </div>
-        )}
+        </div>
+      )}
     </>
   )
 }
