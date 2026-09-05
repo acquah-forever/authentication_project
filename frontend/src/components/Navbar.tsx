@@ -49,7 +49,7 @@ const Navbar = () => {
 
     return (
         <header>
-            <nav className="fixed w-full top-0 z-50 flex items-center justify-between  px-5 py-2 sm:px-10 sm:py-3 lg:px-15 bg-white/10 backdrop-blur-xl border-b border-white/20 shadow-lg shadow-black/10">
+            <nav className="fixed w-full top-0 z-50 flex items-center justify-between  px-5 py-2 sm:px-10 sm:py-3 lg:px-15 bg-white/10 backdrop-blur-xl border-b border-white/20">
                 <NavLink to="/" className="cursor-pointer text-lg flex items-center gap-2">
                     <House className="cursor-pointer flex justify-center items-center transition-all hover:scale-125 hover:underline duration-300" size={33} />
                     <h1>TechJob Finder</h1>

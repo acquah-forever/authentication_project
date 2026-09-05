@@ -4,14 +4,16 @@ import { getJobs, getJobById } from "../api/jobs";
 export function useJobs() {
     return useQuery({
         queryKey: ["jobs"],
-        queryFn: getJobs
+        queryFn: getJobs,
+
     })
 };
 
 export function useJob(jobId: string | null) {
     return useQuery({
         queryKey: ["job", jobId],
-        queryFn: () => getJobById(jobId)
+        queryFn: () => getJobById(jobId),
+        enabled: !!jobId
     })
 
 };
