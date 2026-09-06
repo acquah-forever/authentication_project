@@ -12,7 +12,7 @@ interface QueryValue {
 const Jobs = () => {
   const { data: jobs, isLoading, isError, error } = useJobs()
   const [selectedJob, setSelectedJob] = useState<string | null>(null)
-  const { data: job, } = useJob(selectedJob)
+  const { data: job, isLoading: isJobLoading } = useJob(selectedJob)
   const { register, watch, reset } = useForm<QueryValue>()
   const query = watch("text", "")
   const [open, setOpen] = useState<number | null>(null)
@@ -75,6 +75,12 @@ const Jobs = () => {
     setPage(1)
   }, [query, employmentType, experienceLevel])
 
+  useEffect(() => {
+  if (jobs && jobs.length > 0 && !selectedJob) {
+    setSelectedJob(jobs[0]._id)
+  }
+}, [jobs, selectedJob])
+
   const totalPages = Math.ceil(filteredJobs.length / jobsPerPage)
   const startIndex = (page - 1) * jobsPerPage
   const endIndex = startIndex + jobsPerPage
@@ -100,6 +106,15 @@ const Jobs = () => {
     )
   }
 
+  if (isJobLoading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <ClipLoader size={70} color="#123abc" />
+      </div>
+    )
+
+  }
+
   if (isError) {
     return (
       <div className="flex flex-col justify-center items-center min-h-screen">
@@ -113,7 +128,7 @@ const Jobs = () => {
   return (
     <>
       <div className="px-5 py-4 sm:px-10 sm:py-5 lg:px-15" id="/jobs">
-        <form className="flex items-center gap-2 border border-white max-w-xl w-full px-4 py-2 rounded-2xl"  >
+        <form className="flex items-center gap-2 border border-white max-w-xl w-full px-4 py-1 rounded-2xl"  >
           <Search size={20} />
           <input className="w-full outline-none" type="text" placeholder="Describe the job you want..." {...register("text")} />
           <button className="cursor-pointer" type="button" onClick={() => reset({ text: "" })}>
@@ -122,14 +137,14 @@ const Jobs = () => {
         </form>
 
 
-        <div className="flex gap-3 mt-5 items-center">
-          <button className="cursor-pointer flex items-center gap-2 border rounded-full px-3 py-2 hover:bg-slate-500/50" onClick={() => handleClick(1)}>
-            <h1 className="font-semibold">Employment Type</h1>
+        <div className="flex gap-3 mt-3 items-center">
+          <button className="cursor-pointer flex items-center gap-2 border rounded-full px-3 py-1 hover:bg-slate-500/50" onClick={() => handleClick(1)}>
+            <h1 className="font-semibold text-sm">Employment Type</h1>
             {open === 1 ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
           </button>
           <div>
             {open === 1 &&
-              <div className='max-w-sm w-full absolute left-16 top-53 p-5 mt-2 bg-white/90 text-black text-sm font-semibold rounded max-h-75 overflow-auto z-10 space-y-3'>
+              <div className='max-w-sm w-full absolute left-16 top-41 p-5 bg-white/90 text-black text-sm font-semibold rounded max-h-75 overflow-auto z-10 space-y-3'>
                 <label className="flex items-center gap-1">
                   <input type="radio" name='employment' value="part-time"
                     checked={employmentType === "part-time"} onChange={handleEmploymentType} />
@@ -168,13 +183,13 @@ const Jobs = () => {
           </div>
 
 
-          <button className="cursor-pointer flex items-center gap-2 border rounded-full px-3 py-2 hover:bg-slate-500/50" onClick={() => handleClick(2)}>
-            <h1 className="font-semibold">Experience Level</h1>
+          <button className="cursor-pointer flex items-center gap-2 border rounded-full px-3 py-1 hover:bg-slate-500/50" onClick={() => handleClick(2)}>
+            <h1 className="font-semibold text-sm">Experience Level</h1>
             {open === 2 ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
           </button>
           <div>
             {open === 2 &&
-              <div className='max-w-sm w-full absolute left-16 top-53 p-5 mt-2 bg-white/90 text-black text-sm font-semibold rounded max-h-75 overflow-auto z-10 space-y-3'>
+              <div className='max-w-sm w-full absolute left-16 top-39 p-5 mt-2 bg-white/90 text-black text-sm font-semibold rounded max-h-75 overflow-auto z-10 space-y-3'>
                 <label className="flex items-center gap-1">
                   <input type="radio" name='experience' value="entry-level"
                     checked={experienceLevel === "entry-level"} onChange={handleExperienceLevel} />
@@ -213,56 +228,60 @@ const Jobs = () => {
           </div>
         </div>
 
-        <div className="flex space-x-7">
-          <div className='mt-5 border border-white rounded-lg p-5 max-w-md w-full min-h-150'>
+        <div className="max-w-8xl w-ful mt-3 border border-2 rounded-lg flex space-x-20">
+          <div className='p-4 max-w-md w-full min-h-170'>
             <h1 className='text-xl font-semibold text-center mb-4'>Job Listings</h1>
             {paginatedJobs?.length === 0 ?
               (<p>Jobs not found</p>)
               :
               (
                 paginatedJobs?.map((item) => (
-                  <div key={item.id} className="bg-linear-to-br from-sky-400 to-white p-3 rounded-lg cursor-pointer mb-4 text-slate-800 border-2 border-white hover:scale-105 duration-180">
-                    <div onClick={() => handleSelect(item._id)}>
-                      <h1 className="text-xl">{item.jobTitle}</h1>
-                      <p className="text-sm">{item.company}</p>
-                      <p className="text-sm">{item.jobLocation}</p>
-                    </div>
-                  </div>
+                  <button key={item._id} className="cursor-pointer text-start bg-slate-900  text-white p-3 rounded-lg mb-4  hover:scale-105 duration-180 w-100" type="button" onClick={() => handleSelect(item._id)}>
+                    <h1 className="text-xl">{item.jobTitle}</h1>
+                    <p className="text-sm">{item.company}</p>
+                    <p className="text-sm">{item.jobLocation}</p>
+                  </button>
                 ))
               )}
 
             <div className='flex justify-center space-x-3 mt-4'>
-              <button type='button' className='bg-slate-500 px-5 py-3 rounded-lg cursor-pointer transition-all duration-200 hover:scale-105 disabled:opacity-50'
+              <button type='button' className='bg-slate-700 px-5 py-3 rounded-lg cursor-pointer transition-all duration-200 hover:scale-105 disabled:opacity-50'
                 disabled={page === 1}
                 onClick={handlePrevious} >Previous Page</button>
 
-              <button type='button' className='bg-slate-500 px-5 py-2 rounded-lg cursor-pointer transition-all duration-200 hover:scale-105 disabled:opacity-50'
+              <button type='button' className='bg-slate-700 px-5 py-2 rounded-lg cursor-pointer transition-all duration-200 hover:scale-105 disabled:opacity-50'
                 disabled={page === totalPages}
                 onClick={handleNext} >Next Page</button>
             </div>
           </div>
 
-         {selectedJob && (
-          <div className="max-w-6xl w-full">
-            <div className="bg-white p-5 mt-5 rounded-lg border text-black min-h-210">
-              <h1 className="text-xl font-semibold mb-4">
-                {job?.jobTitle}
-              </h1>
-              <p>{job?.company}</p>
-              <p>{job?.jobLocation}</p>
-              <p>{job?.employmentType}</p>
-              <p>{job?.experienceLevel}</p>
+          {selectedJob && (
+            <div className="max-w-7xl p-5 w-full">
+              <div className="bg-white/60 rounded-lg p-5 mt-5 text-black min-h-210">
+                <div className='mb-5'>
+                  <img className='w-full h-77 rounded-2xl object-cover object-center' src={"https://cdn.pixabay.com/photo/2024/09/18/16/40/business-9056542_1280.jpg"} alt="image" />
+                </div>
+                <h1 className="text-2xl font-semibold mb-3">
+                  {job?.jobTitle}
+                </h1>
+                <p>{job?.company}</p>
+                <p>{job?.jobLocation}</p>
 
-              <button
-                type="button"
-                onClick={() => setSelectedJob(null)}
-                className="mt-4 bg-slate-500 text-white px-4 py-2 rounded-lg"
-              >
-                Close
-              </button>
+                <div className="flex space-x-2 items-center mt-2 mb-2">
+                  <span className="border px-4 py-1 rounded-full font-semibold text-sm">{job?.employmentType}</span>
+                  <span className="border px-4 py-1 rounded-full font-semibold text-sm">{job?.experienceLevel}</span>
+                </div>
+
+                <button className="mb-4 border rounded-full px-4 py-1 bg-sky-600 text-white">Apply</button>
+
+                <h1 className="font-semibold underline">Requirements</h1>
+                <p>{job?.requirements}</p>
+
+                <h1 className="font-semibold mt-4 underline">About This Job</h1>
+                <p>{job?.jobDescription}</p>
+              </div>
             </div>
-          </div>
-         )}
+          )}
         </div>
       </div>
 
