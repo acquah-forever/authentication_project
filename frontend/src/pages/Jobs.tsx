@@ -137,14 +137,14 @@ const Jobs = () => {
         </form>
 
 
-        <div className="flex justify-center gap-3 mt-3 items-center">
+        <div className="flex justify-center sm:justify-start gap-3 mt-3 items-center">
           <button className="cursor-pointer flex items-center gap-3 border rounded-sm px-4 py-1 hover:bg-slate-500/50" onClick={() => handleClick(1)}>
             <h1 className="font-semibold text-xs sm:text-sm md:text-md lg:text-lg">Employment Type</h1>
             {open === 1 ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
           </button>
           <div>
             {open === 1 &&
-              <div className='max-w-sm w-full absolute left-0 sm:left-16 top-41 p-5 bg-white/90 text-black text-sm font-semibold rounded max-h-75 overflow-auto z-10 space-y-3'>
+              <div className='max-w-sm w-full absolute left-0 sm:left-12 top-41 p-5 bg-white/90 text-black text-sm font-semibold rounded max-h-75 overflow-auto z-10 space-y-3'>
                 <label className="flex items-center gap-1">
                   <input type="radio" name='employment' value="part-time"
                     checked={employmentType === "part-time"} onChange={handleEmploymentType} />
@@ -184,12 +184,12 @@ const Jobs = () => {
 
 
           <button className="cursor-pointer flex items-center gap-3 border rounded-sm px-3 py-1 hover:bg-slate-500/50" onClick={() => handleClick(2)}>
-            <h1 className="font-semibold text-xs sm:text-sm md:text-md lg:text-lg">Experience Level</h1>
+            <h1 className="font-semibold text-xs sm:text-sm md:text-md">Experience Level</h1>
             {open === 2 ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
           </button>
           <div>
             {open === 2 &&
-              <div className='max-w-sm w-full absolute left-0 sm:left-16 top-39 p-5 mt-2 bg-white/90 text-black text-sm font-semibold rounded max-h-75 overflow-auto z-10 space-y-3'>
+              <div className='max-w-sm w-full absolute left-0 sm:left-12 top-39 p-5 mt-2 bg-white/90 text-black text-sm font-semibold rounded max-h-75 overflow-auto z-10 space-y-3'>
                 <label className="flex items-center gap-1">
                   <input type="radio" name='experience' value="entry-level"
                     checked={experienceLevel === "entry-level"} onChange={handleExperienceLevel} />
@@ -231,9 +231,9 @@ const Jobs = () => {
         <div className="max-w-8xl w-full mt-3 sm:border-2 rounded-lg flex">
           <div className='flex flex-col items-center sm:items-start p-2 sm:p-3 md:p-4 lg:p-5 max-w-md w-full min-h-170'>
 
-            <div className="flex items-center sm:hidden gap-2 cursor-pointer mb-2" >
+            {/* <div className="flex items-center sm:hidden gap-2 cursor-pointer mb-2" >
               <ArrowLeft />
-            </div>
+            </div> */}
             {paginatedJobs?.length === 0 ?
               (<p>Jobs not found</p>)
               :
