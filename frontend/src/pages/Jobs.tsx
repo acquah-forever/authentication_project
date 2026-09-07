@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from "react"
-import { Search, X, ChevronDown, ChevronUp } from "lucide-react"
+import { Search, X, ChevronDown, ChevronUp, ArrowLeft } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 import { useForm } from "react-hook-form"
 import { useJobs, useJob } from "../authContext/useAuth1"
@@ -137,14 +137,14 @@ const Jobs = () => {
         </form>
 
 
-        <div className="flex gap-3 mt-3 items-center">
-          <button className="cursor-pointer flex items-center gap-2 border rounded-full px-3 py-1 hover:bg-slate-500/50" onClick={() => handleClick(1)}>
-            <h1 className="font-semibold text-sm">Employment Type</h1>
+        <div className="flex justify-center gap-3 mt-3 items-center">
+          <button className="cursor-pointer flex items-center gap-3 border rounded-sm px-4 py-1 hover:bg-slate-500/50" onClick={() => handleClick(1)}>
+            <h1 className="font-semibold text-xs sm:text-sm md:text-md lg:text-lg">Employment Type</h1>
             {open === 1 ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
           </button>
           <div>
             {open === 1 &&
-              <div className='max-w-sm w-full absolute left-16 top-41 p-5 bg-white/90 text-black text-sm font-semibold rounded max-h-75 overflow-auto z-10 space-y-3'>
+              <div className='max-w-sm w-full absolute left-0 sm:left-16 top-41 p-5 bg-white/90 text-black text-sm font-semibold rounded max-h-75 overflow-auto z-10 space-y-3'>
                 <label className="flex items-center gap-1">
                   <input type="radio" name='employment' value="part-time"
                     checked={employmentType === "part-time"} onChange={handleEmploymentType} />
@@ -183,13 +183,13 @@ const Jobs = () => {
           </div>
 
 
-          <button className="cursor-pointer flex items-center gap-2 border rounded-full px-3 py-1 hover:bg-slate-500/50" onClick={() => handleClick(2)}>
-            <h1 className="font-semibold text-sm">Experience Level</h1>
+          <button className="cursor-pointer flex items-center gap-3 border rounded-sm px-3 py-1 hover:bg-slate-500/50" onClick={() => handleClick(2)}>
+            <h1 className="font-semibold text-xs sm:text-sm md:text-md lg:text-lg">Experience Level</h1>
             {open === 2 ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
           </button>
           <div>
             {open === 2 &&
-              <div className='max-w-sm w-full absolute left-16 top-39 p-5 mt-2 bg-white/90 text-black text-sm font-semibold rounded max-h-75 overflow-auto z-10 space-y-3'>
+              <div className='max-w-sm w-full absolute left-0 sm:left-16 top-39 p-5 mt-2 bg-white/90 text-black text-sm font-semibold rounded max-h-75 overflow-auto z-10 space-y-3'>
                 <label className="flex items-center gap-1">
                   <input type="radio" name='experience' value="entry-level"
                     checked={experienceLevel === "entry-level"} onChange={handleExperienceLevel} />
@@ -228,36 +228,39 @@ const Jobs = () => {
           </div>
         </div>
 
-        <div className="max-w-8xl w-ful mt-3 border border-2 rounded-lg flex space-x-20">
-          <div className='p-4 max-w-md w-full min-h-170'>
-            <h1 className='text-xl font-semibold text-center mb-4'>Job Listings</h1>
+        <div className="max-w-8xl w-full mt-3 sm:border-2 rounded-lg flex">
+          <div className='flex flex-col items-center sm:items-start p-2 sm:p-3 md:p-4 lg:p-5 max-w-md w-full min-h-170'>
+
+            <div className="flex items-center sm:hidden gap-2 cursor-pointer mb-2" >
+              <ArrowLeft />
+            </div>
             {paginatedJobs?.length === 0 ?
               (<p>Jobs not found</p>)
               :
               (
                 paginatedJobs?.map((item) => (
-                  <button key={item._id} className="cursor-pointer text-start bg-slate-900  text-white p-3 rounded-lg mb-4  hover:scale-105 duration-180 w-100" type="button" onClick={() => handleSelect(item._id)}>
-                    <h1 className="text-xl">{item.jobTitle}</h1>
-                    <p className="text-sm">{item.company}</p>
-                    <p className="text-sm">{item.jobLocation}</p>
+                  <button key={item._id} className="cursor-pointer text-start bg-white/75  p-3 rounded-lg mb-4 hover:scale-105 duration-180 w-75 sm:w-70 md:w-80 lg-100" type="button" onClick={() => handleSelect(item._id)}>
+                    <h1 className="text-lg sm:text-xl text-sky-800">{item.jobTitle}</h1>
+                    <p className="text-sm text-black">{item.company}</p>
+                    <p className="text-sm text-black">{item.jobLocation}</p>
                   </button>
                 ))
               )}
 
             <div className='flex justify-center space-x-3 mt-4'>
-              <button type='button' className='bg-slate-700 px-5 py-3 rounded-lg cursor-pointer transition-all duration-200 hover:scale-105 disabled:opacity-50'
+              <button type='button' className='bg-slate-700 px-5 py-3 rounded-lg cursor-pointer transition-all duration-200 hover:scale-105 disabled:opacity-50 text-sm sm:text-md md:text-lg'
                 disabled={page === 1}
                 onClick={handlePrevious} >Previous Page</button>
 
-              <button type='button' className='bg-slate-700 px-5 py-2 rounded-lg cursor-pointer transition-all duration-200 hover:scale-105 disabled:opacity-50'
+              <button type='button' className='bg-slate-700 px-5 py-2 rounded-lg cursor-pointer transition-all duration-200 hover:scale-105 disabled:opacity-50 text-sm sm:text-md md:text-lg'
                 disabled={page === totalPages}
                 onClick={handleNext} >Next Page</button>
             </div>
           </div>
 
           {selectedJob && (
-            <div className="max-w-7xl p-5 w-full">
-              <div className="bg-white/60 rounded-lg p-5 mt-5 text-black min-h-210">
+            <div className="max-w-7xl hidden sm:flex p-2 sm:p-3 md:p-4 lg:p-5 w-full">
+              <div className="bg-white/60 rounded-lg p-2 sm:p-3 md:p-4 lg:p-5 text-black min-h-210">
                 <div className='mb-5'>
                   <img className='w-full h-77 rounded-2xl object-cover object-center' src={"https://cdn.pixabay.com/photo/2024/09/18/16/40/business-9056542_1280.jpg"} alt="image" />
                 </div>
@@ -275,10 +278,10 @@ const Jobs = () => {
                 <button className="mb-4 border rounded-full px-4 py-1 bg-sky-600 text-white">Apply</button>
 
                 <h1 className="font-semibold underline">Requirements</h1>
-                <p>{job?.requirements}</p>
+                <p className="text-sm">{job?.requirements}</p>
 
                 <h1 className="font-semibold mt-4 underline">About This Job</h1>
-                <p>{job?.jobDescription}</p>
+                <p className="text-sm">{job?.jobDescription}</p>
               </div>
             </div>
           )}
