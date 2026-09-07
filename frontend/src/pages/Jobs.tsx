@@ -75,6 +75,7 @@ const Jobs = () => {
     setPage(1)
   }, [query, employmentType, experienceLevel])
 
+<<<<<<< HEAD
   useEffect(() => {
   if (jobs && jobs.length > 0 && !selectedJob) {
     setSelectedJob(jobs[0]._id)
@@ -82,6 +83,9 @@ const Jobs = () => {
 }, [jobs, selectedJob])
 
   const totalPages = Math.ceil(filteredJobs.length / jobsPerPage)
+=======
+  const totalPages = Math.max(1, Math.ceil(filteredJobs.length / jobsPerPage))
+>>>>>>> cb8f32483df2a452f560f7dadb7a434ecef8066f
   const startIndex = (page - 1) * jobsPerPage
   const endIndex = startIndex + jobsPerPage
   const paginatedJobs = filteredJobs.slice(startIndex, endIndex)
