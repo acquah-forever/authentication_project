@@ -1,5 +1,4 @@
 import { useState, useMemo, useEffect } from "react"
-import { motion } from "motion/react"
 import { Search, X, ChevronDown, ChevronUp, ArrowLeft } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 import { useForm } from "react-hook-form"
@@ -127,6 +126,14 @@ const Jobs = () => {
     )
   }
 
+  if (isJobLoading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <ClipLoader size={70} color="#123abc" />
+      </div>
+    )
+
+  }
 
   if (isError) {
     return (
@@ -150,9 +157,9 @@ const Jobs = () => {
         </motion.form >
 
 
-        <motion.div variants={children} className="flex justify-center sm:justify-start gap-3 mt-3 items-center">
-          <button className={`${open === 1 ? "bg-linear-to-br from-green-400 to-emerald-900" : "bg-slate-100/0"} cursor-pointer flex items-center gap-3  rounded-sm px-4 py-1`} onClick={() => handleClick(1)}>
-            <h1 className="font-semibold text-xs sm:text-sm md:text-md">Employment Type</h1>
+        <div className="flex justify-center sm:justify-start gap-3 mt-3 items-center">
+          <button className="cursor-pointer flex items-center gap-3 border rounded-sm px-4 py-1 hover:bg-slate-500/50" onClick={() => handleClick(1)}>
+            <h1 className="font-semibold text-xs sm:text-sm md:text-md lg:text-lg">Employment Type</h1>
             {open === 1 ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
           </button>
           <div>
@@ -196,7 +203,7 @@ const Jobs = () => {
           </div>
 
 
-          <button className={`${open === 2 ? "bg-linear-to-br from-green-400 to-emerald-900" : "bg-slate-100/0"} cursor-pointer flex items-center gap-3 rounded-sm px-3 py-1`} onClick={() => handleClick(2)}>
+          <button className="cursor-pointer flex items-center gap-3 border rounded-sm px-3 py-1 hover:bg-slate-500/50" onClick={() => handleClick(2)}>
             <h1 className="font-semibold text-xs sm:text-sm md:text-md">Experience Level</h1>
             {open === 2 ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
           </button>
@@ -293,16 +300,31 @@ const Jobs = () => {
                     <span className="border px-4 py-1 rounded-full font-semibold text-sm">{job?.experienceLevel}</span>
                   </div>
 
-                  <button className="cursor-pointer mt-4 mb-4 border rounded-full px-4 py-1 bg-sky-600 text-white">Apply</button>
+          {selectedJob && (
+            <div>
+              <div className="bg-white/60 rounded-lg p-2 sm:p-3 md:p-4 lg:p-5 text-black min-h-210">
+                <div className='mb-5'>
+                  <img className='w-full h-77 rounded-2xl object-cover object-center' src={"https://cdn.pixabay.com/photo/2024/09/18/16/40/business-9056542_1280.jpg"} alt="image" />
+                </div>
+                <h1 className="text-2xl font-semibold mb-3">
+                  {job?.jobTitle}
+                </h1>
+                <p>{job?.company}</p>
+                <p>{job?.jobLocation}</p>
 
-                  <h1 className="font-semibold underline">Requirements</h1>
-                  <p className="text-sm">{job?.requirements}</p>
+                <div className="flex space-x-2 items-center mt-2 mb-2">
+                  <span className="border px-4 py-1 rounded-full font-semibold text-sm">{job?.employmentType}</span>
+                  <span className="border px-4 py-1 rounded-full font-semibold text-sm">{job?.experienceLevel}</span>
+                </div>
 
-                  <h1 className="font-semibold mt-4 underline">About This Job</h1>
-                  <p className="text-sm">{job?.jobDescription}</p>
-                </motion.div>
+                <button className="mb-4 border rounded-full px-4 py-1 bg-sky-600 text-white">Apply</button>
 
-              )}
+                <h1 className="font-semibold underline">Requirements</h1>
+                <p className="text-sm">{job?.requirements}</p>
+
+                <h1 className="font-semibold mt-4 underline">About This Job</h1>
+                <p className="text-sm">{job?.jobDescription}</p>
+              </div>
             </div>
           )}
         </div>
