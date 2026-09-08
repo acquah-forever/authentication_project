@@ -10,6 +10,18 @@ interface QueryValue {
 }
 
 const Jobs = () => {
+
+  const parent = {
+    hidden: { opacity: 0, y: -70 },
+    visible: { opacity: 1, y: 0, transition: { staggerChildren: 0.19, duration: 0.7 } }
+  }
+
+  const children = {
+    hidden: { opacity: 0, y: -70 },
+    visible: { opacity: 1, y: 0 }
+  }
+
+
   const { data: jobs, isLoading, isError, error } = useJobs()
   const [selectedJob, setSelectedJob] = useState<string | null>(null)
   const { data: job, isLoading: isJobLoading } = useJob(selectedJob)
@@ -19,6 +31,7 @@ const Jobs = () => {
   const [page, setPage] = useState<number>(1)
   const [employmentType, setEmploymentType] = useState<string>("")
   const [experienceLevel, setExperienceLevel] = useState<string>("")
+  const [mobileJobSelected, setMobileJobSelected] = useState<boolean>(false);
   const navigate = useNavigate()
   const jobsPerPage = 5
 
@@ -95,12 +108,14 @@ const Jobs = () => {
     setExperienceLevel(e.target.value)
   }
 
-  function handleBack(){
+  function handleBack() {
     setSelectedJob(null)
+    setMobileJobSelected(false)
   }
 
   function handleSelect(jobId: string) {
     setSelectedJob(jobId)
+    setMobileJobSelected(true)
   }
 
   if (isLoading) {
@@ -132,14 +147,14 @@ const Jobs = () => {
 
   return (
     <>
-      <div className="px-5 py-4 sm:px-10 sm:py-5 lg:px-15" id="/jobs">
-        <form className="flex items-center gap-2 border border-white max-w-xl w-full px-4 py-1 rounded-2xl"  >
+      <motion.div variants={parent} initial="hidden" animate="visible" className="px-5 py-4 sm:px-10 sm:py-5 lg:px-15" id="/jobs">
+        <motion.form variants={children} className="flex items-center gap-2 border border-white max-w-xl w-full px-4 py-1 rounded-2xl"  >
           <Search size={20} />
           <input className="w-full outline-none" type="text" placeholder="Describe the job you want..." {...register("text")} />
           <button className="cursor-pointer" type="button" onClick={() => reset({ text: "" })}>
             <X size={17} />
           </button>
-        </form>
+        </motion.form >
 
 
         <div className="flex justify-center sm:justify-start gap-3 mt-3 items-center">
@@ -231,14 +246,14 @@ const Jobs = () => {
               </div>
             }
           </div>
-        </div>
+        </motion.div>
 
-        <button className={`${selectedJob ? "flex" : "hidden"}bg-slate-600 py-2 px-3 rounded-md mt-3 flex items-center sm:hidden gap-2 cursor-pointer`}onClick={handleBack} >
-          <ArrowLeft /> 
+        <button className={`${mobileJobSelected ? "flex" : "hidden"} py-2 px-3 rounded-md mt-3 items-center sm:hidden gap-2 cursor-pointer`} onClick={handleBack} >
+          <ArrowLeft />
         </button>
 
         <div className="max-w-8xl w-full mt-3 sm:border-2 rounded-lg flex">
-          <div className={`${selectedJob ? "hidden sm:flex" : "flex"} flex-col items-center sm:items-start p-2 sm:p-3 md:p-4 lg:p-5 max-w-md w-full min-h-170`}>
+          <motion.div variants={children} className={`${selectedJob ? "hidden sm:flex" : "flex"} flex-col items-center sm:items-start p-2 sm:p-3 md:p-4 lg:p-5 max-w-md w-full min-h-170`}>
             {paginatedJobs?.length === 0 ?
               (<p>Jobs not found</p>)
               :
@@ -252,16 +267,38 @@ const Jobs = () => {
                 ))
               )}
 
-            <div className='flex justify-center space-x-3 mt-4'>
-              <button type='button' className='bg-slate-700 px-5 py-3 rounded-lg cursor-pointer transition-all duration-200 hover:scale-105 disabled:opacity-50 text-sm sm:text-md md:text-lg'
+            <motion.div variants={children} className=' space-x-2 mt-4 '>
+              <button type='button' className='bg-slate-700 px-5 py-3 rounded-lg cursor-pointer transition-all duration-200 hover:scale-105 disabled:opacity-50 text-sm sm:text-md'
                 disabled={page === 1}
                 onClick={handlePrevious} >Previous Page</button>
 
-              <button type='button' className='bg-slate-700 px-5 py-2 rounded-lg cursor-pointer transition-all duration-200 hover:scale-105 disabled:opacity-50 text-sm sm:text-md md:text-lg'
+              <button type='button' className='bg-slate-700 px-5 py-3 rounded-lg cursor-pointer transition-all duration-200 hover:scale-105 disabled:opacity-50 text-sm sm:text-md'
                 disabled={page === totalPages}
                 onClick={handleNext} >Next Page</button>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
+
+          {selectedJob && (
+            <div>
+              {isJobLoading ? (
+                <div className="flex min-h-210 items-center justify-center">
+                  <ClipLoader size={50} color="#123abc" />
+                </div>
+              ) : (
+                <motion.div variants={children} className="bg-white/60 rounded-lg p-2 sm:p-3 md:p-4 lg:p-5 text-black min-h-210 mt-4 mb-4">
+                  <div className='mb-5'>
+                    <img className='w-full h-77 rounded-2xl object-cover object-center' src={"https://cdn.pixabay.com/photo/2024/09/18/16/40/business-9056542_1280.jpg"} alt="image" />
+                  </div>
+                  <h1 className="text-2xl font-semibold mb-3">
+                    {job?.jobTitle}
+                  </h1>
+                  <p>{job?.company}</p>
+                  <p>{job?.jobLocation}</p>
+
+                  <div className="flex space-x-2 items-center mt-2 mb-2">
+                    <span className="border px-4 py-1 rounded-full font-semibold text-sm">{job?.employmentType}</span>
+                    <span className="border px-4 py-1 rounded-full font-semibold text-sm">{job?.experienceLevel}</span>
+                  </div>
 
           {selectedJob && (
             <div>
@@ -291,7 +328,7 @@ const Jobs = () => {
             </div>
           )}
         </div>
-      </div>
+      </motion.div>
 
     </>
   )
