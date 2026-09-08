@@ -75,21 +75,14 @@ const Jobs = () => {
     setPage(1)
   }, [query, employmentType, experienceLevel])
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-  useEffect(() => {
-  if (jobs && jobs.length > 0 && !selectedJob) {
-    setSelectedJob(jobs[0]._id)
-  }
-}, [jobs, selectedJob])
 
-  const totalPages = Math.ceil(filteredJobs.length / jobsPerPage)
-=======
+  useEffect(() => {
+    if (jobs && jobs.length > 0 && window.innerWidth >= 640) {
+      setSelectedJob(jobs[0]._id)
+    }
+  }, [jobs])
+
   const totalPages = Math.max(1, Math.ceil(filteredJobs.length / jobsPerPage))
->>>>>>> cb8f32483df2a452f560f7dadb7a434ecef8066f
-=======
-  const totalPages = Math.max(1, Math.ceil(filteredJobs.length / jobsPerPage))
->>>>>>> cb8f32483df2a452f560f7dadb7a434ecef8066f
   const startIndex = (page - 1) * jobsPerPage
   const endIndex = startIndex + jobsPerPage
   const paginatedJobs = filteredJobs.slice(startIndex, endIndex)
@@ -100,6 +93,10 @@ const Jobs = () => {
 
   function handleExperienceLevel(e: React.ChangeEvent<HTMLInputElement>) {
     setExperienceLevel(e.target.value)
+  }
+
+  function handleBack(){
+    setSelectedJob(null)
   }
 
   function handleSelect(jobId: string) {
@@ -236,12 +233,12 @@ const Jobs = () => {
           </div>
         </div>
 
-        <div className="max-w-8xl w-full mt-3 sm:border-2 rounded-lg flex">
-          <div className='flex flex-col items-center sm:items-start p-2 sm:p-3 md:p-4 lg:p-5 max-w-md w-full min-h-170'>
+        <button className={`${selectedJob ? "flex" : "hidden"}bg-slate-600 py-2 px-3 rounded-md mt-3 flex items-center sm:hidden gap-2 cursor-pointer`}onClick={handleBack} >
+          <ArrowLeft /> 
+        </button>
 
-            {/* <div className="flex items-center sm:hidden gap-2 cursor-pointer mb-2" >
-              <ArrowLeft />
-            </div> */}
+        <div className="max-w-8xl w-full mt-3 sm:border-2 rounded-lg flex">
+          <div className={`${selectedJob ? "hidden sm:flex" : "flex"} flex-col items-center sm:items-start p-2 sm:p-3 md:p-4 lg:p-5 max-w-md w-full min-h-170`}>
             {paginatedJobs?.length === 0 ?
               (<p>Jobs not found</p>)
               :
@@ -267,7 +264,7 @@ const Jobs = () => {
           </div>
 
           {selectedJob && (
-            <div className="max-w-7xl hidden sm:flex p-2 sm:p-3 md:p-4 lg:p-5 w-full">
+            <div>
               <div className="bg-white/60 rounded-lg p-2 sm:p-3 md:p-4 lg:p-5 text-black min-h-210">
                 <div className='mb-5'>
                   <img className='w-full h-77 rounded-2xl object-cover object-center' src={"https://cdn.pixabay.com/photo/2024/09/18/16/40/business-9056542_1280.jpg"} alt="image" />
