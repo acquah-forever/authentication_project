@@ -191,7 +191,7 @@ const Jobs = () => {
           </div>
 
 
-          <button className="cursor-pointer flex items-center gap-3 border rounded-sm px-3 py-1 hover:bg-slate-500/50" onClick={() => handleClick(2)}>
+          <button className={`${open === 2 ? "bg-linear-to-br from-green-400 to-emerald-900" : "bg-slate-100/0"} cursor-pointer flex items-center gap-3 rounded-sm px-3 py-1`} onClick={() => handleClick(2)}>
             <h1 className="font-semibold text-xs sm:text-sm md:text-md">Experience Level</h1>
             {open === 2 ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
           </button>
@@ -255,12 +255,12 @@ const Jobs = () => {
                 ))
               )}
 
-            <div className='flex justify-center space-x-3 mt-4'>
-              <button type='button' className='bg-slate-700 px-5 py-3 rounded-lg cursor-pointer transition-all duration-200 hover:scale-105 disabled:opacity-50 text-sm sm:text-md md:text-lg'
+            <div className='flex justify-center items-centrer space-x-2 mt-4'>
+              <button type='button' className='bg-slate-700 px-5 py-3 rounded-lg cursor-pointer transition-all duration-200 hover:scale-105 disabled:opacity-50 text-sm sm:text-md'
                 disabled={page === 1}
                 onClick={handlePrevious} >Previous Page</button>
 
-              <button type='button' className='bg-slate-700 px-5 py-2 rounded-lg cursor-pointer transition-all duration-200 hover:scale-105 disabled:opacity-50 text-sm sm:text-md md:text-lg'
+              <button type='button' className='bg-slate-700 px-5 py-2 rounded-lg cursor-pointer transition-all duration-200 hover:scale-105 disabled:opacity-50 text-sm sm:text-md'
                 disabled={page === totalPages}
                 onClick={handleNext} >Next Page</button>
             </div>
