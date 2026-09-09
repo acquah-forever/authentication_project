@@ -31,7 +31,6 @@ const Jobs = () => {
   const [page, setPage] = useState<number>(1)
   const [employmentType, setEmploymentType] = useState<string>("")
   const [experienceLevel, setExperienceLevel] = useState<string>("")
-  const [mobileJobSelected, setMobileJobSelected] = useState<boolean>(false);
   const navigate = useNavigate()
   const jobsPerPage = 5
 
@@ -110,12 +109,11 @@ const Jobs = () => {
 
   function handleBack() {
     setSelectedJob(null)
-    setMobileJobSelected(false)
   }
 
   function handleSelect(jobId: string) {
     setSelectedJob(jobId)
-    setMobileJobSelected(true)
+
   }
 
   if (isLoading) {
@@ -248,7 +246,7 @@ const Jobs = () => {
           </div>
         </motion.div>
 
-        <button className={`${mobileJobSelected ? "flex" : "hidden"} py-2 px-3 rounded-md mt-3 items-center sm:hidden gap-2 cursor-pointer`} onClick={handleBack} >
+        <button aria-label="Back to job list" className={`${selectedJob ? "flex" : "hidden"} py-2 px-3 rounded-md mt-3 items-center sm:hidden gap-2 cursor-pointer`} onClick={handleBack} >
           <ArrowLeft />
         </button>
 
