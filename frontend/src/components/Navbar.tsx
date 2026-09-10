@@ -51,7 +51,7 @@ const Navbar = () => {
         <header className="sticky top-0 z-50">
             <nav className=" flex items-center justify-between px-5 py-1 sm:px-10  lg:px-15 bg-white/10 backdrop-blur-xl border-b border-white/20">
                 <NavLink to="/" className="cursor-pointer text-lg flex items-center gap-2">
-                    <House className="cursor-pointer flex justify-center items-center transition-all hover:scale-125 hover:underline duration-300" size={33} />
+                    <House aria-label="Home" className="cursor-pointer flex justify-center items-center transition-all hover:scale-125 hover:underline duration-300" size={33} />
                     <h1>TechJob Finder</h1>
                 </NavLink>
                 <ul className="space-x-5 hidden md:flex">
@@ -116,7 +116,7 @@ const Navbar = () => {
                             <motion.div variants={children} className='space-y-4 mb-7'>
                                 <h2 className='text-md font-bold tracking-tighter' >Resources</h2>
                                 <div className='mt-3 flex space-x-4'>
-                                    <House size={20} />
+                                    <House aria-label="House" size={20} />
                                     <motion.div variants={children} whileHover={{ scale: 1.05 }}>
                                         <NavLink to="/" className='text-sm font-semibold underline' >Blog</NavLink>
                                         <h2 className='text-sm'>Read Industry Insights.</h2>
@@ -124,7 +124,7 @@ const Navbar = () => {
                                 </div>
 
                                 <div className='mt-2 flex space-x-4'>
-                                    <TableOfContents size={20} />
+                                    <TableOfContents aria-label="Table of Contents" size={20} />
                                     <motion.div variants={children} whileHover={{ scale: 1.05 }}>
                                         <a href='/#faq' className='text-sm font-semibold underline' >FAQ</a>
                                         <h2 className='text-sm'>Common Questions Asked.</h2>
@@ -132,7 +132,7 @@ const Navbar = () => {
                                 </div>
 
                                 <div className='mt-2 flex space-x-4'>
-                                    <Handshake />
+                                    <Handshake aria-label="Handshake" />
                                     <motion.div variants={children} whileHover={{ scale: 1.05 }}>
                                         <NavLink to="/" className='text-sm font-semibold underline' >Support</NavLink>
                                         <h2 className='text-sm'>We are here to help.</h2>

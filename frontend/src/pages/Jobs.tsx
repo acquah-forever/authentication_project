@@ -16,7 +16,7 @@ const Jobs = () => {
     visible: { opacity: 1, y: 0, transition: { staggerChildren: 0.19, duration: 0.7 } }
   }
 
-  const children = {
+   const children = {
     hidden: { opacity: 0, y: -70 },
     visible: { opacity: 1, y: 0 }
   }
@@ -145,7 +145,7 @@ const Jobs = () => {
 
   return (
     <>
-      <motion.div variants={parent} initial="hidden" animate="visible" className="px-5 py-4 sm:px-10 sm:py-5 lg:px-15" id="/jobs">
+      <motion.section variants={parent} initial="hidden" animate="visible" className="px-5 py-4 sm:px-10 sm:py-5 lg:px-15" id="/jobs">
         <motion.form variants={children} className="flex items-center gap-2 border border-white max-w-xl w-full px-4 py-1 rounded-2xl"  >
           <Search size={20} />
           <input className="w-full outline-none" type="text" placeholder="Describe the job you want..." {...register("text")} />
@@ -185,15 +185,7 @@ const Jobs = () => {
                 </label>
                 <div className='border w-full border-slate-500/50'></div>
                 <div className='flex  justify-end gap-3'>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setEmploymentType("")
-                      setOpen(null)
-                    }}
-                  >
-                    Reset
-                  </button>
+                  <button type="button" onClick={() => { setEmploymentType(""); setOpen(null); }}>Reset</button>
                   <button type="button" className='cursor-pointer border-2 text-white border-black bg-linear-to-br from-sky-300 to-sky-700 text-md px-4 py-2 rounded-full' onClick={() => setOpen(null)}>Show Results</button>
                 </div>
               </div>
@@ -230,15 +222,7 @@ const Jobs = () => {
                 </label>
                 <div className='border w-full border-slate-500/50'></div>
                 <div className='flex  justify-end gap-3'>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setExperienceLevel("")
-                      setOpen(null)
-                    }}
-                  >
-                    Reset
-                  </button>
+                  <button type="button" onClick={() => { setExperienceLevel(""); setOpen(null); }}>Reset</button>
                   <button type="button" className='cursor-pointer border-2 text-white border-black bg-linear-to-br from-sky-300 to-sky-700 text-md px-4 py-2 rounded-full' onClick={() => setOpen(null)}>Show Results</button>
                 </div>
               </div>
@@ -326,7 +310,7 @@ const Jobs = () => {
             </div>
           )}
         </div>
-      </motion.div>
+      </motion.section>
 
     </>
   )

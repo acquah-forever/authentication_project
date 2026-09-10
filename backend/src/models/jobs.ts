@@ -9,6 +9,7 @@ const jobsSchema = new Schema({
     experienceLevel: {type: String, required:true, enum: ["Entry-Level","Junior","Senior","Manager"]},
     requirements: [{type: String, required:true, trim: true}],
     jobDescription: {type: String, required:true, trim: true}
+    
 },{timestamps: true})
 
 type Jobs = InferSchemaType<typeof jobsSchema>

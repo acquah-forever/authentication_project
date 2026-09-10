@@ -13,7 +13,11 @@ const app = express()
 
 app.use(
   cors({
+<<<<<<< HEAD
     origin: "http://localhost:5174",
+=======
+    origin: "http://localhost:5173",
+>>>>>>> aa1a018 (editing profile.tsx)
   })
 );
 
