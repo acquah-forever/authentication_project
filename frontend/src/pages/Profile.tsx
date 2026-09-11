@@ -15,6 +15,7 @@ const Profile = () => {
   });
 
 
+  /** Toggle the requested profile section's edit dialog. */
   function handleEdit(index: number) {
     setEdit((prev) => prev === index ? null : index)
   }

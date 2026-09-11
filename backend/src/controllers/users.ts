@@ -3,6 +3,7 @@ import bcrypt from "bcrypt"
 import users from "../models/users"
 import createHttpError from "http-errors";
 
+/** Return the public account fields that are safe to send to clients. */
 function userResponse(user: { name: string; email: string }) {
     return {
         name: user.name,
@@ -35,6 +36,7 @@ interface SignUp {
     password: string
 }
 
+/** Create a user account and start an authenticated session. */
 export const signup: RequestHandler<unknown, unknown, SignUp, unknown> = async (req, res, next) => {
 
     try {
@@ -110,6 +112,7 @@ interface LogIn {
     password: string
 }
 
+/** Authenticate a user and persist their account ID in the session. */
 export const login: RequestHandler<unknown, unknown, LogIn, unknown> = async (req, res, next) => {
 
     try {
