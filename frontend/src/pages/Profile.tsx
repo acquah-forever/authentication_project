@@ -44,12 +44,12 @@ const Profile = () => {
               <form className="px-5 py-3 mx-7">
                 <div className="flex gap-5 justify-between items-center mx-auto mb-3">
                   <div className="flex flex-col">
-                    <label className="text-sm" htmlFor="name">First name</label>
-                    <input type="text" id="name" className="border border-gray-300 rounded-md py-1 w-60 sm:w-70 md:w-80 lg:w-90 placeholder:text-sm px-2" />
+                    <label className="text-sm" htmlFor="firstName">First name</label>
+                    <input type="text" id="firstName" className="border border-gray-300 rounded-md py-1 w-60 sm:w-70 md:w-80 lg:w-90 placeholder:text-sm px-2 hover:border-2 hover:border-blue-500" />
                   </div>
                   <div className="flex flex-col">
-                    <label className="text-sm" htmlFor="name">Lastname</label>
-                    <input type="text" id="name" className="border border-gray-300 rounded-md py-1 w-60 sm:w-70 md:w-80 lg:w-90 placeholder:text-sm px-2" />
+                    <label className="text-sm" htmlFor="lastName">Lastname</label>
+                    <input type="text" id="lastName" className="border border-gray-300 rounded-md py-1 w-60 sm:w-70 md:w-80 lg:w-90 placeholder:text-sm px-2 hover:border-2 hover:border-blue-500" />
                   </div>
                 </div>
                 <div className="relative flex flex-col mb-4">
@@ -63,23 +63,23 @@ const Profile = () => {
                 </div>
                 <div className="flex flex-col mb-4">
                   <label className="text-sm" htmlFor="organization">Organization</label>
-                  <input type="text" id="organization" className="border border-gray-300 rounded-md py-1 w-full px-2" />
+                  <input type="text" id="organization" className="border border-gray-300 rounded-md py-1 w-full px-2 hover:border-2 hover:border-blue-500" />
                 </div>
                 <div className="flex flex-col mb-4">
                   <label className="text-sm" htmlFor="education">Education</label>
-                  <input type="text" id="education" className="border border-gray-300 rounded-md py-1 w-full px-2" />
+                  <input type="text" id="education" className="border border-gray-300 rounded-md py-1 w-full px-2 hover:border-2 hover:border-blue-500" />
                 </div>
                 <div className="flex flex-col mb-4">
                   <label className="text-sm" htmlFor="industry">Industry</label>
-                  <input type="text" id="industry" className="border border-gray-300 rounded-md py-1 w-full px-2" />
+                  <input type="text" id="industry" className="border border-gray-300 rounded-md py-1 w-full px-2 hover:border-2 hover:border-blue-500" />
                 </div>
                 <div className="flex flex-col mb-4">
                   <label className="text-sm" htmlFor="phone">Phone number</label>
-                  <input type="text" id="phone" className="border border-gray-300 rounded-md py-1 w-full px-2" />
+                  <input type="text" id="phone" className="border border-gray-300 rounded-md py-1 w-full px-2 hover:border-2 hover:border-blue-500" />
                 </div>
                 <div className="flex flex-col mb-4">
                   <label className="text-sm" htmlFor="website">Website URL</label>
-                  <input type="text" id="website" className="border border-gray-300 rounded-md py-1 w-full px-2 " />
+                  <input type="text" id="website" className="border border-gray-300 rounded-md py-1 w-full px-2 hover:border-2 hover:border-blue-500" />
                 </div>
                 <div className="mt-10 flex justify-end">
                   <button type="submit" className="cursor-pointer bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors">Submit</button>
