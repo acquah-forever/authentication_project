@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 import { useLogin } from "../authContext/useAuth";
 
 interface FormBody {
-    username: string,
+    name: string,
     password: string
 }
 
@@ -43,12 +43,12 @@ const Login = () => {
                         <h2 className="mt-2 text-sm text-gray-500">Welcome back! Please enter your details</h2>
                         {isError && <p className="text-red-500 text-sm font-semibold flex items-center my-2">{error.message}</p>}
                         <div className="mt-8">
-                            <label className="mb-2 block text-sm font-medium text-gray-700" htmlFor="username">Username</label>
-                            <input className="text-gray-700 w-full rounded-lg border border-gray-300 px-4 py-3 text-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20" id="username" type="text" placeholder="Enter your username"{...register("username", { required: "Enter your username" })} />
+                            <label className="mb-2 block text-sm font-medium text-gray-700" htmlFor="name">Name</label>
+                            <input className="text-gray-700 w-full rounded-lg border border-gray-300 px-4 py-3 text-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20" id="name" type="text" placeholder="Enter your name"{...register("name", { required: "Enter your name" })} />
                         </div>
-                        {errors.username && <span className="text-red-500 text-sm font-semibold flex items-center my-2">
+                        {errors.name && <span className="text-red-500 text-sm font-semibold flex items-center my-2">
                             <CircleAlert className="mr-1" size={15} />
-                            {errors.username.message} </span>}
+                            {errors.name.message} </span>}
                         <div className="mt-5">
                             <label className="mb-2 block text-sm font-medium text-gray-700" htmlFor="password">Password</label>
                             <input className="text-gray-700 w-full rounded-lg border border-gray-300 px-4 py-3 text-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20" id="password" type="password" placeholder="Enter your password"{...register("password", { required: "Enter your password" })} />

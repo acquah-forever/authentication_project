@@ -16,7 +16,7 @@ const Jobs = () => {
     visible: { opacity: 1, y: 0, transition: { staggerChildren: 0.19, duration: 0.7 } }
   }
 
-  const children = {
+   const children = {
     hidden: { opacity: 0, y: -70 },
     visible: { opacity: 1, y: 0 }
   }
@@ -31,7 +31,6 @@ const Jobs = () => {
   const [page, setPage] = useState<number>(1)
   const [employmentType, setEmploymentType] = useState<string>("")
   const [experienceLevel, setExperienceLevel] = useState<string>("")
-  const [mobileJobSelected, setMobileJobSelected] = useState<boolean>(false);
   const navigate = useNavigate()
   const jobsPerPage = 5
 
@@ -110,12 +109,11 @@ const Jobs = () => {
 
   function handleBack() {
     setSelectedJob(null)
-    setMobileJobSelected(false)
   }
 
   function handleSelect(jobId: string) {
     setSelectedJob(jobId)
-    setMobileJobSelected(true)
+
   }
 
   if (isLoading) {
@@ -147,7 +145,7 @@ const Jobs = () => {
 
   return (
     <>
-      <motion.div variants={parent} initial="hidden" animate="visible" className="px-5 py-4 sm:px-10 sm:py-5 lg:px-15" id="/jobs">
+      <motion.section variants={parent} initial="hidden" animate="visible" className="px-5 py-4 sm:px-10 sm:py-5 lg:px-15" id="/jobs">
         <motion.form variants={children} className="flex items-center gap-2 border border-white max-w-xl w-full px-4 py-1 rounded-2xl"  >
           <Search size={20} />
           <input className="w-full outline-none" type="text" placeholder="Describe the job you want..." {...register("text")} />
@@ -187,15 +185,7 @@ const Jobs = () => {
                 </label>
                 <div className='border w-full border-slate-500/50'></div>
                 <div className='flex  justify-end gap-3'>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setEmploymentType("")
-                      setOpen(null)
-                    }}
-                  >
-                    Reset
-                  </button>
+                  <button type="button" onClick={() => { setEmploymentType(""); setOpen(null); }}>Reset</button>
                   <button type="button" className='cursor-pointer border-2 text-white border-black bg-linear-to-br from-sky-300 to-sky-700 text-md px-4 py-2 rounded-full' onClick={() => setOpen(null)}>Show Results</button>
                 </div>
               </div>
@@ -232,15 +222,7 @@ const Jobs = () => {
                 </label>
                 <div className='border w-full border-slate-500/50'></div>
                 <div className='flex  justify-end gap-3'>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setExperienceLevel("")
-                      setOpen(null)
-                    }}
-                  >
-                    Reset
-                  </button>
+                  <button type="button" onClick={() => { setExperienceLevel(""); setOpen(null); }}>Reset</button>
                   <button type="button" className='cursor-pointer border-2 text-white border-black bg-linear-to-br from-sky-300 to-sky-700 text-md px-4 py-2 rounded-full' onClick={() => setOpen(null)}>Show Results</button>
                 </div>
               </div>
@@ -248,7 +230,7 @@ const Jobs = () => {
           </div>
         </motion.div>
 
-        <button className={`${mobileJobSelected ? "flex" : "hidden"} py-2 px-3 rounded-md mt-3 items-center sm:hidden gap-2 cursor-pointer`} onClick={handleBack} >
+        <button aria-label="Back to job list" className={`${selectedJob ? "flex" : "hidden"} py-2 px-3 rounded-md mt-3 items-center sm:hidden gap-2 cursor-pointer`} onClick={handleBack} >
           <ArrowLeft />
         </button>
 
@@ -328,7 +310,7 @@ const Jobs = () => {
             </div>
           )}
         </div>
-      </motion.div>
+      </motion.section>
 
     </>
   )

@@ -1,17 +1,17 @@
 
 export interface User {
-    username: string;
+    name: string;
     email: string;
 }
 
 export interface SignupData {
-    username: string;
+    name: string;
     email: string;
     password: string;
 }
 
 export interface LoginData {
-    username: string;
+    name: string;
     password: string;
 }
 
