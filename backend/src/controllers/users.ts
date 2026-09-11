@@ -3,9 +3,9 @@ import bcrypt from "bcrypt"
 import users from "../models/users"
 import createHttpError from "http-errors";
 
-function userResponse(user: { username: string; email: string }) {
+function userResponse(user: { name: string; email: string }) {
     return {
-        username: user.username,
+        name: user.name,
         email: user.email,
     };
 }
@@ -30,7 +30,7 @@ export const getAuthenticatedUser: RequestHandler = async (req, res, next) => {
 }
 
 interface SignUp {
-    username: string
+    name: string
     email: string
     password: string
 }
@@ -38,26 +38,26 @@ interface SignUp {
 export const signup: RequestHandler<unknown, unknown, SignUp, unknown> = async (req, res, next) => {
 
     try {
-        const { username, email, password: passwordRaw } = req.body
+        const { name, email, password: passwordRaw } = req.body
 
         // Runtime type validation
-        if (typeof username !== "string" || typeof email !== "string" || typeof passwordRaw !== "string") {
+        if (typeof name !== "string" || typeof email !== "string" || typeof passwordRaw !== "string") {
             throw createHttpError(400, "Invalid Parameters")
         }
 
         // Normalize input
-        const usernameTrimmed = username.trim()
+        const nameTrimmed = name.trim()
         const emailTrimmed = email.trim()
         const password = passwordRaw
 
         // Validate empty values
-        if (!usernameTrimmed || !emailTrimmed || !password) {
+        if (!nameTrimmed || !emailTrimmed || !password) {
             throw createHttpError(400, "Parameters missing")
         }
 
         // Enforce field limits before database queries
-        if (usernameTrimmed.length > 50) {
-            throw createHttpError(400, "Username is too long")
+        if (nameTrimmed.length > 50) {
+            throw createHttpError(400, "Name is too long")
         }
 
         if (emailTrimmed.length > 254) {
@@ -68,9 +68,9 @@ export const signup: RequestHandler<unknown, unknown, SignUp, unknown> = async (
             throw createHttpError(400, "Password is too long")
         }
 
-        const existingUsername = await users.findOne({ username: usernameTrimmed }).exec()
-        if (existingUsername) {
-            throw createHttpError(409, "Username Already Exists")
+        const existingUserName = await users.findOne({ name: nameTrimmed }).exec()
+        if (existingUserName) {
+            throw createHttpError(409, "Name Already Exists")
         }
 
         const existingEmail = await users.findOne({ email: emailTrimmed }).exec()
@@ -81,7 +81,7 @@ export const signup: RequestHandler<unknown, unknown, SignUp, unknown> = async (
         const passwordHashed = await bcrypt.hash(passwordRaw, 12)
 
         const newUser = await users.create({
-            username: usernameTrimmed,
+            name: nameTrimmed,
             email: emailTrimmed,
             password: passwordHashed,
         })
@@ -106,27 +106,27 @@ export const signup: RequestHandler<unknown, unknown, SignUp, unknown> = async (
 }
 
 interface LogIn {
-    username: string
+    name: string
     password: string
 }
 
 export const login: RequestHandler<unknown, unknown, LogIn, unknown> = async (req, res, next) => {
 
     try {
-        const { username, password: passwordRaw } = req.body
+        const { name, password: passwordRaw } = req.body
 
-        if (typeof username !== "string" || typeof passwordRaw !== "string") {
+        if (typeof name !== "string" || typeof passwordRaw !== "string") {
             throw (createHttpError(400, "Invalid Parameters"))
         }
 
-        const usernameTrimmed = username.trim()
+        const nameTrimmed = name.trim()
         const password = passwordRaw
 
-        if (!usernameTrimmed || !password) {
+        if (!nameTrimmed || !password) {
             throw (createHttpError(400, "Parameters missing"))
         }
 
-        const user = await users.findOne({ username: usernameTrimmed }).select("+password +email").exec()
+        const user = await users.findOne({ name: nameTrimmed }).select("+password +email").exec()
         if (!user) {
             throw (createHttpError(401, "Invalid Credentials"))
         }
