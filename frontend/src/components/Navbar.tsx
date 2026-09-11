@@ -66,7 +66,7 @@ const Navbar = () => {
                     {
                         !isLoading && user ? (
                             <div className="border rounded-lg hidden md:flex gap-2 px-4 py-2 items-center">
-                                <NavLink to="/profile" className="cursor-pointer transition-all hover:scale-107 hover:underline duration-300 bg-linear-to-tr from-slate-100 to-cyan-400 text-transparent bg-clip-text">{user.username}</NavLink>
+                                <NavLink to="/profile" className="cursor-pointer transition-all hover:scale-107 hover:underline duration-300 bg-linear-to-tr from-slate-100 to-cyan-400 text-transparent bg-clip-text">{user.name}</NavLink>
                                 <div>|</div>
                                 <button type="button" className="cursor-pointer transition-all hover:scale-107 hover:underline duration-300" onClick={handleClick}>Log Out</button>
                             </div>
@@ -93,7 +93,7 @@ const Navbar = () => {
                                 {
                                     !isLoading && user ?
                                         <div className="rounded-lg flex md:hidden gap-2 p-2 justify-center items-center">
-                                            <NavLink to="/profile" className="cursor-pointer transition-all hover:scale-107 hover:underline duration-300 bg-linear-to-tr from-slate-100 to-cyan-400 text-transparent bg-clip-text text-md">{user.username}</NavLink>
+                                            <NavLink to="/profile" className="cursor-pointer transition-all hover:scale-107 hover:underline duration-300 bg-linear-to-tr from-slate-100 to-cyan-400 text-transparent bg-clip-text text-md">{user.name}</NavLink>
                                             <div className="text-3xl text-emerald-500">|</div>
                                             <button type="button" className="text-md transition-all hover:scale-107 hover:underline duration-300 cursor-pointer border px-2 py-1" onClick={handleClick}>Log Out</button>
                                         </div>
