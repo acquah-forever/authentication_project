@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from "react"
+import { useForm } from "react-hook-form"
 import { Search, X, ChevronDown, ChevronUp, ArrowLeft } from "lucide-react"
 import { useNavigate } from "react-router-dom"
-import { useForm } from "react-hook-form"
 import { useJobs, useJob } from "../authContext/useAuth1"
 import { ClipLoader } from "react-spinners";
 
@@ -10,17 +10,6 @@ interface QueryValue {
 }
 
 const Jobs = () => {
-
-  const parent = {
-    hidden: { opacity: 0, y: -70 },
-    visible: { opacity: 1, y: 0, transition: { staggerChildren: 0.19, duration: 0.7 } }
-  }
-
-   const children = {
-    hidden: { opacity: 0, y: -70 },
-    visible: { opacity: 1, y: 0 }
-  }
-
 
   const { data: jobs, isLoading, isError, error } = useJobs()
   const [selectedJob, setSelectedJob] = useState<string | null>(null)
@@ -145,175 +134,154 @@ const Jobs = () => {
 
   return (
     <>
-      <motion.section variants={parent} initial="hidden" animate="visible" className="px-5 py-4 sm:px-10 sm:py-5 lg:px-15" id="/jobs">
-        <motion.form variants={children} className="flex items-center gap-2 border border-white max-w-xl w-full px-4 py-1 rounded-2xl"  >
+      <section className="flex flex-col px-5 py-4 sm:px-10 sm:py-5 lg:px-15" id="/jobs">
+        <form className="flex items-center gap-2 border border-white max-w-xl w-full px-4 py-1 rounded-2xl"  >
           <Search size={20} />
           <input className="w-full outline-none" type="text" placeholder="Describe the job you want..." {...register("text")} />
           <button className="cursor-pointer" type="button" onClick={() => reset({ text: "" })}>
             <X size={17} />
           </button>
-        </motion.form >
+        </form >
 
-
-        <div className="flex justify-center sm:justify-start gap-3 mt-3 items-center">
-          <button className="cursor-pointer flex items-center gap-3 border rounded-sm px-4 py-1 hover:bg-slate-500/50" onClick={() => handleClick(1)}>
-            <h1 className="font-semibold text-xs sm:text-sm md:text-md lg:text-lg">Employment Type</h1>
-            {open === 1 ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
-          </button>
-          <div>
-            {open === 1 &&
-              <div className='max-w-sm w-full absolute left-0 sm:left-12 top-41 p-5 bg-white/90 text-black text-sm font-semibold rounded max-h-75 overflow-auto z-10 space-y-3'>
-                <label className="flex items-center gap-1">
-                  <input type="radio" name='employment' value="part-time"
-                    checked={employmentType === "part-time"} onChange={handleEmploymentType} />
-                  <p>Part-time</p>
-                </label>
-                <label className="flex -items-center gap-1">
-                  <input type="radio" name='employment' value="Full-time"
-                    checked={employmentType === "Full-time"} onChange={handleEmploymentType} />
-                  <p>Full-time</p>
-                </label>
-                <label className="flex items-center gap-1">
-                  <input type="radio" name='employment' value="Contract"
-                    checked={employmentType === "Contract"} onChange={handleEmploymentType} />
-                  <p>Contract</p>
-                </label>
-                <label className="flex items-center gap-1">
-                  <input type="radio" name='employment' value="Volunteer"
-                    checked={employmentType === "Volunteer"} onChange={handleEmploymentType} />
-                  <p>Volunteer</p>
-                </label>
-                <div className='border w-full border-slate-500/50'></div>
-                <div className='flex  justify-end gap-3'>
-                  <button type="button" onClick={() => { setEmploymentType(""); setOpen(null); }}>Reset</button>
-                  <button type="button" className='cursor-pointer border-2 text-white border-black bg-linear-to-br from-sky-300 to-sky-700 text-md px-4 py-2 rounded-full' onClick={() => setOpen(null)}>Show Results</button>
-                </div>
-              </div>
-            }
-          </div>
-
-
-          <button className="cursor-pointer flex items-center gap-3 border rounded-sm px-3 py-1 hover:bg-slate-500/50" onClick={() => handleClick(2)}>
-            <h1 className="font-semibold text-xs sm:text-sm md:text-md">Experience Level</h1>
-            {open === 2 ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
-          </button>
-          <div>
-            {open === 2 &&
-              <div className='max-w-sm w-full absolute left-0 sm:left-12 top-39 p-5 mt-2 bg-white/90 text-black text-sm font-semibold rounded max-h-75 overflow-auto z-10 space-y-3'>
-                <label className="flex items-center gap-1">
-                  <input type="radio" name='experience' value="entry-level"
-                    checked={experienceLevel === "entry-level"} onChange={handleExperienceLevel} />
-                  <p>Entry-Level</p>
-                </label>
-                <label className="flex -items-center gap-1">
-                  <input type="radio" name='experience' value="junior"
-                    checked={experienceLevel === "junior"} onChange={handleExperienceLevel} />
-                  <p>Junior</p>
-                </label>
-                <label className="flex items-center gap-1">
-                  <input type="radio" name='experience' value="senior"
-                    checked={experienceLevel === "senior"} onChange={handleExperienceLevel} />
-                  <p>Senior</p>
-                </label>
-                <label className="flex items-center gap-1">
-                  <input type="radio" name='experience' value="manager"
-                    checked={experienceLevel === "manager"} onChange={handleExperienceLevel} />
-                  <p>Manager</p>
-                </label>
-                <div className='border w-full border-slate-500/50'></div>
-                <div className='flex  justify-end gap-3'>
-                  <button type="button" onClick={() => { setExperienceLevel(""); setOpen(null); }}>Reset</button>
-                  <button type="button" className='cursor-pointer border-2 text-white border-black bg-linear-to-br from-sky-300 to-sky-700 text-md px-4 py-2 rounded-full' onClick={() => setOpen(null)}>Show Results</button>
-                </div>
-              </div>
-            }
-          </div>
-        </motion.div>
-
-        <button aria-label="Back to job list" className={`${selectedJob ? "flex" : "hidden"} py-2 px-3 rounded-md mt-3 items-center sm:hidden gap-2 cursor-pointer`} onClick={handleBack} >
-          <ArrowLeft />
-        </button>
-
-        <div className="max-w-8xl w-full mt-3 sm:border-2 rounded-lg flex">
-          <motion.div variants={children} className={`${selectedJob ? "hidden sm:flex" : "flex"} flex-col items-center sm:items-start p-2 sm:p-3 md:p-4 lg:p-5 max-w-md w-full min-h-170`}>
-            {paginatedJobs?.length === 0 ?
-              (<p>Jobs not found</p>)
-              :
-              (
-                paginatedJobs?.map((item) => (
-                  <button key={item._id} className="cursor-pointer text-start bg-white/75  p-3 rounded-lg mb-4 hover:scale-105 duration-180 w-75 sm:w-70 md:w-80 lg-100" type="button" onClick={() => handleSelect(item._id)}>
-                    <h1 className="text-lg sm:text-xl text-sky-800">{item.jobTitle}</h1>
-                    <p className="text-sm text-black">{item.company}</p>
-                    <p className="text-sm text-black">{item.jobLocation}</p>
-                  </button>
-                ))
-              )}
-
-            <motion.div variants={children} className=' space-x-2 mt-4 '>
-              <button type='button' className='bg-slate-700 px-5 py-3 rounded-lg cursor-pointer transition-all duration-200 hover:scale-105 disabled:opacity-50 text-sm sm:text-md'
-                disabled={page === 1}
-                onClick={handlePrevious} >Previous Page</button>
-
-              <button type='button' className='bg-slate-700 px-5 py-3 rounded-lg cursor-pointer transition-all duration-200 hover:scale-105 disabled:opacity-50 text-sm sm:text-md'
-                disabled={page === totalPages}
-                onClick={handleNext} >Next Page</button>
-            </motion.div>
-          </motion.div>
-
-          {selectedJob && (
+        <div className="flex flex-col justify-center sm:justify-start gap-3 mt-3 items-center">
+          <div className="flex justify-start gap-3 items-center w-full">
+            <button className="cursor-pointer flex items-center gap-3 border rounded-sm px-4 py-1 hover:bg-slate-500/50" onClick={() => handleClick(1)}>
+              <h1 className="font-semibold text-xs sm:text-sm md:text-md">Employment Type</h1>
+              {open === 1 ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+            </button>
             <div>
-              {isJobLoading ? (
-                <div className="flex min-h-210 items-center justify-center">
-                  <ClipLoader size={50} color="#123abc" />
+              {open === 1 &&
+                <div className='max-w-sm w-full absolute left-0 sm:left-12 top-41 p-5 bg-white/90 text-black text-sm font-semibold rounded max-h-75 overflow-auto z-10 space-y-3'>
+                  <label className="flex items-center gap-1">
+                    <input type="radio" name='employment' value="part-time"
+                      checked={employmentType === "part-time"} onChange={handleEmploymentType} />
+                    <p>Part-time</p>
+                  </label>
+                  <label className="flex -items-center gap-1">
+                    <input type="radio" name='employment' value="Full-time"
+                      checked={employmentType === "Full-time"} onChange={handleEmploymentType} />
+                    <p>Full-time</p>
+                  </label>
+                  <label className="flex items-center gap-1">
+                    <input type="radio" name='employment' value="Contract"
+                      checked={employmentType === "Contract"} onChange={handleEmploymentType} />
+                    <p>Contract</p>
+                  </label>
+                  <label className="flex items-center gap-1">
+                    <input type="radio" name='employment' value="Volunteer"
+                      checked={employmentType === "Volunteer"} onChange={handleEmploymentType} />
+                    <p>Volunteer</p>
+                  </label>
+                  <div className='border w-full border-slate-500/50'></div>
+                  <div className='flex  justify-end gap-3'>
+                    <button type="button" onClick={() => { setEmploymentType(""); setOpen(null); }}>Reset</button>
+                    <button type="button" className='cursor-pointer border-2 text-white border-black bg-linear-to-br from-sky-300 to-sky-700 text-md px-4 py-2 rounded-full' onClick={() => setOpen(null)}>Show Results</button>
+                  </div>
                 </div>
-              ) : (
-                <motion.div variants={children} className="bg-white/60 rounded-lg p-2 sm:p-3 md:p-4 lg:p-5 text-black min-h-210 mt-4 mb-4">
-                  <div className='mb-5'>
-                    <img className='w-full h-77 rounded-2xl object-cover object-center' src={"https://cdn.pixabay.com/photo/2024/09/18/16/40/business-9056542_1280.jpg"} alt="image" />
-                  </div>
-                  <h1 className="text-2xl font-semibold mb-3">
-                    {job?.jobTitle}
-                  </h1>
-                  <p>{job?.company}</p>
-                  <p>{job?.jobLocation}</p>
+              }
+            </div>
 
-                  <div className="flex space-x-2 items-center mt-2 mb-2">
-                    <span className="border px-4 py-1 rounded-full font-semibold text-sm">{job?.employmentType}</span>
-                    <span className="border px-4 py-1 rounded-full font-semibold text-sm">{job?.experienceLevel}</span>
-                  </div>
 
-          {selectedJob && (
+            <button className="cursor-pointer flex items-center gap-3 border rounded-sm px-3 py-1 hover:bg-slate-500/50" onClick={() => handleClick(2)}>
+              <h1 className="font-semibold text-xs sm:text-sm md:text-md">Experience Level</h1>
+              {open === 2 ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+            </button>
             <div>
-              <div className="bg-white/60 rounded-lg p-2 sm:p-3 md:p-4 lg:p-5 text-black min-h-210">
-                <div className='mb-5'>
-                  <img className='w-full h-77 rounded-2xl object-cover object-center' src={"https://cdn.pixabay.com/photo/2024/09/18/16/40/business-9056542_1280.jpg"} alt="image" />
+              {open === 2 &&
+                <div className='max-w-sm w-full absolute left-0 sm:left-12 top-39 p-5 mt-2 bg-white/90 text-black text-sm font-semibold rounded max-h-75 overflow-auto z-10 space-y-3'>
+                  <label className="flex items-center gap-1">
+                    <input type="radio" name='experience' value="entry-level"
+                      checked={experienceLevel === "entry-level"} onChange={handleExperienceLevel} />
+                    <p>Entry-Level</p>
+                  </label>
+                  <label className="flex -items-center gap-1">
+                    <input type="radio" name='experience' value="junior"
+                      checked={experienceLevel === "junior"} onChange={handleExperienceLevel} />
+                    <p>Junior</p>
+                  </label>
+                  <label className="flex items-center gap-1">
+                    <input type="radio" name='experience' value="senior"
+                      checked={experienceLevel === "senior"} onChange={handleExperienceLevel} />
+                    <p>Senior</p>
+                  </label>
+                  <label className="flex items-center gap-1">
+                    <input type="radio" name='experience' value="manager"
+                      checked={experienceLevel === "manager"} onChange={handleExperienceLevel} />
+                    <p>Manager</p>
+                  </label>
+                  <div className='border w-full border-slate-500/50'></div>
+                  <div className='flex  justify-end gap-3'>
+                    <button type="button" onClick={() => { setExperienceLevel(""); setOpen(null); }}>Reset</button>
+                    <button type="button" className='cursor-pointer border-2 text-white border-black bg-linear-to-br from-sky-300 to-sky-700 text-md px-4 py-2 rounded-full' onClick={() => setOpen(null)}>Show Results</button>
+                  </div>
                 </div>
-                <h1 className="text-2xl font-semibold mb-3">
-                  {job?.jobTitle}
-                </h1>
-                <p>{job?.company}</p>
-                <p>{job?.jobLocation}</p>
+              }
+            </div>
 
-                <div className="flex space-x-2 items-center mt-2 mb-2">
-                  <span className="border px-4 py-1 rounded-full font-semibold text-sm">{job?.employmentType}</span>
-                  <span className="border px-4 py-1 rounded-full font-semibold text-sm">{job?.experienceLevel}</span>
-                </div>
+          </div>
+          <button aria-label="Back to job list" className={`${selectedJob ? "flex" : "hidden"} py-2 px-3 rounded-md mt-3 items-center sm:hidden gap-2 cursor-pointer border`} onClick={handleBack} >
+            <ArrowLeft />
+          </button>
+          <div className="max-w-8xl w-full mt-3 sm:border-2 rounded-lg flex">
+            <div className={`${selectedJob ? "hidden sm:flex" : "flex"} flex-col items-center sm:items-start p-2 sm:p-3 md:p-4 lg:p-5 max-w-md w-full min-h-170`}>
+              {paginatedJobs?.length === 0 ?
+                (<p>Jobs not found</p>)
+                :
+                (
+                  paginatedJobs?.map((item) => (
+                    <button key={item._id} className="cursor-pointer text-start bg-white/75  p-3 rounded-lg mb-4 hover:scale-105 duration-180 w-75 sm:w-70 md:w-80 lg-100" type="button" onClick={() => handleSelect(item._id)}>
+                      <h1 className="text-lg sm:text-xl text-sky-800">{item.jobTitle}</h1>
+                      <p className="text-sm text-black">{item.company}</p>
+                      <p className="text-sm text-black">{item.jobLocation}</p>
+                    </button>
+                  ))
+                )}
 
-                <button className="mb-4 border rounded-full px-4 py-1 bg-sky-600 text-white">Apply</button>
+              <div className=' space-x-2 mt-4 '>
+                <button type='button' className='bg-slate-700 px-5 py-3 rounded-lg cursor-pointer transition-all duration-200 hover:scale-105 disabled:opacity-50 text-sm sm:text-md'
+                  disabled={page === 1}
+                  onClick={handlePrevious} >Previous Page</button>
 
-                <h1 className="font-semibold underline">Requirements</h1>
-                <p className="text-sm">{job?.requirements}</p>
-
-                <h1 className="font-semibold mt-4 underline">About This Job</h1>
-                <p className="text-sm">{job?.jobDescription}</p>
+                <button type='button' className='bg-slate-700 px-5 py-3 rounded-lg cursor-pointer transition-all duration-200 hover:scale-105 disabled:opacity-50 text-sm sm:text-md'
+                  disabled={page === totalPages}
+                  onClick={handleNext} >Next Page</button>
               </div>
             </div>
-          )}
-        </div>
-      </motion.section>
 
+            {selectedJob && (
+              <div>
+                {isJobLoading ? (
+                  <div className="flex min-h-210 items-center justify-center">
+                    <ClipLoader size={50} color="#123abc" />
+                  </div>
+                ) : (
+                  <div className="bg-white/60 rounded-lg p-2 sm:p-3 md:p-4 lg:p-5 text-black min-h-210 mt-4 mb-4">
+                    <div className='mb-5'>
+                      <img className='w-full h-77 rounded-2xl object-cover object-center' src={"https://cdn.pixabay.com/photo/2024/09/18/16/40/business-9056542_1280.jpg"} alt="image" />
+                    </div>
+                    <h1 className="text-2xl font-semibold mb-3">
+                      {job?.jobTitle}
+                    </h1>
+                    <p>{job?.company}</p>
+                    <p>{job?.jobLocation}</p>
+
+                    <div className="flex space-x-2 items-center mt-2 mb-2">
+                      <span className="border px-4 py-1 rounded-full font-semibold text-sm">{job?.employmentType}</span>
+                      <span className="border px-4 py-1 rounded-full font-semibold text-sm">{job?.experienceLevel}</span>
+                    </div>
+                    <button className="mb-4 border rounded-full px-4 py-1 bg-sky-600 text-white">Apply</button>
+                    <h1 className="font-semibold underline">Requirements</h1>
+                    <p className="text-sm">{job?.requirements}</p>
+                    <h1 className="font-semibold mt-4 underline">About This Job</h1>
+                    <p className="text-sm">{job?.jobDescription}</p>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
     </>
   )
 }
-
 export default Jobs

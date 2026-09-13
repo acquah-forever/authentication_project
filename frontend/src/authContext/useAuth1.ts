@@ -14,7 +14,7 @@ export function useJobs() {
 export function useJob(jobId: string | null) {
     return useQuery({
         queryKey: ["job", jobId],
-        queryFn: () => getJobById(jobId),
+        queryFn: () => getJobById(jobId ?? ""),
         enabled: !!jobId,
         refetchOnWindowFocus: false
     })

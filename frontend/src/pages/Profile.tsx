@@ -1,16 +1,39 @@
 import { useState } from "react"
+import { useForm } from "react-hook-form"
 import countries from "i18n-iso-countries";
 import en from "i18n-iso-countries/langs/en.json";
-import { Pencil, X } from "lucide-react"
+import { Pencil, X, OctagonMinus } from "lucide-react"
 
 countries.registerLocale(en);
 
+interface FormData {
+  firstname: string;
+  lastname: string;
+  country: string;
+  organization: string; 
+  education: string;
+  industry: string;
+  phone: string;
+  website: string;
+}
+
 
 const Profile = () => {
+  const { register, handleSubmit, formState: { errors } } = useForm<FormData>()
   const [edit, setEdit] = useState<null | number>(null)
-  const [country, setCountry] = useState("");
+  const [profile, setProfile] = useState<FormData>({
+    firstname: "", 
+    lastname: "", 
+    country: "", 
+    organization: "", 
+    education: "",
+    industry: "",
+    phone: "",
+    website: ""
+  });
 
-    const countryList = countries.getNames("en", {
+
+  const countryList = countries.getNames("en", {
     select: "official",
   });
 
@@ -20,7 +43,10 @@ const Profile = () => {
     setEdit((prev) => prev === index ? null : index)
   }
 
-
+  function onSubmit(data: FormData) {
+    setProfile(data);
+    setEdit(null);
+  }
 
   return (
     <div className="flex flex-col justify-center px-20 py-5" id="/profile">
@@ -35,27 +61,40 @@ const Profile = () => {
         {
           edit === 1 &&
           <div className="text-black fixed inset-0 w-screen h-screen z-50 bg-black/50 flex justify-center px-20 py-20">
-            <div className="bg-white max-w-4xl border w-full h-170 rounded-lg">
+            <div className="bg-white max-w-4xl border w-full h-187 rounded-lg">
               <div className="flex justify-between items-center px-5 py-3 border-b border-b-gray-300">
                 <h1 className="font-semibold text-xl">Edit Info</h1>
                 <button>
-                  <X className="text-black cursor-pointer" onClick={() => setEdit(null)} />
+                  <X className="text-black cursor-pointer" onClick={() => {
+                    setEdit(null)
+                  }} />
                 </button>
               </div>
-              <form className="px-5 py-3 mx-7">
+              <form className="px-5 py-3 mx-7"onSubmit={handleSubmit(onSubmit)}>
                 <div className="flex gap-5 justify-between items-center mx-auto mb-3">
                   <div className="flex flex-col">
                     <label className="text-sm" htmlFor="firstName">First name</label>
-                    <input type="text" id="firstName" className="border border-gray-300 rounded-md py-1 w-60 sm:w-70 md:w-80 lg:w-90 placeholder:text-sm px-2 hover:border-2 hover:border-blue-500" />
+                    <input type="text" id="firstName" className="border border-gray-300 rounded-md py-1 w-60 sm:w-70 md:w-80 lg:w-90 placeholder:text-sm px-2 hover:border-2 hover:border-blue-500" {...register("firstname", { required: "Firstname is require" })} />
+
+                    {errors.firstname && <span className="text-red-500 text-sm font-semibold flex gap-1 items-center">
+                      <OctagonMinus size={15} />
+                      {errors.firstname.message}
+                    </span>
+                    }
                   </div>
                   <div className="flex flex-col">
                     <label className="text-sm" htmlFor="lastName">Lastname</label>
-                    <input type="text" id="lastName" className="border border-gray-300 rounded-md py-1 w-60 sm:w-70 md:w-80 lg:w-90 placeholder:text-sm px-2 hover:border-2 hover:border-blue-500" />
+                    <input type="text" id="lastName" className="border border-gray-300 rounded-md py-1 w-60 sm:w-70 md:w-80 lg:w-90 placeholder:text-sm px-2 hover:border-2 hover:border-blue-500"{...register("lastname", { required: "Lastname is required" })} />
+                    {errors.lastname && <span className="text-red-500 text-sm font-semibold flex gap-1 items-center">
+                      <OctagonMinus size={15} />
+                      {errors.lastname.message}
+                    </span>
+                    }
                   </div>
                 </div>
                 <div className="relative flex flex-col mb-4">
                   <label className="text-sm" htmlFor="country/region">Country/Region</label>
-                  <select value={country} onChange={(e) => setCountry(e.target.value)} className="border border-gray-300 rounded-md p-2 w-full">
+                  <select className="border border-gray-300 rounded-md p-2 w-full"{...register("country")}>
                     <option  >Select a country</option>
                     {Object.entries(countryList).map(([code, name]) => (
                       <option className="text-sm" key={code} value={code}>{name}</option>
@@ -64,23 +103,43 @@ const Profile = () => {
                 </div>
                 <div className="flex flex-col mb-4">
                   <label className="text-sm" htmlFor="organization">Organization</label>
-                  <input type="text" id="organization" className="border border-gray-300 rounded-md py-1 w-full px-2 hover:border-2 hover:border-blue-500" />
+                  <input type="text" id="organization" className="border border-gray-300 rounded-md py-1 w-full px-2 hover:border-2 hover:border-blue-500"{...register("organization", { required: "Organization is required" })} />
+                  {errors.organization && <span className="text-red-500 text-sm font-semibold flex gap-1 items-center">
+                    <OctagonMinus size={15} />
+                    {errors.organization.message}
+                  </span>}
                 </div>
                 <div className="flex flex-col mb-4">
                   <label className="text-sm" htmlFor="education">Education</label>
-                  <input type="text" id="education" className="border border-gray-300 rounded-md py-1 w-full px-2 hover:border-2 hover:border-blue-500" />
+                  <input type="text" id="education" className="border border-gray-300 rounded-md py-1 w-full px-2 hover:border-2 hover:border-blue-500"{...register("education", { required: "Education is required" })} />
+                  {errors.education && <span className="text-red-500 text-sm font-semibold flex gap-1 items-center">
+                    <OctagonMinus size={15} />
+                    {errors.education.message}
+                  </span>}
                 </div>
                 <div className="flex flex-col mb-4">
                   <label className="text-sm" htmlFor="industry">Industry</label>
-                  <input type="text" id="industry" className="border border-gray-300 rounded-md py-1 w-full px-2 hover:border-2 hover:border-blue-500" />
+                  <input type="text" id="industry" className="border border-gray-300 rounded-md py-1 w-full px-2 hover:border-2 hover:border-blue-500"{...register("industry", { required: "Industry is required" })} />
+                  {errors.industry && <span className="text-red-500 text-sm font-semibold flex gap-1 items-center">
+                    <OctagonMinus size={15} />
+                    {errors.industry.message}
+                  </span>}
                 </div>
                 <div className="flex flex-col mb-4">
                   <label className="text-sm" htmlFor="phone">Phone number</label>
-                  <input type="text" id="phone" className="border border-gray-300 rounded-md py-1 w-full px-2 hover:border-2 hover:border-blue-500" />
+                  <input type="text" id="phone" className="border border-gray-300 rounded-md py-1 w-full px-2 hover:border-2 hover:border-blue-500"{...register("phone", { required: "Phone number is required" })} />
+                  {errors.phone && <span className="text-red-500 text-sm font-semibold flex gap-1 items-center">
+                    <OctagonMinus size={15} />
+                    {errors.phone.message}
+                  </span>}
                 </div>
                 <div className="flex flex-col mb-4">
                   <label className="text-sm" htmlFor="website">Website URL</label>
-                  <input type="text" id="website" className="border border-gray-300 rounded-md py-1 w-full px-2 hover:border-2 hover:border-blue-500" />
+                  <input type="text" id="website" className="border border-gray-300 rounded-md py-1 w-full px-2 hover:border-2 hover:border-blue-500" {...register("website", { required: "Website URL is required" })} />
+                  {errors.website && <span className="text-red-500 text-sm font-semibold flex gap-1 items-center">
+                    <OctagonMinus size={15} />
+                    {errors.website.message}
+                  </span>}
                 </div>
                 <div className="mt-10 flex justify-end">
                   <button type="submit" className="cursor-pointer bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors">Submit</button>
@@ -89,6 +148,20 @@ const Profile = () => {
             </div>
           </div>
         }
+        <div className="mt-15 rounded-lg p-5">
+          <h2 className="text-lg font-semibold">Profile Information</h2>
+          <div className="mt-3 flex gap-1">
+            <p>{profile.firstname}</p>
+            <p>{profile.lastname}</p>
+          </div>
+          <div className="mt-3 flex flex-col gap-2">
+            <p>{profile.country}</p>
+            <p>{profile.organization}</p>
+            <p>{profile.education}</p>
+            <p>{profile.industry}</p>
+          </div>
+        </div>
+
       </div>
 
 
