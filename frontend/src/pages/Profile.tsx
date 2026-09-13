@@ -74,7 +74,7 @@ const Profile = () => {
                 <div className="flex gap-5 justify-between items-center mx-auto mb-3">
                   <div className="flex flex-col">
                     <label className="text-sm" htmlFor="firstName">First name</label>
-                    <input type="text" id="firstName" className="border border-gray-300 rounded-md py-1 w-60 sm:w-70 md:w-80 lg:w-90 placeholder:text-sm px-2 hover:border-2 hover:border-blue-500" {...register("firstname", { required: "Firstname is require" })} />
+                    <input type="text" id="firstName" className="border border-gray-300 rounded-md py-1 w-60 sm:w-70 md:w-80 lg:w-90 placeholder:text-sm px-2 hover:border-2 hover:border-blue-500" {...register("firstname", { required: "Firstname is required" })} />
 
                     {errors.firstname && <span className="text-red-500 text-sm font-semibold flex gap-1 items-center">
                       <OctagonMinus size={15} />
