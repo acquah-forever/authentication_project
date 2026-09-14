@@ -4,6 +4,7 @@ import cors from "cors";
 import createHttpError, { isHttpError } from "http-errors"
 import router from "./routes/users"
 import jobs from "./routes/jobs"
+import profileRouter from "./routes/profile"
 import session from "express-session";
 import env from "./util/validateEnv";
 import MongoStore from "connect-mongo";
@@ -48,6 +49,7 @@ app.use(session({
 
 app.use("/api/users", router)
 app.use("/api/jobs", jobs)
+app.use("/api/profile", profileRouter)
 
 app.use((req, res, next) => {
   next(createHttpError(404, "Endpoint not found"))

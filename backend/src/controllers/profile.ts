@@ -1,5 +1,5 @@
 import Profile from '../models/profile'
-import createHttpError, { CreateHttpError } from 'http-errors'
+import createHttpError from 'http-errors'
 import { RequestHandler } from 'express'
 import mongoose from 'mongoose'
 
@@ -20,33 +20,61 @@ export const getProfile: RequestHandler = async (req, res, next) => {
     }
 }
 
-interface Update {
-    firstName?: string,
-    lastName?: string,
-    country?: string,
-    education?: string,
-    industry?: string,
-    phoneNumber?: number,
-    website?: string
-
+interface ProfileInput {
+    firstName: string,
+    lastName: string,
+    country: string,
+    education: string,
+    organization: string,
+    phoneNumber: string,
+    website: string
 }
+
+
+export const createProfile: RequestHandler<unknown, unknown, ProfileInput, unknown> = async (req, res, next) => {
+    try {
+        const userId = req.session.userId
+        if (!userId) {
+            throw createHttpError(401, "User not authenticated")
+        }
+
+        const existingProfile = await Profile.exists({ user: userId })
+        if (existingProfile) {
+            throw createHttpError(409, "Profile already exists")
+        }
+
+        const profile = await Profile.create({ ...req.body, user: userId })
+        res.status(201).json(profile)
+    }
+    catch (error) {
+        next(error)
+    }
+}
+
+interface Update extends Partial<ProfileInput> {}
+
 
 export const updateProfile: RequestHandler<{ id: string }, unknown, Update, unknown> = async (req, res, next) => {
     try {
-        const { firstName, lastName, country, education, industry, phoneNumber, website } = req.body
+        const userId = req.session.userId
+        if (!userId) {
+            throw createHttpError(401, "User not authenticated")
+        }
+
+        const { firstName, lastName, country, education, organization, phoneNumber, website } = req.body
 
         const profileId = req.params.id
 
         if (!mongoose.isValidObjectId(profileId)) {
-            throw createHttpError(401, "Invalid id")
+            throw createHttpError(400, "Invalid profile id")
         }
 
-        const updatedProfile = await Profile.findByIdAndUpdate(profileId, {
+        const updatedProfile = await Profile.findOneAndUpdate({ _id: profileId, user: userId }, {
             firstName,
             lastName,
             country,
             education,
-            industry,
+            organization,
             phoneNumber,
             website
 
