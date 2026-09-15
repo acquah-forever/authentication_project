@@ -5,11 +5,12 @@ import mongoose from 'mongoose'
 
 export const getProfile: RequestHandler = async (req, res, next) => {
     try {
-        const userId = req.session.userId
-        if (!userId) {
+        const authenticatedUser = req.session.userId
+
+        if (!authenticatedUser) {
             throw createHttpError(401, "User not authenticated")
         }
-        const userProfile = await Profile.findOne({ user: userId }).exec()
+        const userProfile = await Profile.findOne({ user: authenticatedUser }).exec()
         if (!userProfile) {
             throw createHttpError(404, "Profile not found")
         }
