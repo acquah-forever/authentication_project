@@ -80,7 +80,6 @@ export const updateProfile: RequestHandler<{ id: string }, unknown, Update, unkn
             organization,
             phoneNumber,
             website
-
         },
             {
                 new: true,
