@@ -1,11 +1,12 @@
 interface Profile {
-    firstname: string;
-    lastname: string;
+    _id: string;
+    firstName: string;
+    lastName: string;
     country: string;
     organization: string;
     education: string;
     industry: string;
-    phone: string;
+    phoneNumber: string;
     website: string;
 }
 
@@ -42,9 +43,9 @@ export async function createProfile(data: Profile): Promise<Profile> {
     return response.json() as Promise<Profile>;
 }
 
-export async function updateProfile(data: Profile): Promise<Profile> {
-    const response = await fetch("/api/profile", {
-        method: "PUT",
+export async function updateProfile(id:string, data: Profile): Promise<Profile> {
+    const response = await fetch(`/api/profile/${id}`, {
+        method: "PATCH",
         headers: {
             "Content-Type": "application/json",
         },

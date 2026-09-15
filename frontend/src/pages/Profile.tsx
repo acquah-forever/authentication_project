@@ -8,13 +8,13 @@ import { useProfile, useCreateProfile, useUpdateProfile } from "../authContext/u
 countries.registerLocale(en);
 
 interface FormData {
-  firstname: string;
-  lastname: string;
+  firstName: string;
+  lastName: string;
   country: string;
   organization: string;
   education: string;
   industry: string;
-  phone: string;
+  phoneNumber: string;
   website: string;
 }
 
@@ -46,7 +46,6 @@ const Profile = () => {
   }
 
   function onSubmit(data: FormData) {
-    console.log("SUBMIT DATA:", data);
     setSubmitError(null)
 
     if (profile) {
@@ -148,10 +147,10 @@ const Profile = () => {
                 </div>
                 <div className="flex flex-col mb-4">
                   <label className="text-sm" htmlFor="phone">Phone number</label>
-                  <input type="tel" id="phone" className="border border-gray-300 rounded-md py-1 w-full px-2 hover:border-2 hover:border-blue-500" {...register("phone", { required: "Phone number is required", pattern: { value: /^[+()\d\s-]{7,}$/, message: "Enter a valid phone number" } })} />
-                  {errors.phone && <span className="text-red-500 text-sm font-semibold flex gap-1 items-center">
+                  <input type="tel" id="phone" className="border border-gray-300 rounded-md py-1 w-full px-2 hover:border-2 hover:border-blue-500" {...register("phoneNumber", { required: "Phone number is required", pattern: { value: /^[+()\d\s-]{7,}$/, message: "Enter a valid phone number" } })} />
+                  {errors.phoneNumber && <span className="text-red-500 text-sm font-semibold flex gap-1 items-center">
                     <OctagonMinus size={15} />
-                    {errors.phone.message}
+                    {errors.phoneNumber.message}
                   </span>}
                 </div>
                 <div className="flex flex-col mb-4">
