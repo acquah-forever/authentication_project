@@ -25,8 +25,9 @@ interface ProfileInput {
     firstName: string,
     lastName: string,
     country: string,
-    education: string,
     organization: string,
+    education: string,
+    industry: string,
     phoneNumber: string,
     website: string
 }
@@ -64,7 +65,7 @@ export const updateProfile: RequestHandler<{ id: string }, unknown, Update, unkn
             throw createHttpError(401, "User not authenticated")
         }
 
-        const { firstName, lastName, country, education, organization, phoneNumber, website } = req.body
+        const { firstName, lastName, country, organization, education, industry, phoneNumber, website } = req.body
 
         const profileId = req.params.id
 
@@ -76,8 +77,9 @@ export const updateProfile: RequestHandler<{ id: string }, unknown, Update, unkn
             firstName,
             lastName,
             country,
-            education,
             organization,
+            education,
+            industry,
             phoneNumber,
             website
         },
