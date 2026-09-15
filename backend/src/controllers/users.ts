@@ -70,12 +70,12 @@ export const signup: RequestHandler<unknown, unknown, SignUp, unknown> = async (
             throw createHttpError(400, "Password is too long")
         }
 
-        const existingUserName = await users.findOne({ name: nameTrimmed }).exec()
+        const existingUserName = await users.exists({ name: nameTrimmed })
         if (existingUserName) {
             throw createHttpError(409, "Name Already Exists")
         }
 
-        const existingEmail = await users.findOne({ email: emailTrimmed }).exec()
+        const existingEmail = await users.exists({ email: emailTrimmed })
         if (existingEmail) {
             throw createHttpError(409, "Email Already Exists")
         }
