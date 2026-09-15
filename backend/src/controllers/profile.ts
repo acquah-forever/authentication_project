@@ -58,8 +58,9 @@ interface Update extends Partial<ProfileInput> {}
 
 export const updateProfile: RequestHandler<{ id: string }, unknown, Update, unknown> = async (req, res, next) => {
     try {
-        const userId = req.session.userId
-        if (!userId) {
+        const authenticatedUser = req.session.userId
+
+        if (!authenticatedUser) {
             throw createHttpError(401, "User not authenticated")
         }
 
@@ -71,7 +72,7 @@ export const updateProfile: RequestHandler<{ id: string }, unknown, Update, unkn
             throw createHttpError(400, "Invalid profile id")
         }
 
-        const updatedProfile = await Profile.findOneAndUpdate({ _id: profileId, user: userId }, {
+        const updatedProfile = await Profile.findOneAndUpdate({ _id: profileId, user: authenticatedUser }, {
             firstName,
             lastName,
             country,
