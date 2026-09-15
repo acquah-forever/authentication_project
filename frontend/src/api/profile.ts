@@ -9,10 +9,14 @@ interface Profile {
     website: string;
 }
 
-export async function getProfile(): Promise<Profile> {
+export async function getProfile(): Promise<Profile | null> {
     const response = await fetch("/api/profile", {
         credentials: "include",
     });
+
+    if (response.status === 404) {
+        return null;
+    }
 
     if (!response.ok) {
         throw new Error("Failed to fetch profile");

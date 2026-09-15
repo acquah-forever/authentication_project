@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router-dom";
 import { CircleAlert } from "lucide-react";
@@ -13,17 +14,25 @@ interface FormBody {
 
 const SignUp = () => {
   const { handleSubmit, register, formState: { errors } } = useForm<FormBody>()
-
   const navigate = useNavigate()
-
   const { mutate, isPending, isError, error } = useSignup();
+  const [submitError, setSubmitError] = useState<string | null>(null)
+
 
   function onsubmit(data: FormBody) {
-    mutate(data, {
-      onSuccess: () => {
-        navigate("/");
-      },
-    });
+    setSubmitError(null)
+    try {
+      mutate(data, {
+        onSuccess: () => {
+          navigate("/");
+        },
+      });
+    }
+    catch {
+      setSubmitError("We couldn't sign you up. Try again later")
+
+    }
+
   }
 
   return (
@@ -64,6 +73,7 @@ const SignUp = () => {
             {errors.password && <span className="text-red-500 text-sm font-semibold flex items-center mt-2">
               <CircleAlert className="mr-1" size={15} />
               {errors.password.message}</span>}
+            {submitError && <p className="mt-3 text-sm font-semibold text-red-500" role="alert">{submitError}</p>}
             <button className="cursor-pointer mt-6 w-full rounded-lg bg-blue-600 px-4 py-3 font-semibold text-white transitionhover:bg-blue-700 active:scale-[0.99]" type="submit" disabled={isPending}>{isPending ? "Creating account" : "Sign up"}</button>
             <p className="mt-6 text-center text-sm text-gray-600">
               Already have an account?{" "}
