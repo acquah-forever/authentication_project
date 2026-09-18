@@ -87,6 +87,14 @@ export const updateProfile: RequestHandler<{ id: string }, unknown, Update, unkn
 
         const { firstName, lastName, country, organization, education, industry, phoneNumber, website } = req.body
 
+        if (typeof firstName !== "string" || typeof lastName !== "string" || typeof organization !== "string" || typeof education !== "string" || industry !== "string" || typeof website !== "string") {
+            throw createHttpError(400, "Invalid Parameters")
+        }
+
+        if (typeof phoneNumber !== "number") {
+            throw createHttpError(400, "Invalid Parameter")
+        }
+
         const profileId = req.params.id
 
         if (!mongoose.isValidObjectId(profileId)) {
