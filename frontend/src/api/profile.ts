@@ -1,5 +1,6 @@
+const API_URL = import.meta.env.VITE_API_URL;
+
 interface Profile {
-    _id: string;
     firstName: string;
     lastName: string;
     country: string;
@@ -11,7 +12,7 @@ interface Profile {
 }
 
 export async function getProfile(): Promise<Profile | null> {
-    const response = await fetch("/api/profile", {
+    const response = await fetch(`${API_URL}/profile`, {
         credentials: "include",
     });
 
@@ -23,11 +24,11 @@ export async function getProfile(): Promise<Profile | null> {
         throw new Error("Failed to fetch profile");
     }
 
-    return response.json() as Promise<Profile>;
+    return response.json();
 }
 
 export async function createProfile(data: Profile): Promise<Profile> {
-    const response = await fetch("/api/profile", {
+    const response = await fetch(`${API_URL}/profile`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -40,11 +41,11 @@ export async function createProfile(data: Profile): Promise<Profile> {
         throw new Error("Failed to create profile");
     }
 
-    return response.json() as Promise<Profile>;
+    return response.json();
 }
 
-export async function updateProfile(id:string, data: Profile): Promise<Profile> {
-    const response = await fetch(`/api/profile/${id}`, {
+export async function updateProfile(id: string,data: Profile): Promise<Profile> {
+    const response = await fetch(`${API_URL}/profile/${id}`, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",
@@ -57,5 +58,5 @@ export async function updateProfile(id:string, data: Profile): Promise<Profile> 
         throw new Error("Failed to update profile");
     }
 
-    return response.json() as Promise<Profile>;
+    return response.json();
 }
