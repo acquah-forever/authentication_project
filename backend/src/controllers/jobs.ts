@@ -14,9 +14,8 @@ export const getJobs: RequestHandler = async (req, res, next) => {
 }
 
 export const getJobById: RequestHandler = async (req, res, next) => {
-    const jobId = req.params.jobId
     try {
-
+        const jobId = req.params.jobId
         if (!mongoose.isValidObjectId(jobId)) {
             throw createHttpError(400, "Invalid Job Id")
         }

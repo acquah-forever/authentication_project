@@ -41,12 +41,32 @@ export const createProfile: RequestHandler<unknown, unknown, ProfileInput, unkno
             throw createHttpError(401, "User not authenticated")
         }
 
+        const { firstName, lastName, country, organization, education, industry, phoneNumber, website } = req.body
+
+        if (typeof firstName !== "string" || typeof lastName !== "string" || typeof organization !== "string" || typeof education !== "string" || industry !== "string" || typeof website !== "string") {
+            throw createHttpError(400, "Invalid Parameters")
+        }
+
+        if (typeof phoneNumber !== "number") {
+            throw createHttpError(400, "Invalid Parameter")
+        }
+
         const existingProfile = await Profile.exists({ user: authenticatedUser })
         if (existingProfile) {
             throw createHttpError(409, "Profile already exists")
         }
 
-        const profile = await Profile.create({ ...req.body, user: authenticatedUser })
+        const profile = await Profile.create({
+            firstName,
+            lastName,
+            country,
+            organization,
+            education,
+            industry,
+            phoneNumber,
+            website,
+            user: authenticatedUser
+        })
         res.status(201).json(profile)
     }
     catch (error) {
@@ -54,7 +74,7 @@ export const createProfile: RequestHandler<unknown, unknown, ProfileInput, unkno
     }
 }
 
-interface Update extends Partial<ProfileInput> {}
+interface Update extends Partial<ProfileInput> { }
 
 
 export const updateProfile: RequestHandler<{ id: string }, unknown, Update, unknown> = async (req, res, next) => {
