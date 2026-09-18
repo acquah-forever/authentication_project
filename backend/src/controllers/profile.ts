@@ -56,7 +56,7 @@ export const createProfile: RequestHandler<unknown, unknown, ProfileInput, unkno
             throw createHttpError(409, "Profile already exists")
         }
 
-        const profile = await Profile.create({
+        const newProfile = await Profile.create({
             firstName,
             lastName,
             country,
@@ -67,7 +67,7 @@ export const createProfile: RequestHandler<unknown, unknown, ProfileInput, unkno
             website,
             user: authenticatedUser
         })
-        res.status(201).json(profile)
+        res.status(201).json(newProfile)
     }
     catch (error) {
         next(error)
