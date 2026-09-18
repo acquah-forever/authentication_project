@@ -1,3 +1,4 @@
+const API_URL = import.meta.env.VITE_API_URL;
 
 export interface User {
     name: string;
@@ -21,14 +22,18 @@ interface ApiError {
 
 async function handleResponse<T>(response: Response): Promise<T> {
     const data = await response.json();
+
     if (!response.ok) {
-        throw new Error((data as ApiError).error || "Something went wrong");
+        throw new Error(
+            (data as ApiError).error || "Something went wrong"
+        );
     }
+
     return data;
 }
 
 export async function getAuthenticatedUser(): Promise<User> {
-    const response = await fetch("/api/users", {
+    const response = await fetch(`${API_URL}/users`, {
         credentials: "include",
     });
 
@@ -36,7 +41,7 @@ export async function getAuthenticatedUser(): Promise<User> {
 }
 
 export async function signupUser(data: SignupData): Promise<User> {
-    const response = await fetch("/api/users/signup", {
+    const response = await fetch(`${API_URL}/users/signup`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -44,11 +49,12 @@ export async function signupUser(data: SignupData): Promise<User> {
         credentials: "include",
         body: JSON.stringify(data),
     });
+
     return handleResponse<User>(response);
 }
 
 export async function loginUser(data: LoginData): Promise<User> {
-    const response = await fetch("/api/users/login", {
+    const response = await fetch(`${API_URL}/users/login`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -56,13 +62,15 @@ export async function loginUser(data: LoginData): Promise<User> {
         credentials: "include",
         body: JSON.stringify(data),
     });
+
     return handleResponse<User>(response);
 }
 
 export async function logoutUser(): Promise<{ message: string }> {
-    const response = await fetch("/api/users/logout", {
+    const response = await fetch(`${API_URL}/users/logout`, {
         method: "POST",
         credentials: "include",
     });
+
     return handleResponse<{ message: string }>(response);
 }

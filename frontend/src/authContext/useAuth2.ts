@@ -24,7 +24,7 @@ export function useUpdateProfile() {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: (data: Parameters<typeof updateProfile>[0]) => updateProfile(data),
+        mutationFn: ({id, data}:{id:string, data: Parameters<typeof updateProfile>[1]}) => updateProfile(id, data),
         onSuccess: (updatedProfile) => {
             queryClient.setQueryData(["profile"], updatedProfile);
         },

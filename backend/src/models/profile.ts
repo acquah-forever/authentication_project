@@ -7,6 +7,7 @@ const profileSchema = new Schema({
     country: {type: String, required: true, trim: true},
     organization: {type: String, required: true, trim:true},
     education: {type: String, required: true, trim:true},
+    industry: {type: String, required: false, trim:true},
     phoneNumber: {type: String, required: true, trim: true, match: [/^\+?[1-9]\d{6,14}$/, "Please provide a valid phone number"]},
     website: {type:String, required:true, trim:true}
 }, {

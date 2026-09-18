@@ -25,8 +25,9 @@ interface ProfileInput {
     firstName: string,
     lastName: string,
     country: string,
-    education: string,
     organization: string,
+    education: string,
+    industry: string,
     phoneNumber: string,
     website: string
 }
@@ -40,20 +41,40 @@ export const createProfile: RequestHandler<unknown, unknown, ProfileInput, unkno
             throw createHttpError(401, "User not authenticated")
         }
 
+        const { firstName, lastName, country, organization, education, industry, phoneNumber, website } = req.body
+
+        if (typeof firstName !== "string" || typeof lastName !== "string" || typeof organization !== "string" || typeof education !== "string" || industry !== "string" || typeof website !== "string") {
+            throw createHttpError(400, "Invalid Parameters")
+        }
+
+        if (typeof phoneNumber !== "number") {
+            throw createHttpError(400, "Invalid Parameter")
+        }
+
         const existingProfile = await Profile.exists({ user: authenticatedUser })
         if (existingProfile) {
             throw createHttpError(409, "Profile already exists")
         }
 
-        const profile = await Profile.create({ ...req.body, user: authenticatedUser })
-        res.status(201).json(profile)
+        const newProfile = await Profile.create({
+            firstName,
+            lastName,
+            country,
+            organization,
+            education,
+            industry,
+            phoneNumber,
+            website,
+            user: authenticatedUser
+        })
+        res.status(201).json(newProfile)
     }
     catch (error) {
         next(error)
     }
 }
 
-interface Update extends Partial<ProfileInput> {}
+interface Update extends Partial<ProfileInput> { }
 
 
 export const updateProfile: RequestHandler<{ id: string }, unknown, Update, unknown> = async (req, res, next) => {
@@ -64,7 +85,15 @@ export const updateProfile: RequestHandler<{ id: string }, unknown, Update, unkn
             throw createHttpError(401, "User not authenticated")
         }
 
-        const { firstName, lastName, country, education, organization, phoneNumber, website } = req.body
+        const { firstName, lastName, country, organization, education, industry, phoneNumber, website } = req.body
+
+        if (typeof firstName !== "string" || typeof lastName !== "string" || typeof organization !== "string" || typeof education !== "string" || industry !== "string" || typeof website !== "string") {
+            throw createHttpError(400, "Invalid Parameters")
+        }
+
+        if (typeof phoneNumber !== "number") {
+            throw createHttpError(400, "Invalid Parameter")
+        }
 
         const profileId = req.params.id
 
@@ -76,8 +105,9 @@ export const updateProfile: RequestHandler<{ id: string }, unknown, Update, unkn
             firstName,
             lastName,
             country,
-            education,
             organization,
+            education,
+            industry,
             phoneNumber,
             website
         },
