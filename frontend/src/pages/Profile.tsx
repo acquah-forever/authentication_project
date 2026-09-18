@@ -93,20 +93,20 @@ const Profile = () => {
                 <div className="mx-auto mb-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-5">
                   <div className="flex flex-col">
                     <label className="text-sm" htmlFor="firstName">First name</label>
-                    <input type="text" id="firstName" className="border border-gray-300 rounded-md py-1 w-60 sm:w-70 md:w-80 lg:w-90 placeholder:text-sm px-2 hover:border-2 hover:border-blue-500" {...register("firstname", { required: "Firstname is required" })} />
+                    <input type="text" id="firstName" className="border border-gray-300 rounded-md py-1 w-60 sm:w-70 md:w-80 lg:w-90 placeholder:text-sm px-2 hover:border-2 hover:border-blue-500" {...register("firstName", { required: "Firstname is required" })} />
 
-                    {errors.firstname && <span className="text-red-500 text-sm font-semibold flex gap-1 items-center">
+                    {errors.firstName && <span className="text-red-500 text-sm font-semibold flex gap-1 items-center">
                       <OctagonMinus size={15} />
-                      {errors.firstname.message}
+                      {errors.firstName.message}
                     </span>
                     }
                   </div>
                   <div className="flex flex-col">
                     <label className="text-sm" htmlFor="lastName">Lastname</label>
-                    <input type="text" id="lastName" className="border border-gray-300 rounded-md py-1 w-60 sm:w-70 md:w-80 lg:w-90 placeholder:text-sm px-2 hover:border-2 hover:border-blue-500"{...register("lastname", { required: "Lastname is required" })} />
-                    {errors.lastname && <span className="text-red-500 text-sm font-semibold flex gap-1 items-center">
+                    <input type="text" id="lastName" className="border border-gray-300 rounded-md py-1 w-60 sm:w-70 md:w-80 lg:w-90 placeholder:text-sm px-2 hover:border-2 hover:border-blue-500"{...register("lastName", { required: "Lastname is required" })} />
+                    {errors.lastName && <span className="text-red-500 text-sm font-semibold flex gap-1 items-center">
                       <OctagonMinus size={15} />
-                      {errors.lastname.message}
+                      {errors.lastName.message}
                     </span>
                     }
                   </div>
@@ -176,7 +176,7 @@ const Profile = () => {
           {profile && <>
             <div className="mt-3 flex gap-1">
               <p className="font-semibold">Name:</p>
-              <p>{profile.firstname} {profile.lastname}</p>
+              <p>{profile.firstName} {profile.lastName}</p>
             </div>
             <div className="mt-3 flex flex-col gap-2">
               <p className="font-semibold">Country:</p>
