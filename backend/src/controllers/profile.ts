@@ -87,11 +87,35 @@ export const updateProfile: RequestHandler<{ id: string }, unknown, Update, unkn
 
         const { firstName, lastName, country, organization, education, industry, phoneNumber, website } = req.body
 
-        if (typeof firstName !== "string" || typeof lastName !== "string" || typeof organization !== "string" || typeof education !== "string" || industry !== "string" || typeof website !== "string") {
-            throw createHttpError(400, "Invalid Parameters")
+        if (firstName !== undefined && typeof firstName !== "string") {
+            throw createHttpError(400, "Invalid Parameter")
         }
 
-        if (typeof phoneNumber !== "number") {
+        if (lastName !== undefined && typeof lastName !== "string") {
+            throw createHttpError(400, "Invalid Parameter")
+        }
+
+        if (country !== undefined && typeof country !== "string") {
+            throw createHttpError(400, "Invalid Parameter")
+        }
+
+        if (organization !== undefined && typeof organization !== "string") {
+            throw createHttpError(400, "Invalid Parameter")
+        }
+
+        if (education !== undefined && typeof education !== "string") {
+            throw createHttpError(400, "Invalid Parameter")
+        }
+
+        if (industry !== undefined && typeof industry !== "string") {
+            throw createHttpError(400, "Invalid Parameter")
+        }
+
+        if (website !== undefined && typeof website !== "string") {
+            throw createHttpError(400, "Invalid Parameter")
+        }
+
+        if (phoneNumber !== undefined && typeof phoneNumber !== "string") {
             throw createHttpError(400, "Invalid Parameter")
         }
 
