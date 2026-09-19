@@ -24,7 +24,7 @@ export async function getProfile(): Promise<Profile | null> {
         throw new Error("Failed to fetch profile");
     }
 
-    return response.json();
+    return response.json() as Promise<Profile | null>;
 }
 
 export async function createProfile(data: Profile): Promise<Profile> {
@@ -41,7 +41,7 @@ export async function createProfile(data: Profile): Promise<Profile> {
         throw new Error("Failed to create profile");
     }
 
-    return response.json();
+    return response.json() as Promise<Profile>;
 }
 
 export async function updateProfile(id: string,data: Profile): Promise<Profile> {
@@ -58,5 +58,5 @@ export async function updateProfile(id: string,data: Profile): Promise<Profile> 
         throw new Error("Failed to update profile");
     }
 
-    return response.json();
+    return response.json() as Promise<Profile>;
 }
