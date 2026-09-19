@@ -34,7 +34,6 @@ const Profile = () => {
   });
 
 
-  /** Toggle the requested profile section's edit dialog. */
   function handleEdit(index: number) {
     if (edit === index) {
       setEdit(null)
@@ -75,7 +74,7 @@ const Profile = () => {
         <div className="relative flex flex-col">
           <img className='w-full h-60 rounded-2xl object-cover object-center' src={"https://cdn.pixabay.com/photo/2019/11/30/18/18/course-4663835_1280.jpg"} alt="background-image" />
           <div className="absolute top-40 left-5 rounded-full bg-gray-300 w-40 h-40"></div>
-          <button type="button" aria-label="Pencil-Edit" onClick={() => handleEdit(1)} disabled={isLoading}>
+          <button className="absolute top-65 right-5" type="button" aria-label="Pencil-Edit" onClick={() => handleEdit(1)} disabled={isLoading}>
             <Pencil className="cursor-pointer" size={25} />
           </button>
         </div>
@@ -90,10 +89,10 @@ const Profile = () => {
                 </button>
               </div>
               <form className="mx-0 max-h-[calc(100vh-4rem)] overflow-y-auto px-5 py-3 sm:mx-7" onSubmit={handleSubmit(onSubmit)}>
-                <div className="mx-auto mb-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-5">
+                <div className="mx-auto mb-3 flex gap-2 sm:justify-between">
                   <div className="flex flex-col">
                     <label className="text-sm" htmlFor="firstName">First name</label>
-                    <input type="text" id="firstName" className="border border-gray-300 rounded-md py-1 w-60 sm:w-70 md:w-80 lg:w-90 placeholder:text-sm px-2 hover:border-2 hover:border-blue-500" {...register("firstName", { required: "Firstname is required" })} />
+                    <input type="text" id="firstName" className="border border-gray-300 rounded-md py-1 w-54 sm:w-70 md:w-80 lg:w-90 placeholder:text-sm px-2 hover:border-2 hover:border-blue-500" {...register("firstName", { required: "Firstname is required" })} />
 
                     {errors.firstName && <span className="text-red-500 text-sm font-semibold flex gap-1 items-center">
                       <OctagonMinus size={15} />
@@ -103,7 +102,7 @@ const Profile = () => {
                   </div>
                   <div className="flex flex-col">
                     <label className="text-sm" htmlFor="lastName">Lastname</label>
-                    <input type="text" id="lastName" className="border border-gray-300 rounded-md py-1 w-60 sm:w-70 md:w-80 lg:w-90 placeholder:text-sm px-2 hover:border-2 hover:border-blue-500"{...register("lastName", { required: "Lastname is required" })} />
+                    <input type="text" id="lastName" className="border border-gray-300 rounded-md py-1 w-47 sm:w-60 md:w-80 lg:w-90 placeholder:text-sm px-2 hover:border-2 hover:border-blue-500"{...register("lastName", { required: "Lastname is required" })} />
                     {errors.lastName && <span className="text-red-500 text-sm font-semibold flex gap-1 items-center">
                       <OctagonMinus size={15} />
                       {errors.lastName.message}
