@@ -138,7 +138,7 @@ const Jobs = () => {
         <form className="flex items-center gap-2 border border-white max-w-xl w-full px-4 py-1 rounded-2xl"  >
           <Search size={20} />
           <input className="w-full outline-none" type="text" placeholder="Describe the job you want..." {...register("text")} />
-          <button className="cursor-pointer" type="button" onClick={() => reset({ text: "" })}>
+          <button className="cursor-pointer" type="button" aria-label="Delete Text" onClick={() => reset({ text: "" })}>
             <X size={17} />
           </button>
         </form >
@@ -174,7 +174,7 @@ const Jobs = () => {
                   </label>
                   <div className='border w-full border-slate-500/50'></div>
                   <div className='flex  justify-end gap-3'>
-                    <button type="button" onClick={() => { setEmploymentType(""); setOpen(null); }}>Reset</button>
+                    <button type="button" className="cursor-pointer" onClick={() => { setEmploymentType(""); setOpen(null); }}>Reset</button>
                     <button type="button" className='cursor-pointer border-2 text-white border-black bg-linear-to-br from-sky-300 to-sky-700 text-md px-4 py-2 rounded-full' onClick={() => setOpen(null)}>Show Results</button>
                   </div>
                 </div>
@@ -211,7 +211,7 @@ const Jobs = () => {
                   </label>
                   <div className='border w-full border-slate-500/50'></div>
                   <div className='flex  justify-end gap-3'>
-                    <button type="button" onClick={() => { setExperienceLevel(""); setOpen(null); }}>Reset</button>
+                    <button type="button" className="cursor-pointer" onClick={() => { setExperienceLevel(""); setOpen(null); }}>Reset</button>
                     <button type="button" className='cursor-pointer border-2 text-white border-black bg-linear-to-br from-sky-300 to-sky-700 text-md px-4 py-2 rounded-full' onClick={() => setOpen(null)}>Show Results</button>
                   </div>
                 </div>

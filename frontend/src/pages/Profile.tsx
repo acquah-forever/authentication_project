@@ -34,14 +34,18 @@ const Profile = () => {
   });
 
 
-  /** Toggle the requested profile section's edit dialog. */
   function handleEdit(index: number) {
     if (edit === index) {
       setEdit(null)
       return
     }
-    reset()
     setSubmitError(null)
+
+    if (profile) {
+      reset(profile)
+    } else {
+      reset()
+    }
     setEdit(index)
   }
 
@@ -49,14 +53,20 @@ const Profile = () => {
     setSubmitError(null)
 
     if (profile) {
-      updateProfile(data, {
-        onSuccess: () => {
-          setEdit(null)
+      updateProfile(
+        {
+          id: profile._id,
+          data,
         },
-        onError: () => {
-          setSubmitError("We couldn't update your profile. Try again later")
-        },
-      })
+        {
+          onSuccess: () => {
+            setEdit(null)
+          },
+          onError: () => {
+            setSubmitError("We couldn't update your profile. Try again later")
+          },
+        }
+      )
     } else {
       createProfile(data, {
         onSuccess: () => {
@@ -67,7 +77,9 @@ const Profile = () => {
         },
       })
     }
+
   }
+
 
   return (
     <div className="flex flex-col justify-center px-4 py-5 sm:px-8 lg:px-20" id="profile">
@@ -75,7 +87,7 @@ const Profile = () => {
         <div className="relative flex flex-col">
           <img className='w-full h-60 rounded-2xl object-cover object-center' src={"https://cdn.pixabay.com/photo/2019/11/30/18/18/course-4663835_1280.jpg"} alt="background-image" />
           <div className="absolute top-40 left-5 rounded-full bg-gray-300 w-40 h-40"></div>
-          <button type="button" aria-label="Pencil-Edit" onClick={() => handleEdit(1)} disabled={isLoading}>
+          <button className="absolute top-65 right-5" type="button" aria-label="Pencil-Edit" onClick={() => handleEdit(1)} disabled={isLoading}>
             <Pencil className="cursor-pointer" size={25} />
           </button>
         </div>
@@ -90,27 +102,30 @@ const Profile = () => {
                 </button>
               </div>
               <form className="mx-0 max-h-[calc(100vh-4rem)] overflow-y-auto px-5 py-3 sm:mx-7" onSubmit={handleSubmit(onSubmit)}>
-                <div className="mx-auto mb-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-5">
+                <div className="mx-auto mb-3 flex gap-2 sm:justify-between">
                   <div className="flex flex-col">
                     <label className="text-sm" htmlFor="firstName">First name</label>
-                    <input type="text" id="firstName" className="border border-gray-300 rounded-md py-1 w-60 sm:w-70 md:w-80 lg:w-90 placeholder:text-sm px-2 hover:border-2 hover:border-blue-500" {...register("firstname", { required: "Firstname is required" })} />
+                    <input type="text" id="firstName" className="border border-gray-300 rounded-md py-1 w-54 sm:w-70 md:w-80 lg:w-90 placeholder:text-sm px-2 hover:border-2 hover:border-blue-500" {...register("firstName", { required: "Firstname is required" })} />
 
-                    {errors.firstname && <span className="text-red-500 text-sm font-semibold flex gap-1 items-center">
+                    {errors.firstName && <span className="text-red-500 text-sm font-semibold flex gap-1 items-center">
                       <OctagonMinus size={15} />
-                      {errors.firstname.message}
+                      {errors.firstName.message}
                     </span>
                     }
                   </div>
+
                   <div className="flex flex-col">
                     <label className="text-sm" htmlFor="lastName">Lastname</label>
-                    <input type="text" id="lastName" className="border border-gray-300 rounded-md py-1 w-60 sm:w-70 md:w-80 lg:w-90 placeholder:text-sm px-2 hover:border-2 hover:border-blue-500"{...register("lastname", { required: "Lastname is required" })} />
-                    {errors.lastname && <span className="text-red-500 text-sm font-semibold flex gap-1 items-center">
+                    <input type="text" id="lastName" className="border border-gray-300 rounded-md py-1 w-47 sm:w-60 md:w-80 lg:w-90 placeholder:text-sm px-2 hover:border-2 hover:border-blue-500"{...register("lastName", { required: "Lastname is required" })} />
+
+                    {errors.lastName && <span className="text-red-500 text-sm font-semibold flex gap-1 items-center">
                       <OctagonMinus size={15} />
-                      {errors.lastname.message}
+                      {errors.lastName.message}
                     </span>
                     }
                   </div>
                 </div>
+
                 <div className="relative flex flex-col mb-4">
                   <label className="text-sm" htmlFor="country">Country/Region</label>
                   <select id="country" className="w-full rounded-md border border-gray-300 p-2" {...register("country", { required: "Country is required" })}>
@@ -121,6 +136,7 @@ const Profile = () => {
                   </select>
                   {errors.country && <span className="flex items-center gap-1 text-sm font-semibold text-red-500"><OctagonMinus size={15} />{errors.country.message}</span>}
                 </div>
+
                 <div className="flex flex-col mb-4">
                   <label className="text-sm" htmlFor="organization">Organization</label>
                   <input type="text" id="organization" className="border border-gray-300 rounded-md py-1 w-full px-2 hover:border-2 hover:border-blue-500"{...register("organization", { required: "Organization is required" })} />
@@ -172,11 +188,11 @@ const Profile = () => {
         <div className="mt-15 rounded-lg p-5">
           <h2 className="text-lg font-semibold">Profile Information</h2>
           {isLoading && <p className="mt-3 text-white">Loading profile…</p>}
-          {!isLoading && !isError && !profile && <p className="mt-3 text-gray-600">No profile information yet. Select the edit button to add it.</p>}
+          {!isLoading && !profile && <p className="mt-3 text-white">No profile information yet. Click the edit button above to add it.</p>}
           {profile && <>
             <div className="mt-3 flex gap-1">
               <p className="font-semibold">Name:</p>
-              <p>{profile.firstname} {profile.lastname}</p>
+              <p>{profile.firstName} {profile.lastName}</p>
             </div>
             <div className="mt-3 flex flex-col gap-2">
               <p className="font-semibold">Country:</p>
@@ -187,6 +203,10 @@ const Profile = () => {
               <p>{profile.education}</p>
               <p className="font-semibold">Industry:</p>
               <p>{profile.industry}</p>
+              <p>{profile.phoneNumber}</p>
+              <p>{profile.website}</p>
+
+
             </div>
           </>}
         </div>
