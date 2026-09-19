@@ -39,8 +39,13 @@ const Profile = () => {
       setEdit(null)
       return
     }
-    reset()
     setSubmitError(null)
+
+    if (profile) {
+      reset(profile)
+    } else {
+      reset()
+    }
     setEdit(index)
   }
 
@@ -48,14 +53,20 @@ const Profile = () => {
     setSubmitError(null)
 
     if (profile) {
-      updateProfile(data, {
-        onSuccess: () => {
-          setEdit(null)
+      updateProfile(
+        {
+          id: profile._id,
+          data,
         },
-        onError: () => {
-          setSubmitError("We couldn't update your profile. Try again later")
-        },
-      })
+        {
+          onSuccess: () => {
+            setEdit(null)
+          },
+          onError: () => {
+            setSubmitError("We couldn't update your profile. Try again later")
+          },
+        }
+      )
     } else {
       createProfile(data, {
         onSuccess: () => {
@@ -66,7 +77,9 @@ const Profile = () => {
         },
       })
     }
+
   }
+
 
   return (
     <div className="flex flex-col justify-center px-4 py-5 sm:px-8 lg:px-20" id="profile">
@@ -100,9 +113,11 @@ const Profile = () => {
                     </span>
                     }
                   </div>
+
                   <div className="flex flex-col">
                     <label className="text-sm" htmlFor="lastName">Lastname</label>
                     <input type="text" id="lastName" className="border border-gray-300 rounded-md py-1 w-47 sm:w-60 md:w-80 lg:w-90 placeholder:text-sm px-2 hover:border-2 hover:border-blue-500"{...register("lastName", { required: "Lastname is required" })} />
+
                     {errors.lastName && <span className="text-red-500 text-sm font-semibold flex gap-1 items-center">
                       <OctagonMinus size={15} />
                       {errors.lastName.message}
@@ -110,6 +125,7 @@ const Profile = () => {
                     }
                   </div>
                 </div>
+
                 <div className="relative flex flex-col mb-4">
                   <label className="text-sm" htmlFor="country">Country/Region</label>
                   <select id="country" className="w-full rounded-md border border-gray-300 p-2" {...register("country", { required: "Country is required" })}>
@@ -120,6 +136,7 @@ const Profile = () => {
                   </select>
                   {errors.country && <span className="flex items-center gap-1 text-sm font-semibold text-red-500"><OctagonMinus size={15} />{errors.country.message}</span>}
                 </div>
+
                 <div className="flex flex-col mb-4">
                   <label className="text-sm" htmlFor="organization">Organization</label>
                   <input type="text" id="organization" className="border border-gray-300 rounded-md py-1 w-full px-2 hover:border-2 hover:border-blue-500"{...register("organization", { required: "Organization is required" })} />
@@ -171,7 +188,7 @@ const Profile = () => {
         <div className="mt-15 rounded-lg p-5">
           <h2 className="text-lg font-semibold">Profile Information</h2>
           {isLoading && <p className="mt-3 text-white">Loading profile…</p>}
-          {!isLoading && !isError && !profile && <p className="mt-3 text-gray-600">No profile information yet. Select the edit button to add it.</p>}
+          {!isLoading && !profile && <p className="mt-3 text-white">No profile information yet. Click the edit button above to add it.</p>}
           {profile && <>
             <div className="mt-3 flex gap-1">
               <p className="font-semibold">Name:</p>
@@ -186,6 +203,10 @@ const Profile = () => {
               <p>{profile.education}</p>
               <p className="font-semibold">Industry:</p>
               <p>{profile.industry}</p>
+              <p>{profile.phoneNumber}</p>
+              <p>{profile.website}</p>
+
+
             </div>
           </>}
         </div>
