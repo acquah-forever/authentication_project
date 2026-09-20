@@ -1,4 +1,4 @@
-import { getProfile, createProfile, updateProfile } from "../api/profile"; 
+import { getProfile, createProfile, updateProfile, type ProfileInput } from "../api/profile"; 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export function useProfile() {
@@ -13,7 +13,7 @@ export function useCreateProfile() {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: (data: Parameters<typeof createProfile>[0]) => createProfile(data),
+        mutationFn: (data: ProfileInput) => createProfile(data),
         onSuccess: (newProfile) => {
             queryClient.setQueryData(["profile"], newProfile);
         },
@@ -24,7 +24,7 @@ export function useUpdateProfile() {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: ({id, data}:{id:string, data: Parameters<typeof updateProfile>[1]}) => updateProfile(id, data),
+        mutationFn: ({id, data}:{id:string, data: ProfileInput}) => updateProfile(id, data),
         onSuccess: (updatedProfile) => {
             queryClient.setQueryData(["profile"], updatedProfile);
         },

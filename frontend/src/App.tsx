@@ -4,7 +4,7 @@ import SignUp from "./pages/SignUp"
 import Login from "./pages/LogIn"
 import Profile from "./pages/Profile"
 import Jobs from "./pages/Jobs"
-import Footer from "./components/Footer"
+
 
 
 import { Routes, Route } from "react-router-dom"
@@ -25,7 +25,6 @@ const App = () => {
             <Route path="/jobs" element={<Jobs />}/>
           </Routes>
         </main>
-        <Footer />
       </div>
     </div>
   )

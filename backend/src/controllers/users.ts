@@ -18,7 +18,7 @@ export const getAuthenticatedUser: RequestHandler = async (req, res, next) => {
         if (!authenticatedUser) {
             throw createHttpError(401, "User not authenticated")
         }
-        const user = await users.findById({user:authenticatedUser}).select("+email").exec()
+        const user = await users.findById(authenticatedUser).select("+email").exec()
         if (!user) {
             throw createHttpError(404, "User not found")
         }
