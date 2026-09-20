@@ -7,6 +7,7 @@ import jobsRouter from "./routes/jobs"
 import profileRouter from "./routes/profile"
 import session from "express-session";
 import env from "./util/validateEnv";
+import mongoose from "mongoose";
 import MongoStore from "connect-mongo";
 
 
@@ -57,16 +58,23 @@ app.use((req, res, next) => {
 })
 
 app.use((error: unknown, req: Request, res: Response, next: NextFunction) => {
-
-  let statusCode = 500;
-  let errorMessage = "An unknown error occurred";
+  console.error(error);
 
   if (isHttpError(error)) {
-    statusCode = error.status;
-    errorMessage = error.message;
+    return res.status(error.status).json({
+      error: error.message,
+    });
   }
 
-  res.status(statusCode).json({ error: errorMessage });
+  if (error instanceof mongoose.Error.ValidationError) {
+    return res.status(400).json({
+      error: error.message,
+    });
+  }
+
+  return res.status(500).json({
+    error: "Internal server error",
+  });
 });
 
 export default app
