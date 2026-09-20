@@ -4,6 +4,8 @@ import countries from "i18n-iso-countries";
 import en from "i18n-iso-countries/langs/en.json";
 import { Pencil, X, OctagonMinus } from "lucide-react"
 import { useProfile, useCreateProfile, useUpdateProfile } from "../authContext/useAuth2";
+import { ClipLoader } from "react-spinners";
+
 
 countries.registerLocale(en);
 
@@ -23,7 +25,7 @@ const Profile = () => {
   const { register, handleSubmit, reset, formState: { errors } } = useForm<FormData>()
   const [edit, setEdit] = useState<null | number>(null)
   const [submitError, setSubmitError] = useState<string | null>(null)
-  const { data: profile, isLoading, isError } = useProfile()
+  const { data: profile, isLoading } = useProfile()
   const { mutate: createProfile, isPending: isCreating } = useCreateProfile()
   const { mutate: updateProfile, isPending: isUpdating } = useUpdateProfile()
   const isSaving = isCreating || isUpdating
@@ -79,6 +81,8 @@ const Profile = () => {
     }
 
   }
+
+
 
 
   return (
@@ -186,27 +190,16 @@ const Profile = () => {
           </div>
         }
         <div className="mt-15 rounded-lg p-5">
-          <h2 className="text-lg font-semibold">Profile Information</h2>
-          {isLoading && <p className="mt-3 text-white">Loading profile…</p>}
+          {isLoading && <div className="flex justify-center items-center"><ClipLoader size={70} color="#123abc" /></div>}
           {!isLoading && !profile && <p className="mt-3 text-white">No profile information yet. Click the edit button above to add it.</p>}
           {profile && <>
             <div className="mt-3 flex gap-1">
-              <p className="font-semibold">Name:</p>
-              <p>{profile.firstName} {profile.lastName}</p>
+              <p className="text-2xl font-semibold">{profile.firstName} {profile.lastName}</p>
             </div>
             <div className="mt-3 flex flex-col gap-2">
-              <p className="font-semibold">Country:</p>
-              <p>{countryList[profile.country] ?? profile.country}</p>
-              <p className="font-semibold">Organization:</p>
-              <p>{profile.organization}</p>
-              <p className="font-semibold">Education:</p>
-              <p>{profile.education}</p>
-              <p className="font-semibold">Industry:</p>
-              <p>{profile.industry}</p>
-              <p>{profile.phoneNumber}</p>
-              <p>{profile.website}</p>
-
-
+              <p className="text-md">{profile.organization}</p>
+              <p className="text-slate-200 text-sm">{countryList[profile.country] ?? profile.country}</p>
+              <p className="text-slate-200 text-sm">{profile.education}</p>
             </div>
           </>}
         </div>

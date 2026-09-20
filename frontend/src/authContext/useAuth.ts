@@ -7,6 +7,7 @@ export function useAuthenticatedUser() {
         queryKey: ["authenticatedUser"],
         queryFn: getAuthenticatedUser,
         retry: false,
+        refetchOnWindowFocus: false
     });
 }
 
