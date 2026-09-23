@@ -104,7 +104,7 @@ const Jobs = () => {
     setSelectedJob(jobId)
 
   }
-
+  
   if (isLoading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
@@ -269,7 +269,7 @@ const Jobs = () => {
                       <span className="border px-4 py-1 rounded-full font-semibold text-sm">{job?.employmentType}</span>
                       <span className="border px-4 py-1 rounded-full font-semibold text-sm">{job?.experienceLevel}</span>
                     </div>
-                    <button className="mb-4 border rounded-full px-4 py-1 bg-sky-600 text-white">Apply</button>
+                    <button className="mb-4 border rounded-full px-4 py-1 bg-sky-600 text-white"onClick={() => handleClick(3)}>Apply</button>
                     <h1 className="font-semibold underline">Requirements</h1>
                     <p className="text-sm">{job?.requirements}</p>
                     <h1 className="font-semibold mt-4 underline">About This Job</h1>
@@ -278,6 +278,16 @@ const Jobs = () => {
                 )}
               </div>
             )}
+
+            {open === 3 && 
+            <div className="fixed inset-0 z-50 flex min-h-screen items-start justify-center overflow-y-auto bg-black/50 p-4 text-black sm:items-center sm:p-8">
+              <div className="my-auto w-full max-w-4xl rounded-lg border bg-white">
+                
+              </div>
+
+            </div>
+            
+            }
           </div>
         </div>
       </section>
