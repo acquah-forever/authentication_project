@@ -295,20 +295,21 @@ const Jobs = () => {
                   </div>
                   <div className="grid grid-cols-2 gap-4 px-4">
                     <div className="flex flex-col">
-                      <label htmlFor="fullName">Full Name</label>
+                      <label htmlFor="fullName" className="text-gray-500">Full Name</label>
                       <input className="border border-gray-400px-2 px-2 py-2 rounded-lg" type="text" />
                     </div>
                     <div className="flex flex-col">
-                      <label htmlFor="email">Email</label>
+                      <label htmlFor="email" className="text-gray-500">Email</label>
                       <input className="border border-gray-400 px-2 py-2 rounded-lg" type="text" />
                     </div>
                     <div className="flex flex-col">
-                      <label htmlFor="phoneNumber">Phone or WhatsApp Number</label>
+                      <label htmlFor="phoneNumber" className="text-gray-500">Phone or WhatsApp Number</label>
                       <input className="border border-gray-400 px-2 py-2 rounded-lg" type="text" />
                     </div>
                     <div className="flex flex-col">
-                      <label htmlFor="location">Current Location</label>
+                      <label htmlFor="location" className="text-gray-500">Current Location</label>
                       <input className="border border-gray-400 px-2 py-2 rounded-lg" type="text" />
+                      <p className="text-sm mt-1 text-gray-500">City and country</p>
                     </div>
                   </div>
                 </div>
