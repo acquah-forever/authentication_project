@@ -281,8 +281,13 @@ const Jobs = () => {
 
             {open === 3 &&
               <div className="fixed inset-0 z-50 flex border items-start justify-center overflow-y-auto bg-black/50 p-4 text-black sm:items-center sm:p-8 px-10">
-                <div className="my-auto w-full max-w-4xl h-240 rounded-lg bg-white">
-                  <h1>Apply for {job?.jobTitle}</h1>
+                <div className="p-4 my-auto w-full max-w-4xl h-240 rounded-lg bg-white">
+                  <div className="flex justify-between">
+                    <h1>Apply for {job?.jobTitle}</h1>
+                    <button type="button" aria-label="Close job application" onClick={() => setOpen(null)}>
+                      <X className="cursor-pointer" size={22} />
+                    </button>
+                  </div>
                   <h2>This application is for the {job?.jobTitle} role in {job?.jobLocation}. Please complete every require field.</h2>
                   <div className="flex gap-3">
                     <p>1</p>
@@ -302,8 +307,8 @@ const Jobs = () => {
                       <input className="border border-gray-400 px-2 py-2 rounded-lg" type="text" />
                     </div>
                     <div className="flex flex-col">
-                    <label htmlFor="location">Current Location</label>
-                    <input className="border border-gray-400 px-2 py-2 rounded-lg" type="text" />
+                      <label htmlFor="location">Current Location</label>
+                      <input className="border border-gray-400 px-2 py-2 rounded-lg" type="text" />
                     </div>
                   </div>
                 </div>
