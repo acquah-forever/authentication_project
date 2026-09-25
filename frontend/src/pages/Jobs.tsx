@@ -281,39 +281,130 @@ const Jobs = () => {
 
             {open === 3 &&
               <div className="fixed inset-0 z-50 flex border items-start justify-center overflow-y-auto bg-black/50 p-4 text-black sm:items-center sm:p-8 px-10">
-                <div className="p-4 my-auto w-full max-w-4xl h-240 rounded-lg bg-white">
-                  <div className="flex justify-between">
-                    <h1>Apply for {job?.jobTitle}</h1>
+                <section className="p-4 my-auto w-full max-w-4xl h-screen rounded-lg bg-white">
+                  <div className="flex justify-between mb-2">
+                    <h1 className="text-xl sm:text-2xl md:text-3xl">Apply for {job?.jobTitle}</h1>
                     <button type="button" aria-label="Close job application" onClick={() => setOpen(null)}>
                       <X className="cursor-pointer" size={22} />
                     </button>
                   </div>
-                  <h2>This application is for the {job?.jobTitle} role in {job?.jobLocation}. Please complete every require field.</h2>
-                  <div className="flex gap-3">
+                  <h2 className="text-gray-500 text-sm border-b border-b-gray-400">This application is for the {job?.jobTitle} role in {job?.jobLocation}. Please complete every required field.</h2>
+                  <div className="flex gap-3 mt-4">
                     <p>1</p>
-                    <p>Basic Infromation</p>
+                    <p className="font-semibold">Basic Infromation</p>
                   </div>
-                  <div className="grid grid-cols-2 gap-4 px-4">
-                    <div className="flex flex-col">
-                      <label htmlFor="fullName" className="text-gray-500">Full Name</label>
-                      <input className="border border-gray-400px-2 px-2 py-2 rounded-lg" type="text" />
+                  <div className="grid grid-cols-2 gap-4 px-4 mt-2">
+                    <div className="flex flex-col space-y-1">
+                      <label htmlFor="fullName" className="text-gray-500 text-sm">Full Name</label>
+                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg" type="text" />
                     </div>
-                    <div className="flex flex-col">
-                      <label htmlFor="email" className="text-gray-500">Email</label>
+                    <div className="flex flex-col space-y-1">
+                      <label htmlFor="email" className="text-gray-500 text-sm">Email</label>
                       <input className="border border-gray-400 px-2 py-2 rounded-lg" type="text" />
                     </div>
-                    <div className="flex flex-col">
-                      <label htmlFor="phoneNumber" className="text-gray-500">Phone or WhatsApp Number</label>
+                    <div className="flex flex-col space-y-1">
+                      <label htmlFor="phoneNumber" className="text-gray-500 text-sm">Phone or WhatsApp Number</label>
                       <input className="border border-gray-400 px-2 py-2 rounded-lg" type="text" />
                     </div>
-                    <div className="flex flex-col">
-                      <label htmlFor="location" className="text-gray-500">Current Location</label>
+                    <div className="flex flex-col space-y-1">
+                      <label htmlFor="location" className="text-gray-500 text-sm">Current Location</label>
                       <input className="border border-gray-400 px-2 py-2 rounded-lg" type="text" />
-                      <p className="text-sm mt-1 text-gray-500">City and country</p>
+                      <p className="text-xs text-gray-500">City and country</p>
                     </div>
                   </div>
-                </div>
+                  <div className="flex gap-3">
+                    <p>2</p>
+                    <p className="font-semibold">Professional Links</p>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4 px-4 mt-4">
+                    <div className="flex flex-col space-y-1">
+                      <label htmlFor="linkedin" className="text-sm text-gray-500">LinkedIn URL</label>
+                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg" type="text" placeholder="https://linkedin.com/in/..." />
+                    </div>
+                    <div className="flex flex-col space-y-1">
+                      <label htmlFor="linkedin" className="text-sm text-gray-500">GitHub URL</label>
+                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg" type="text" placeholder="https://github.com/..." />
+                    </div>
+                    <div className="flex flex-col space-y-1">
+                      <label htmlFor="linkedin" className="text-sm text-gray-500">Portfolio or Personal Website(optional)</label>
+                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg" type="text" placeholder="https://..." />
+                    </div>
+                    <div className="flex flex-col space-y-1">
+                      <label htmlFor="linkedin" className="text-sm text-gray-500">Resume or CV Link</label>
+                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg" type="text" placeholder="https://..." />
+                      <p className="text-xs text-gray-500">A link to Google Drive, Dropbox, LinkedIn, your website or a PDF</p>
+                    </div>
+                  </div>
+                  <div className="flex gap-3">
+                    <p>3</p>
+                    <p className="font-semibold">Role-Specific Background</p>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4 px-4 mt-4">
+                    <div className="flex flex-col space-y-1">
+                      <label htmlFor="linkedin" className="text-sm text-gray-500">Years of Experience</label>
+                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg" type="text" placeholder="e.g. 4 years" />
+                    </div>
+                    <div className="flex flex-col space-y-1">
+                      <label htmlFor="linkedin" className="text-sm text-gray-500">Strongest Programming Language</label>
+                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg" type="text" placeholder="e.g TypeScript,Python" />
+                    </div>
+                    <div className="flex flex-col space-y-1">
+                      <label htmlFor="linkedin" className="text-sm text-gray-500">Best Project Link (optional)</label>
+                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg" type="text" placeholder="https://..." />
+                    </div>
+                    <div className="flex flex-col space-y-1">
+                      <label htmlFor="linkedin" className="text-sm text-gray-500">AI Tools You Use</label>
+                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg" type="text" placeholder="e.g Cursor, Claude Code, Codex " />
+                    </div>
+                    <div className="flex flex-col space-y-1">
+                      <label className="text-gray-500 text-sm" htmlFor="comfort">Comfort with frontend</label>
+                      <select className="border border-gray-400 rounded-lg px-2 py-3 text-sm text-gray-500" name="frontend" id="frontend">
+                        <option className="text-gray-500" value="">Select a level </option>
+                        <option className="text-gray-500" value="beginner">Beginner</option>
+                        <option className="text-gray-500" value="intermediate">Intermediate</option>
+                        <option className="text-gray-500" value="advanced">Advanced</option>
+                        <option className="text-gray-500" value="expert">Expert</option>
+                      </select>
+                    </div>
 
+                    <div className="flex flex-col space-y-1">
+                      <label className="text-gray-400 text-sm" htmlFor="comfort">Comfort with backend</label>
+                      <select className="border border-gray-400 rounded-lg px-2 py-3 text-sm text-gray-500" name="frontend" id="frontend">
+                        <option className="text-gray-500" value="">Select a level </option>
+                        <option className="text-gray-500" value="beginner">Beginner</option>
+                        <option className="text-gray-500" value="intermediate">Intermediate</option>
+                        <option className="text-gray-500" value="advanced">Advanced</option>
+                        <option className="text-gray-500" value="expert">Expert</option>
+                      </select>
+                    </div>
+
+                    <div className="flex flex-col space-y-1">
+                      <label className="text-gray-400 text-sm" htmlFor="comfort">Comfort with databases</label>
+                      <select className="border border-gray-400 rounded-lg px-2 py-3 text-sm text-gray-500" name="frontend" id="frontend">
+                        <option className="text-gray-500" value="">Select a level </option>
+                        <option className="text-gray-500" value="beginner">Beginner</option>
+                        <option className="text-gray-500" value="intermediate">Intermediate</option>
+                        <option className="text-gray-500" value="advanced">Advanced</option>
+                        <option className="text-gray-500" value="expert">Expert</option>
+                      </select>
+                    </div>
+
+                    <div className="flex flex-col space-y-1">
+                      <label className="text-gray-400 text-sm" htmlFor="comfort">Comfort with AI coding tools</label>
+                      <select className="border border-gray-400 rounded-lg px-2 py-3 text-sm text-gray-500" name="frontend" id="frontend">
+                        <option className="text-gray-500" value="">Select a level </option>
+                        <option className="text-gray-500" value="beginner">Beginner</option>
+                        <option className="text-gray-500" value="intermediate">Intermediate</option>
+                        <option className="text-gray-500" value="advanced">Advanced</option>
+                        <option className="text-gray-500" value="expert">Expert</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div className="mt-4 max-w-4xl w-full flex flex-col">
+                    <label className="text-gray-400 text-sm" htmlFor="systems/products">Systems or products you have worked on</label>
+                    <textarea name="systems/products" id="system/products" className="rounded-lg border border-gray-400 h-50"></textarea>
+                  </div>
+                </section>
               </div>
 
             }
