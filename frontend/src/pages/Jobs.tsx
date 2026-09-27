@@ -24,6 +24,21 @@ interface ApplyValue {
   confirm2: string
 }
 
+const resetAll = {
+  name: "",
+  email: "",
+  phone: "",
+  location: "",
+  linkedin: "",
+  github: "",
+  resume: "",
+  experience: "",
+  interest: "",
+  tools: "",
+  confirm1: "",
+  confirm2: ""
+}
+
 const Jobs = () => {
 
   const { data: jobs, isLoading, isError, error } = useJobs()
@@ -120,6 +135,11 @@ const Jobs = () => {
   function handleSelect(jobId: string) {
     setSelectedJob(jobId)
 
+  }
+
+  function handleClose() {
+    setOpen(null)
+    resetApply(resetAll)
   }
 
   function onsubmit() {
@@ -293,7 +313,7 @@ const Jobs = () => {
                 <form className="p-4 my-auto w-full max-w-4xl min-h-screen rounded-lg bg-white" onSubmit={handleApplySubmit(onsubmit)}>
                   <div className="flex justify-between mb-2">
                     <h1 className="text-lg sm:text-2xl md:text-3xl">Apply for {job?.jobTitle}</h1>
-                    <button type="button" aria-label="Close job application" onClick={() => setOpen(null)}>
+                    <button type="button" aria-label="Close job application" onClick={handleClose}>
                       <X className="cursor-pointer" size={22} />
                     </button>
                   </div>
