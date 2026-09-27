@@ -113,14 +113,6 @@ const Jobs = () => {
     )
   }
 
-  if (isJobLoading) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <ClipLoader size={70} color="#123abc" />
-      </div>
-    )
-
-  }
 
   if (isError) {
     return (
@@ -147,14 +139,14 @@ const Jobs = () => {
           <div className="flex justify-start gap-3 items-center w-full">
             <button className="cursor-pointer flex items-center gap-3 border rounded-sm px-4 py-1 hover:bg-slate-500/50" onClick={() => handleClick(1)}>
               <h1 className="font-semibold text-xs sm:text-sm md:text-md">Employment Type</h1>
-              {open === 1 ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+              {open === 1 ? <ChevronUp  size={20} /> : <ChevronDown size={20} />}
             </button>
             <div>
               {open === 1 &&
                 <div className='max-w-sm w-full absolute left-0 sm:left-12 top-41 p-5 bg-white/90 text-black text-sm font-semibold rounded max-h-75 overflow-auto z-10 space-y-3'>
                   <label className="flex items-center gap-1">
-                    <input type="radio" name='employment' value="part-time"
-                      checked={employmentType === "part-time"} onChange={handleEmploymentType} />
+                    <input type="radio" name='employment' value="Part-time"
+                      checked={employmentType === "Part-time"} onChange={handleEmploymentType} />
                     <p>Part-time</p>
                   </label>
                   <label className="flex -items-center gap-1">
@@ -174,7 +166,7 @@ const Jobs = () => {
                   </label>
                   <div className='border w-full border-slate-500/50'></div>
                   <div className='flex  justify-end gap-3'>
-                    <button type="button" className="cursor-pointer" onClick={() => { setEmploymentType(""); setOpen(null); }}>Reset</button>
+                    <button type="button" className="cursor-pointer" onClick={() => { setEmploymentType("") }}>Reset</button>
                     <button type="button" className='cursor-pointer border-2 text-white border-black bg-linear-to-br from-sky-300 to-sky-700 text-md px-4 py-2 rounded-full' onClick={() => setOpen(null)}>Show Results</button>
                   </div>
                 </div>
@@ -248,13 +240,9 @@ const Jobs = () => {
               </div>
             </div>
 
-            {selectedJob && (
+            {selectedJob && 
               <div>
-                {isJobLoading ? (
-                  <div className="flex min-h-210 items-center justify-center">
-                    <ClipLoader size={50} color="#123abc" />
-                  </div>
-                ) : (
+                {isJobLoading && <div className="m-90 flex justify-center items-center"><ClipLoader size={50} color="#123abc" /></div>}
                   <div className="bg-white/60 rounded-lg p-2 sm:p-3 md:p-4 lg:p-5 text-black min-h-210 mt-4 mb-4">
                     <div className='mb-5'>
                       <img className='w-full h-77 rounded-2xl object-cover object-center' src={"https://cdn.pixabay.com/photo/2024/09/18/16/40/business-9056542_1280.jpg"} alt="image" />
@@ -275,9 +263,9 @@ const Jobs = () => {
                     <h1 className="font-semibold mt-4 underline">About This Job</h1>
                     <p className="text-sm">{job?.jobDescription}</p>
                   </div>
-                )}
+    
               </div>
-            )}
+            }
 
             {open === 3 &&
               <div className="fixed inset-0 z-50 flex border items-start justify-center overflow-y-auto bg-black/50 p-4 text-black sm:items-center sm:p-8 px-10">
@@ -296,7 +284,7 @@ const Jobs = () => {
                   <div className="grid grid-cols-2 gap-4 px-4 mt-2">
                     <div className="flex flex-col space-y-1">
                       <label htmlFor="fullName" className="text-gray-500 text-sm">Full Name</label>
-                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg" type="text" />
+                      <input className="border border-gray-400  px-2 py-2 rounded-lg" type="text" />
                     </div>
                     <div className="flex flex-col space-y-1">
                       <label htmlFor="email" className="text-gray-500 text-sm">Email</label>
