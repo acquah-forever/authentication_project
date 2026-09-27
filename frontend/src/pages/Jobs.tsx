@@ -409,7 +409,7 @@ const Jobs = () => {
                     <p className="font-semibold text-sm sm:text-lg">Final Confirmation</p>
                   </div>
                   <div className="flex items-center gap-3 mb-2 mt-2">
-                    <input className="ra" type="ra" value="location" />
+                    <input className="ra" type="radio" value="location" />
                     <p className="text-gray-400 text-xs sm:text-sm mb-1">I understand that this is a location-based role.</p>
                   </div>
                   <div className="flex items-center gap-3">
