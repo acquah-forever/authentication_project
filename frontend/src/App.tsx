@@ -5,10 +5,7 @@ import Login from "./pages/LogIn"
 import Profile from "./pages/Profile"
 import Jobs from "./pages/Jobs"
 
-
-
 import { Routes, Route } from "react-router-dom"
-
 
 const App = () => {
   return (
