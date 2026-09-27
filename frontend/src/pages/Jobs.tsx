@@ -9,12 +9,28 @@ interface QueryValue {
   text: string
 }
 
+interface ApplyValue {
+  name: string,
+  email: string,
+  phone: string,
+  location: string
+  linkedin: string,
+  github: string,
+  resume: string,
+  experience: string,
+  interest: string,
+  tools: string,
+  confirm1: string,
+  confirm2: string
+}
+
 const Jobs = () => {
 
   const { data: jobs, isLoading, isError, error } = useJobs()
   const [selectedJob, setSelectedJob] = useState<string | null>(null)
   const { data: job, isLoading: isJobLoading } = useJob(selectedJob)
   const { register, watch, reset } = useForm<QueryValue>()
+  const { register: registerApply, handleSubmit: handleApplySubmit, formState: { errors: applyErrors }, reset: resetApply } = useForm<ApplyValue>()
   const query = watch("text", "")
   const [open, setOpen] = useState<number | null>(null)
   const [page, setPage] = useState<number>(1)
@@ -22,6 +38,7 @@ const Jobs = () => {
   const [experienceLevel, setExperienceLevel] = useState<string>("")
   const navigate = useNavigate()
   const jobsPerPage = 5
+
 
 
 
@@ -102,6 +119,10 @@ const Jobs = () => {
 
   function handleSelect(jobId: string) {
     setSelectedJob(jobId)
+
+  }
+
+  function onsubmit() {
 
   }
 
@@ -269,7 +290,7 @@ const Jobs = () => {
 
             {open === 3 &&
               <div className="fixed inset-0 z-50 flex border items-start justify-center overflow-y-scroll bg-black/50 p-4 text-black sm:items-center sm:p-8 px-10">
-                <section className="p-4 my-auto w-full max-w-4xl min-h-screen rounded-lg bg-white">
+                <form className="p-4 my-auto w-full max-w-4xl min-h-screen rounded-lg bg-white" onSubmit={handleApplySubmit(onsubmit)}>
                   <div className="flex justify-between mb-2">
                     <h1 className="text-lg sm:text-2xl md:text-3xl">Apply for {job?.jobTitle}</h1>
                     <button type="button" aria-label="Close job application" onClick={() => setOpen(null)}>
@@ -284,43 +305,50 @@ const Jobs = () => {
                   <div className="grid grid-coils-1 sm:grid-cols-2 gap-4 px-4 mt-2">
                     <div className="flex flex-col space-y-1">
                       <label htmlFor="fullName" className="text-gray-500 text-xs sm:text-sm">Full Name</label>
-                      <input className="border border-gray-400  px-2 py-2 rounded-lg" type="text" />
+                      <input className="border border-gray-400  px-2 py-2 rounded-lg" type="text"{...registerApply("name", { required: "Enter your full name" })} />
+                      {applyErrors.name && <p className="text-red-500 text-xs">{applyErrors.name.message}</p>}
                     </div>
                     <div className="flex flex-col space-y-1">
                       <label htmlFor="email" className="text-gray-500 text-xs sm:text-sm">Email</label>
-                      <input className="border border-gray-400 px-2 py-2 rounded-lg" type="text" />
+                      <input className="border border-gray-400 px-2 py-2 rounded-lg" type="email" {...registerApply("email", { required: "Email is required" })} />
+                      {applyErrors.email && <p className="text-red-500 text-xs">{applyErrors.email.message}</p>}
                     </div>
                     <div className="flex flex-col space-y-1">
                       <label htmlFor="phoneNumber" className="text-gray-500 text-xs sm:text-sm">Phone or WhatsApp Number</label>
-                      <input className="border border-gray-400 px-2 py-2 rounded-lg" type="text" />
+                      <input className="border border-gray-400 px-2 py-2 rounded-lg" type="text" {...registerApply("phone", { required: "A phone or whatsapp number is required" })} />
+                      {applyErrors.phone && <p className="text-red-500 text-xs">{applyErrors.phone.message}</p>}
                     </div>
                     <div className="flex flex-col space-y-1">
                       <label htmlFor="location" className="text-gray-500 text-xs sm:text-sm">Current Location</label>
-                      <input className="border border-gray-400 px-2 py-2 rounded-lg" type="text" />
+                      <input className="border border-gray-400 px-2 py-2 rounded-lg" type="text" {...registerApply("location", { required: "Please enter your current location" })} />
                       <p className="text-xs text-gray-500">City and country</p>
+                      {applyErrors.location && <p className="text-red-500 text-xs">{applyErrors.location.message}</p>}
                     </div>
                   </div>
-                  <div className="flex items-center gap-2 mt-10 sm:mt-0">
+                  <div className="flex items-center gap-2 mt-10 sm:mt-5">
                     <p className="rounded-full bg-gray-300 w-5 h-5 text-center text-sm">2</p>
                     <p className="font-semibold text-sm sm:text-lg">Professional Links</p>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 px-4 mt-4">
                     <div className="flex flex-col space-y-1">
                       <label htmlFor="linkedin" className="text-xs sm:text-sm text-gray-500">LinkedIn URL</label>
-                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg placeholder:text-xs sm:text-sm" type="text" placeholder="https://linkedin.com/in/..." />
+                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg placeholder:text-xs sm:text-sm" type="text" placeholder="https://linkedin.com/in/..." {...registerApply("linkedin", { required: "A linkedin URL is required" })} />
+                      {applyErrors.linkedin && <p className="text-red-500 text-xs">{applyErrors.linkedin.message}</p>}
                     </div>
                     <div className="flex flex-col space-y-1">
-                      <label htmlFor="linkedin" className="text-xs sm:text-sm text-gray-500">GitHub URL</label>
-                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg placeholder:text-xs sm:text-sm" type="text" placeholder="https://github.com/..." />
+                      <label htmlFor="github" className="text-xs sm:text-sm text-gray-500">GitHub URL</label>
+                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg placeholder:text-xs sm:text-sm" type="text" placeholder="https://github.com/..." {...registerApply("github", { required: "A GitHub URL is required for this role" })} />
+                      {applyErrors.github && <p className="text-red-500 text-xs">{applyErrors.github.message}</p>}
                     </div>
                     <div className="flex flex-col space-y-1">
-                      <label htmlFor="linkedin" className="text-xs sm:text-sm text-gray-500">Portfolio or Personal Website(optional)</label>
+                      <label htmlFor="portfolio" className="text-xs sm:text-sm text-gray-500">Portfolio or Personal Website(optional)</label>
                       <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg placeholder:text-xs sm:text-sm" type="text" placeholder="https://..." />
                     </div>
                     <div className="flex flex-col space-y-1">
-                      <label htmlFor="linkedin" className="text-xs sm:text-sm text-gray-500">Resume or CV Link</label>
-                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg placeholder:text-xs sm:text-sm" type="text" placeholder="https://..." />
+                      <label htmlFor="resume" className="text-xs sm:text-sm text-gray-500">Resume or CV Link</label>
+                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg placeholder:text-xs sm:text-sm" type="text" placeholder="https://..." {...registerApply("resume", { required: "A resume or CV is required" })} />
                       <p className="text-xs text-gray-500">A link to Google Drive, Dropbox, LinkedIn, your website or a PDF</p>
+                      {applyErrors.resume && <p className="text-red-500 text-xs">{applyErrors.resume.message}</p>}
                     </div>
                   </div>
                   <div className="flex items-center gap-2 mt-10 sm:mt-0">
@@ -329,8 +357,9 @@ const Jobs = () => {
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 px-4 mt-4">
                     <div className="flex flex-col space-y-1">
-                      <label htmlFor="linkedin" className="text-xs sm:text-sm text-gray-500">Years of Experience</label>
-                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg placeholder:text-xs sm:text-sm" type="text" placeholder="e.g. 4 years" />
+                      <label htmlFor="experience" className="text-xs sm:text-sm text-gray-500">Years of Experience</label>
+                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg placeholder:text-xs sm:text-sm" type="text" placeholder="e.g. 4 years" {...registerApply("experience", { required: "Please share your years of experience" })} />
+                      {applyErrors.experience && <p className="text-red-500 text-xs">{applyErrors.experience.message}</p>}
                     </div>
                     <div className="flex flex-col space-y-1">
                       <label htmlFor="linkedin" className="text-xs sm:text-sm text-gray-500">Strongest Programming Language</label>
@@ -398,25 +427,38 @@ const Jobs = () => {
                   </div>
                   <div className="mt-2 max-w-4xl w-full flex flex-col p-3">
                     <label className="text-gray-400 text-xs sm:text-sm mb-1" htmlFor="interested">Why are you intrested in this job posting?</label>
-                    <textarea name="interested" id="interested" className="rounded-lg border border-gray-400 h-40 p-2"></textarea>
+                    <textarea name="interested" id="interested" className="rounded-lg border border-gray-400 h-40 p-2"{...registerApply("interest", { required: `Please tell us why you are interested in the ${job?.jobTitle} role.` })}></textarea>
+                    {applyErrors.interest && <p className="text-red-500 text-xs mt-2">{applyErrors.interest.message}</p>}
                   </div>
                   <div className="mt-2 max-w-4xl w-full flex flex-col p-3">
                     <label className="text-gray-400 text-xs sm:text-sm mb-1" htmlFor="tools">How do you currently use AI tools?</label>
-                    <textarea name="tools" id="tools" className="rounded-lg border border-gray-400 h-40 p-2"></textarea>
+                    <textarea name="tools" id="tools" className="rounded-lg border border-gray-400 h-40 p-2"{...registerApply("tools", { required: "Please describe how you use AI Tools." })}></textarea>
+                    {applyErrors.tools && <p className="text-red-500 text-xs mt-2">{applyErrors.tools.message}</p>}
                   </div>
                   <div className="flex items-center gap-2 mt-4">
                     <p className="rounded-full bg-gray-300 w-5 h-5 text-center text-sm">5</p>
                     <p className="font-semibold text-sm sm:text-lg">Final Confirmation</p>
                   </div>
-                  <div className="flex items-center gap-3 mb-2 mt-2">
-                    <input className="ra" type="radio" value="location" />
-                    <p className="text-gray-400 text-xs sm:text-sm mb-1">I understand that this is a location-based role.</p>
+
+                  <div className="flex flex-col mt-2 px-3">
+                    <div className="flex gap-2">
+                      <input className="ra" type="radio" value="location" {...registerApply("confirm1", { required: "Please confirm you understand this role is location-based" })} />
+                      <p className="text-gray-400 text-xs sm:text-sm">I understand that this is a location-based role.</p>
+                    </div>
+                    {applyErrors.confirm1 && <p className="text-red-500 text-xs">{applyErrors.confirm1.message}</p>}
                   </div>
-                  <div className="flex items-center gap-3">
-                    <input className="ra" type="radio" value="accurate" />
-                    <p className="text-gray-400 text-xs sm:text-sm mb-1">I confirm that the information I have provided is accurate</p>
+
+                  <div className="flex flex-col mt-2 px-3">
+                    <div className="flex gap-2">
+                      <input className="ra" type="radio" value="accurate" {...registerApply("confirm2", { required: "Please confirm the information you provided is accurate" })} />
+                      <p className="text-gray-400 text-xs sm:text-sm mb-1 mt-1">I confirm that the information I have provided is accurate</p>
+                    </div>
+                    {applyErrors.confirm2 && <p className="text-red-500 text-xs">{applyErrors.confirm2.message}</p>}
                   </div>
-                </section>
+                  <div className="p-3 flex justify-center sm:justify-start">
+                    <button className="mt-5 btn bg-[#1A77F2] text-white border-[#005fd8] px-25 sm:px-7" type="submit">Submit Application</button>
+                  </div>
+                </form>
               </div>
 
             }
