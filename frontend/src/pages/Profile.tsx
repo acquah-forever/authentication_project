@@ -54,6 +54,7 @@ const Profile = () => {
   }
 
   function onSubmit(data: FormData) {
+    
     setSubmitError(null)
 
     if (profile) {
