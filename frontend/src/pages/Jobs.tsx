@@ -465,7 +465,7 @@ const Jobs = () => {
                       <input className="ra" type="radio" value="location" {...registerApply("confirm1", { required: "Please confirm you understand this role is location-based" })} />
                       <p className="text-gray-400 text-xs sm:text-sm">I understand that this is a location-based role.</p>
                     </div>
-                    {applyErrors.confirm1 && <p className="text-red-500 text-xs">{applyErrors.confirm1.message}</p>}
+                    {applyErrors.confirm1 && <p className="text-red-500 text-xs mt-1">{applyErrors.confirm1.message}</p>}
                   </div>
 
                   <div className="flex flex-col mt-2 px-3">

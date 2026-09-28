@@ -31,6 +31,8 @@ const Profile = () => {
   const isSaving = isCreating || isUpdating
 
 
+
+
   const countryList = countries.getNames("en", {
     select: "official",
   });
@@ -52,22 +54,19 @@ const Profile = () => {
   }
 
   function onSubmit(data: FormData) {
+    
     setSubmitError(null)
 
     if (profile) {
       updateProfile(
-        {
-          id: profile._id,
-          data,
+        { id: profile._id, data }, {
+        onSuccess: () => {
+          setEdit(null)
         },
-        {
-          onSuccess: () => {
-            setEdit(null)
-          },
-          onError: () => {
-            setSubmitError("We couldn't update your profile. Try again later")
-          },
-        }
+        onError: () => {
+          setSubmitError("We couldn't update your profile. Try again later")
+        },
+      }
       )
     } else {
       createProfile(data, {
@@ -129,6 +128,7 @@ const Profile = () => {
                     }
                   </div>
                 </div>
+
 
                 <div className="relative flex flex-col mb-4">
                   <label className="text-sm" htmlFor="country">Country/Region</label>
