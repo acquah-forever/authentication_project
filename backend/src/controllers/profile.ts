@@ -67,7 +67,7 @@ export const createProfile: RequestHandler<unknown, unknown, ProfileInput, unkno
         }
 
         const newInput = {
-            
+
             firstName,
             lastName,
             country,
@@ -89,7 +89,6 @@ export const createProfile: RequestHandler<unknown, unknown, ProfileInput, unkno
 }
 
 interface Update extends Partial<ProfileInput> { }
-
 
 export const updateProfile: RequestHandler<{ id: string }, unknown, Update, unknown> = async (req, res, next) => {
     try {
