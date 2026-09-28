@@ -42,22 +42,20 @@ export const signup: RequestHandler<unknown, unknown, SignUp, unknown> = async (
     try {
         const { name, email, password: passwordRaw } = req.body
 
-        // Runtime type validation
-        if (typeof name !== "string" || typeof email !== "string" || typeof passwordRaw !== "string") {
+        const typeofString = (typeof name !== "string" || typeof email !== "string" || typeof passwordRaw !== "string")
+
+        if  (typeofString) {
             throw createHttpError(400, "Invalid Parameters")
         }
 
-        // Normalize input
         const nameTrimmed = name.trim()
         const emailTrimmed = email.trim()
         const password = passwordRaw
 
-        // Validate empty values
         if (!nameTrimmed || !emailTrimmed || !password) {
             throw createHttpError(400, "Parameters missing")
         }
 
-        // Enforce field limits before database queries
         if (nameTrimmed.length > 50) {
             throw createHttpError(400, "Name is too long")
         }
@@ -118,7 +116,9 @@ export const login: RequestHandler<unknown, unknown, LogIn, unknown> = async (re
     try {
         const { name, password: passwordRaw } = req.body
 
-        if (typeof name !== "string" || typeof passwordRaw !== "string") {
+        const typeofString = (typeof name !== "string" || typeof passwordRaw !== "string")
+        
+        if ( typeofString) {
             throw (createHttpError(400, "Invalid Parameters"))
         }
 

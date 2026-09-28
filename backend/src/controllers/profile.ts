@@ -43,7 +43,8 @@ export const createProfile: RequestHandler<unknown, unknown, ProfileInput, unkno
 
         const { firstName, lastName, country, organization, education, industry, phoneNumber, website } = req.body
 
-        if (
+        const typeofString = (
+
             typeof firstName !== "string" ||
             typeof lastName !== "string" ||
             typeof country !== "string" ||
@@ -52,16 +53,21 @@ export const createProfile: RequestHandler<unknown, unknown, ProfileInput, unkno
             typeof industry !== "string" ||
             typeof phoneNumber !== "string" ||
             typeof website !== "string"
-        ) {
+        )
+
+
+        if (typeofString) {
             throw createHttpError(400, "Invalid Parameters")
         }
 
         const existingProfile = await Profile.exists({ user: authenticatedUser })
+
         if (existingProfile) {
             throw createHttpError(409, "Profile already exists")
         }
 
-        const newProfile = await Profile.create({
+        const newInput = {
+            
             firstName,
             lastName,
             country,
@@ -71,7 +77,10 @@ export const createProfile: RequestHandler<unknown, unknown, ProfileInput, unkno
             phoneNumber,
             website,
             user: authenticatedUser
-        })
+        }
+
+        const newProfile = await Profile.create(newInput)
+
         res.status(201).json(newProfile)
     }
     catch (error) {
