@@ -18,6 +18,8 @@ interface ApplyValue {
   github: string,
   resume: string,
   experience: string,
+  strongest: string,
+  systems: string,
   interest: string,
   tools: string,
   confirm1: string,
@@ -33,6 +35,7 @@ const resetAll = {
   github: "",
   resume: "",
   experience: "",
+  strongest: "",
   interest: "",
   tools: "",
   confirm1: "",
@@ -386,7 +389,7 @@ const Jobs = () => {
                       <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg placeholder:text-xs sm:text-sm" type="text" placeholder="e.g TypeScript,Python" />
                     </div>
                     <div className="flex flex-col space-y-1">
-                      <label htmlFor="linkedin" className="text-xs sm:text-sm text-gray-500">Best Project Link (optional)</label>
+                      <label htmlFor="linkedin" className="text-xs sm:text-sm text-gray-500">Best Project Link</label>
                       <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg placeholder:text-xs sm:text-sm" type="text" placeholder="https://..." />
                     </div>
                     <div className="flex flex-col space-y-1">
@@ -439,7 +442,8 @@ const Jobs = () => {
                   </div>
                   <div className="mt-4 max-w-4xl w-full flex flex-col p-3">
                     <label className="text-gray-400 text-xs sm:text-sm mb-1" htmlFor="systems/products">Systems or products you have worked on</label>
-                    <textarea name="systems/products" id="system/products" className="rounded-lg border border-gray-400 h-50 p-2"></textarea>
+                    <textarea name="systems/products" id="system/products" className="rounded-lg border border-gray-400 h-50 p-2"{...registerApply("systems", {required: "Please confirm systems and products you have worked on"})}></textarea>
+                    {applyErrors.systems && <p className="text-red-500 text-xs mt-2">{applyErrors.systems.message}</p>}
                   </div>
                   <div className="flex items-center gap-2 mt-4">
                     <p className="rounded-full bg-gray-300 w-5 h-5 text-center text-sm">4</p>
