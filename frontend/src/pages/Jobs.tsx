@@ -16,10 +16,19 @@ interface ApplyValue {
   location: string
   linkedin: string,
   github: string,
+  portfolio: string,
   resume: string,
   experience: string,
+  strongest: string,
+  projectLink: string,
+  llm: string,
+  frontend: string,
+  backend: string,
+  databases: string,
+  aiCodingTools: string,
+  systems: string,
   interest: string,
-  tools: string,
+  aiTools: string,
   confirm1: string,
   confirm2: string
 }
@@ -31,10 +40,19 @@ const resetAll = {
   location: "",
   linkedin: "",
   github: "",
+  portfolio: "",
   resume: "",
   experience: "",
+  strongest: "",
+  projectLink: "",
+  llm: "",
+  frontend: "",
+  backend: "",
+  databases: "",
+  aiCodingiTools: "",
+  systems: "",
   interest: "",
-  tools: "",
+  aiTools: "",
   confirm1: "",
   confirm2: ""
 }
@@ -362,7 +380,7 @@ const Jobs = () => {
                     </div>
                     <div className="flex flex-col space-y-1">
                       <label htmlFor="portfolio" className="text-xs sm:text-sm text-gray-500">Portfolio or Personal Website(optional)</label>
-                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg placeholder:text-xs sm:text-sm" type="text" placeholder="https://..." />
+                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg placeholder:text-xs sm:text-sm"{...registerApply("portfolio")} type="text" placeholder="https://..." />
                     </div>
                     <div className="flex flex-col space-y-1">
                       <label htmlFor="resume" className="text-xs sm:text-sm text-gray-500">Resume or CV Link</label>
@@ -383,15 +401,18 @@ const Jobs = () => {
                     </div>
                     <div className="flex flex-col space-y-1">
                       <label htmlFor="linkedin" className="text-xs sm:text-sm text-gray-500">Strongest Programming Language</label>
-                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg placeholder:text-xs sm:text-sm" type="text" placeholder="e.g TypeScript,Python" />
+                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg placeholder:text-xs sm:text-sm" {...registerApply("strongest", {required: "Please indicate your strongest programming language"})}type="text" placeholder="e.g TypeScript,Python" />
+                      {applyErrors.strongest && <p className="text-red-500 text-xs">{applyErrors.strongest.message}</p>}
                     </div>
                     <div className="flex flex-col space-y-1">
-                      <label htmlFor="linkedin" className="text-xs sm:text-sm text-gray-500">Best Project Link (optional)</label>
-                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg placeholder:text-xs sm:text-sm" type="text" placeholder="https://..." />
+                      <label htmlFor="linkedin" className="text-xs sm:text-sm text-gray-500">Best Project Link</label>
+                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg placeholder:text-xs sm:text-sm"{...registerApply("projectLink", {required: "Please show you best project link"})} type="text" placeholder="https://..." />
+                      {applyErrors.projectLink && <p className="text-red-500 text-xs">{applyErrors.projectLink.message}</p>}
                     </div>
                     <div className="flex flex-col space-y-1">
                       <label htmlFor="linkedin" className="text-xs sm:text-sm text-gray-500">AI Tools You Use</label>
-                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg placeholder:text-xs sm:text-sm" type="text" placeholder="e.g Cursor, Claude Code, Codex " />
+                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg placeholder:text-xs sm:text-sm" {...registerApply("llm", {required: "Please indicate your preferred AI tool/tools to use"})}type="text" placeholder="e.g Cursor, Claude Code, Codex " />
+                      {applyErrors.llm && <p className="text-red-500 text-xs">{applyErrors.llm.message}</p>}
                     </div>
                     <div className="flex flex-col space-y-1">
                       <label className="text-gray-500 text-xs sm:text-sm" htmlFor="comfort">Comfort with frontend</label>
@@ -439,7 +460,8 @@ const Jobs = () => {
                   </div>
                   <div className="mt-4 max-w-4xl w-full flex flex-col p-3">
                     <label className="text-gray-400 text-xs sm:text-sm mb-1" htmlFor="systems/products">Systems or products you have worked on</label>
-                    <textarea name="systems/products" id="system/products" className="rounded-lg border border-gray-400 h-50 p-2"></textarea>
+                    <textarea name="systems/products" id="system/products" className="rounded-lg border border-gray-400 h-50 p-2"{...registerApply("systems", {required: "Please confirm systems and products you have worked on"})}></textarea>
+                    {applyErrors.systems && <p className="text-red-500 text-xs mt-2">{applyErrors.systems.message}</p>}
                   </div>
                   <div className="flex items-center gap-2 mt-4">
                     <p className="rounded-full bg-gray-300 w-5 h-5 text-center text-sm">4</p>
@@ -452,8 +474,8 @@ const Jobs = () => {
                   </div>
                   <div className="mt-2 max-w-4xl w-full flex flex-col p-3">
                     <label className="text-gray-400 text-xs sm:text-sm mb-1" htmlFor="tools">How do you currently use AI tools?</label>
-                    <textarea name="tools" id="tools" className="rounded-lg border border-gray-400 h-40 p-2"{...registerApply("tools", { required: "Please describe how you use AI Tools." })}></textarea>
-                    {applyErrors.tools && <p className="text-red-500 text-xs mt-2">{applyErrors.tools.message}</p>}
+                    <textarea name="tools" id="tools" className="rounded-lg border border-gray-400 h-40 p-2"{...registerApply("aiTools", { required: "Please describe how you use AI Tools." })}></textarea>
+                    {applyErrors.aiTools && <p className="text-red-500 text-xs mt-2">{applyErrors.aiTools.message}</p>}
                   </div>
                   <div className="flex items-center gap-2 mt-4">
                     <p className="rounded-full bg-gray-300 w-5 h-5 text-center text-sm">5</p>

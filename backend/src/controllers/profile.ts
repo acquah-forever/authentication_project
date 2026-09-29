@@ -68,6 +68,7 @@ export const createProfile: RequestHandler<unknown, unknown, ProfileInput, unkno
 
         const newInput = {
 
+            user: authenticatedUser,
             firstName,
             lastName,
             country,
@@ -76,7 +77,6 @@ export const createProfile: RequestHandler<unknown, unknown, ProfileInput, unkno
             industry,
             phoneNumber,
             website,
-            user: authenticatedUser
         }
 
         const newProfile = await Profile.create(newInput)
