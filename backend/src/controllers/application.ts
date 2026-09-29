@@ -4,20 +4,20 @@ import { RequestHandler } from 'express'
 import createHttpError from 'http-errors'
 
 
-export const getAuthenticatedUser: RequestHandler = async (req, res, next) => {
+export const getAuthenticatedProfile: RequestHandler = async (req, res, next) => {
     try {
-        const authenticatedUser = req.session.userId
+        const authenticatedProfile = req.session.userId
 
-        if (!authenticatedUser) {
+        if (!authenticatedProfile) {
             throw createHttpError(401, "User not authenticated")
         }
 
-        const existingUser = await Profile.findOne({ user: authenticatedUser }).exec()
-        if (!existingUser) {
+        const existingProfile = await Profile.findOne({ user: authenticatedProfile }).exec()
+        if (!existingProfile) {
             throw createHttpError(404, "Profile not found")
         }
 
-        res.status(200).json(existingUser)
+        res.status(200).json(existingProfile)
     }
     catch (error) {
         next(error)
@@ -91,10 +91,10 @@ export const createApplication: RequestHandler<unknown, unknown, ApplyValue, unk
             confirm2
         } = req.body
 
-        const existingApplication = await Application.exists({ user: authenticatedUser })
+        const existingApplication = await Application.exists({ user: authenticatedUser, job })
 
         if (existingApplication) {
-            throw createHttpError(409, "Application already sent")
+            throw createHttpError(409, "Application already sent for this job")
         }
 
         const newApplication = await Application.create({

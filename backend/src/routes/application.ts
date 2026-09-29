@@ -1,10 +1,10 @@
 import express from "express"
-import { getAuthenticatedUser, createApplication } from "../controllers/application"
+import { getAuthenticatedProfile, createApplication } from "../controllers/application"
 
 
 const router = express.Router()
 
-router.get("/", getAuthenticatedUser )
+router.get("/", getAuthenticatedProfile )
 
 router.post("/", createApplication) 
 
