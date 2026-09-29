@@ -16,9 +16,16 @@ interface ApplyValue {
   location: string
   linkedin: string,
   github: string,
+  portfolio: string,
   resume: string,
   experience: string,
   strongest: string,
+  projectLink: string,
+  llm: string,
+  frontend: string,
+  backend: string,
+  databases: string,
+  comfortWithAiTools: string,
   systems: string,
   interest: string,
   tools: string,
@@ -33,9 +40,16 @@ const resetAll = {
   location: "",
   linkedin: "",
   github: "",
+  portfolio: "",
   resume: "",
   experience: "",
   strongest: "",
+  projectLink: "",
+  llm: "",
+  frontend: "",
+  backend: "",
+  databases: "",
+  comfortWithAiTools: "",
   interest: "",
   tools: "",
   confirm1: "",
@@ -365,7 +379,7 @@ const Jobs = () => {
                     </div>
                     <div className="flex flex-col space-y-1">
                       <label htmlFor="portfolio" className="text-xs sm:text-sm text-gray-500">Portfolio or Personal Website(optional)</label>
-                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg placeholder:text-xs sm:text-sm" type="text" placeholder="https://..." />
+                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg placeholder:text-xs sm:text-sm"{...registerApply("portfolio")} type="text" placeholder="https://..." />
                     </div>
                     <div className="flex flex-col space-y-1">
                       <label htmlFor="resume" className="text-xs sm:text-sm text-gray-500">Resume or CV Link</label>
@@ -386,15 +400,18 @@ const Jobs = () => {
                     </div>
                     <div className="flex flex-col space-y-1">
                       <label htmlFor="linkedin" className="text-xs sm:text-sm text-gray-500">Strongest Programming Language</label>
-                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg placeholder:text-xs sm:text-sm" type="text" placeholder="e.g TypeScript,Python" />
+                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg placeholder:text-xs sm:text-sm" {...registerApply("strongest", {required: "Please indicate your strongest programming language"})}type="text" placeholder="e.g TypeScript,Python" />
+                      {applyErrors.strongest && <p className="text-red-500 text-xs">{applyErrors.strongest.message}</p>}
                     </div>
                     <div className="flex flex-col space-y-1">
                       <label htmlFor="linkedin" className="text-xs sm:text-sm text-gray-500">Best Project Link</label>
-                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg placeholder:text-xs sm:text-sm" type="text" placeholder="https://..." />
+                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg placeholder:text-xs sm:text-sm"{...registerApply("projectLink", {required: "Please show you best project link"})} type="text" placeholder="https://..." />
+                      {applyErrors.projectLink && <p className="text-red-500 text-xs">{applyErrors.projectLink.message}</p>}
                     </div>
                     <div className="flex flex-col space-y-1">
                       <label htmlFor="linkedin" className="text-xs sm:text-sm text-gray-500">AI Tools You Use</label>
-                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg placeholder:text-xs sm:text-sm" type="text" placeholder="e.g Cursor, Claude Code, Codex " />
+                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg placeholder:text-xs sm:text-sm" {...registerApply("llm", {required: "Please indicate your preferred AI tool/tools to use"})}type="text" placeholder="e.g Cursor, Claude Code, Codex " />
+                      {applyErrors.llm && <p className="text-red-500 text-xs">{applyErrors.llm.message}</p>}
                     </div>
                     <div className="flex flex-col space-y-1">
                       <label className="text-gray-500 text-xs sm:text-sm" htmlFor="comfort">Comfort with frontend</label>
