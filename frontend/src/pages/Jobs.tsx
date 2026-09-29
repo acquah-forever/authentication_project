@@ -25,10 +25,10 @@ interface ApplyValue {
   frontend: string,
   backend: string,
   databases: string,
-  comfortWithAiTools: string,
+  aiCodingTools: string,
   systems: string,
   interest: string,
-  tools: string,
+  aiTools: string,
   confirm1: string,
   confirm2: string
 }
@@ -49,9 +49,10 @@ const resetAll = {
   frontend: "",
   backend: "",
   databases: "",
-  comfortWithAiTools: "",
+  aiCodingiTools: "",
+  systems: "",
   interest: "",
-  tools: "",
+  aiTools: "",
   confirm1: "",
   confirm2: ""
 }
@@ -473,8 +474,8 @@ const Jobs = () => {
                   </div>
                   <div className="mt-2 max-w-4xl w-full flex flex-col p-3">
                     <label className="text-gray-400 text-xs sm:text-sm mb-1" htmlFor="tools">How do you currently use AI tools?</label>
-                    <textarea name="tools" id="tools" className="rounded-lg border border-gray-400 h-40 p-2"{...registerApply("tools", { required: "Please describe how you use AI Tools." })}></textarea>
-                    {applyErrors.tools && <p className="text-red-500 text-xs mt-2">{applyErrors.tools.message}</p>}
+                    <textarea name="tools" id="tools" className="rounded-lg border border-gray-400 h-40 p-2"{...registerApply("aiTools", { required: "Please describe how you use AI Tools." })}></textarea>
+                    {applyErrors.aiTools && <p className="text-red-500 text-xs mt-2">{applyErrors.aiTools.message}</p>}
                   </div>
                   <div className="flex items-center gap-2 mt-4">
                     <p className="rounded-full bg-gray-300 w-5 h-5 text-center text-sm">5</p>
