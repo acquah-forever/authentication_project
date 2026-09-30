@@ -9,15 +9,15 @@ const skillLevel = z.enum([
 ]);
 
 export const applicationSchema = z.object({
-    job: z.string().min(1, "Job is required"),
+    job: z.string().min(1, "Invalid Parameters"),
 
-    name: z.string().min(1, "Name is required"),
+    name: z.string().min(1, "Invalid Parameters"),
 
     email: z.string().email("Invalid email address"),
 
-    phone: z.string().min(1, "Phone is required"),
+    phone: z.string().min(1, "Invalid Parameters"),
 
-    location: z.string().min(1, "Location is required"),
+    location: z.string().min(1, "Invalid Parameters"),
 
     linkedin: z.string(),
 
@@ -27,9 +27,9 @@ export const applicationSchema = z.object({
 
     resume: z.string(),
 
-    experience: z.string().min(1, "Experience is required"),
+    experience: z.string().min(1, "Invalid Parameters"),
 
-    strongest: z.string().min(1, "Strongest skill is required"),
+    strongest: z.string().min(1, "Invalid Parameters"),
 
     projectLink: z.string(),
 
