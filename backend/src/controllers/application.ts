@@ -91,6 +91,8 @@ export const createApplication: RequestHandler<unknown, unknown, ApplyValue, unk
             confirm2
         } = req.body
 
+        
+
         const existingApplication = await Application.exists({ user: authenticatedUser, job })
 
         if (existingApplication) {
