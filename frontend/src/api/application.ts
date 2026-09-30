@@ -1,11 +1,6 @@
 const API_URL = import.meta.env.VITE_API_URL
 
-type SkillLevel =
-    | ""
-    | "beginner"
-    | "intermediate"
-    | "advanced"
-    | "expert"
+type SkillLevel = "" | "beginner" | "intermediate" | "advanced" | "expert"
 
 interface Application {
     _id:string,
