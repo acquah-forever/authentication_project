@@ -68,7 +68,7 @@ const Jobs = () => {
 
   const { data: jobs, isLoading, isError, error } = useJobs()
   const [selectedJob, setSelectedJob] = useState<string | null>(null)
-  const { data: user} = useAuthenticatedUser();
+  const { data: user } = useAuthenticatedUser();
   const { data: job, isLoading: isJobLoading } = useJob(selectedJob)
   const { mutate: createApplication } = useCreateApplication()
   const { register, watch, reset } = useForm<QueryValue>()
@@ -170,8 +170,8 @@ const Jobs = () => {
     resetApply(resetAll)
   }
 
-  function handleApply(){
-    if(!user) {
+  function handleApply() {
+    if (!user) {
       navigate("/login")
     }
 
@@ -180,10 +180,10 @@ const Jobs = () => {
 
   function onsubmit(data: ApplicationForm) {
 
-      if (!selectedJob) {
-        alert("Please select a job before applying")
-        return
-      }
+    if (!selectedJob) {
+      alert("Please select a job before applying")
+      return
+    }
 
     createApplication(
       { ...data, job: selectedJob },
@@ -363,7 +363,11 @@ const Jobs = () => {
 
             {open === 3 &&
               <div className="fixed inset-0 z-50 flex border items-start justify-center overflow-y-scroll bg-black/50 p-4 text-black sm:items-center sm:p-8 px-10">
-                <form className="p-4 my-auto w-full max-w-4xl min-h-screen rounded-lg bg-white" onSubmit={handleApplySubmit(onsubmit)}>
+                <form className="p-4 my-auto w-full max-w-4xl min-h-screen rounded-lg bg-white" onSubmit={handleApplySubmit(onsubmit,
+                  (errors) => {
+                    console.log("FORM ERRORS:", errors);
+                  }
+                )}>
                   <div className="flex justify-between mb-2">
                     <h1 className="text-lg sm:text-2xl md:text-3xl">Apply for {job?.jobTitle}</h1>
                     <button type="button" aria-label="Close job application" onClick={handleClose}>
@@ -519,7 +523,7 @@ const Jobs = () => {
 
                   <div className="flex flex-col mt-2 px-3">
                     <div className="flex gap-2">
-                      <input className="ra" type="checkbox" value="location" {...registerApply("confirm1", { required: "Please confirm you understand this role is location-based" })} />
+                      <input className="ra" type="checkbox" {...registerApply("confirm1", { required: "Please confirm you understand this role is location-based" })} />
                       <p className="text-gray-400 text-xs sm:text-sm">I understand that this is a location-based role.</p>
                     </div>
                     {applyErrors.confirm1 && <p className="text-red-500 text-xs mt-1">{applyErrors.confirm1.message}</p>}
@@ -527,7 +531,7 @@ const Jobs = () => {
 
                   <div className="flex flex-col mt-2 px-3">
                     <div className="flex gap-2">
-                      <input className="ra" type="checkbox" value="accurate" {...registerApply("confirm2", { required: "Please confirm the information you provided is accurate" })} />
+                      <input className="ra" type="checkbox" {...registerApply("confirm2", { required: "Please confirm the information you provided is accurate" })} />
                       <p className="text-gray-400 text-xs sm:text-sm mb-1 mt-1">I confirm that the information I have provided is accurate</p>
                     </div>
                     {applyErrors.confirm2 && <p className="text-red-500 text-xs">{applyErrors.confirm2.message}</p>}
