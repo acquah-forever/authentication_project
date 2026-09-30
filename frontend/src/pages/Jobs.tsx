@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form"
 import { Search, X, ChevronDown, ChevronUp, ArrowLeft } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 import { useJobs, useJob } from "../authContext/useAuth1"
+import { useCreateApplication } from "../authContext/useAuth3"
 import { ClipLoader } from "react-spinners";
 
 interface QueryValue {
@@ -10,6 +11,7 @@ interface QueryValue {
 }
 
 interface ApplyValue {
+  job: string,
   name: string,
   email: string,
   phone: string,
@@ -34,6 +36,7 @@ interface ApplyValue {
 }
 
 const resetAll = {
+  job: "",
   name: "",
   email: "",
   phone: "",
@@ -62,6 +65,7 @@ const Jobs = () => {
   const { data: jobs, isLoading, isError, error } = useJobs()
   const [selectedJob, setSelectedJob] = useState<string | null>(null)
   const { data: job, isLoading: isJobLoading } = useJob(selectedJob)
+  const { mutate: createApplication } = useCreateApplication()
   const { register, watch, reset } = useForm<QueryValue>()
   const { register: registerApply, handleSubmit: handleApplySubmit, formState: { errors: applyErrors }, reset: resetApply } = useForm<ApplyValue>()
   const query = watch("text", "")
@@ -160,7 +164,13 @@ const Jobs = () => {
     resetApply(resetAll)
   }
 
-  function onsubmit() {
+  function onsubmit(data: ApplyValue) {
+    createApplication( data, {
+      onSuccess:() => {
+        alert("Application successfully sent")
+
+      }
+    })
 
   }
 

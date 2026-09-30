@@ -31,11 +31,12 @@ interface Application {
     interest: string,
     aiTools: string,
     confirm1: boolean,
-    confirm2: boolean
+    confirm2: boolean,
+    createdAt: string,
 
 }
 
-export type ApplicationInput = Omit<Application, "_id" | "user">
+export type ApplicationInput = Omit<Application, "_id" | "user" | "createdAt">
 
 export async function createApplication(data: ApplicationInput): Promise<Application> {
     const response = await fetch(`${API_URL}/application`, {
