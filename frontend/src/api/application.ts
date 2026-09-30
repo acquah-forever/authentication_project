@@ -1,11 +1,6 @@
 const API_URL = import.meta.env.VITE_API_URL
 
-type SkillLevel =
-    | ""
-    | "beginner"
-    | "intermediate"
-    | "advanced"
-    | "expert"
+type SkillLevel = "" | "beginner" | "intermediate" | "advanced" | "expert"
 
 interface Application {
     _id:string,
@@ -31,11 +26,12 @@ interface Application {
     interest: string,
     aiTools: string,
     confirm1: boolean,
-    confirm2: boolean
+    confirm2: boolean,
+    createdAt: string,
 
 }
 
-export type ApplicationInput = Omit<Application, "_id" | "user">
+export type ApplicationInput = Omit<Application, "_id" | "user" | "createdAt">
 
 export async function createApplication(data: ApplicationInput): Promise<Application> {
     const response = await fetch(`${API_URL}/application`, {

@@ -2,18 +2,23 @@ import { useState, useMemo, useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { Search, X, ChevronDown, ChevronUp, ArrowLeft } from "lucide-react"
 import { useNavigate } from "react-router-dom"
+import { useAuthenticatedUser } from "../authContext/useAuth"
 import { useJobs, useJob } from "../authContext/useAuth1"
+import { useCreateApplication } from "../authContext/useAuth3"
 import { ClipLoader } from "react-spinners";
 
 interface QueryValue {
   text: string
 }
 
-interface ApplyValue {
+type SkillLevel = "" | "beginner" | "intermediate" | "advanced" | "expert"
+
+interface ApplicationForm {
+
   name: string,
   email: string,
   phone: string,
-  location: string
+  location: string,
   linkedin: string,
   github: string,
   portfolio: string,
@@ -22,18 +27,20 @@ interface ApplyValue {
   strongest: string,
   projectLink: string,
   llm: string,
-  frontend: string,
-  backend: string,
-  databases: string,
-  aiCodingTools: string,
+  frontend: SkillLevel,
+  backend: SkillLevel,
+  databases: SkillLevel,
+  aiCodingTools: SkillLevel,
   systems: string,
   interest: string,
   aiTools: string,
-  confirm1: string,
-  confirm2: string
-}
+  confirm1: boolean,
+  confirm2: boolean,
 
-const resetAll = {
+
+}
+const resetAll: ApplicationForm = {
+
   name: "",
   email: "",
   phone: "",
@@ -49,21 +56,23 @@ const resetAll = {
   frontend: "",
   backend: "",
   databases: "",
-  aiCodingiTools: "",
+  aiCodingTools: "",
   systems: "",
   interest: "",
   aiTools: "",
-  confirm1: "",
-  confirm2: ""
+  confirm1: false,
+  confirm2: false
 }
 
 const Jobs = () => {
 
   const { data: jobs, isLoading, isError, error } = useJobs()
   const [selectedJob, setSelectedJob] = useState<string | null>(null)
+  const { data: user } = useAuthenticatedUser();
   const { data: job, isLoading: isJobLoading } = useJob(selectedJob)
+  const { mutate: createApplication } = useCreateApplication()
   const { register, watch, reset } = useForm<QueryValue>()
-  const { register: registerApply, handleSubmit: handleApplySubmit, formState: { errors: applyErrors }, reset: resetApply } = useForm<ApplyValue>()
+  const { register: registerApply, handleSubmit: handleApplySubmit, formState: { errors: applyErrors }, reset: resetApply } = useForm<ApplicationForm>()
   const query = watch("text", "")
   const [open, setOpen] = useState<number | null>(null)
   const [page, setPage] = useState<number>(1)
@@ -71,6 +80,7 @@ const Jobs = () => {
   const [experienceLevel, setExperienceLevel] = useState<string>("")
   const navigate = useNavigate()
   const jobsPerPage = 5
+
 
 
 
@@ -160,8 +170,33 @@ const Jobs = () => {
     resetApply(resetAll)
   }
 
-  function onsubmit() {
+  function handleApply() {
+    if (!user) {
+      navigate("/login")
+    }
 
+    setOpen(3)
+  }
+
+  function onsubmit(data: ApplicationForm) {
+
+    if (!selectedJob) {
+      alert("Please select a job before applying")
+      return
+    }
+
+    createApplication(
+      { ...data, job: selectedJob },
+      {
+        onSuccess: () => {
+          console.log("Application submitted successfully")
+          navigate("/")
+        },
+        onError: (error) => {
+          console.error("Application submission failed:", error)
+        }
+      }
+    )
   }
 
   if (isLoading) {
@@ -316,7 +351,7 @@ const Jobs = () => {
                     <span className="border px-4 py-1 rounded-full font-semibold text-sm">{job?.employmentType}</span>
                     <span className="border px-4 py-1 rounded-full font-semibold text-sm">{job?.experienceLevel}</span>
                   </div>
-                  <button className="mb-4 border cursor-pointer rounded-full px-4 py-1 bg-sky-600 text-white" onClick={() => handleClick(3)}>Apply</button>
+                  <button className="mb-4 border cursor-pointer rounded-full px-4 py-1 bg-sky-600 text-white" onClick={handleApply}>Apply</button>
                   <h1 className="font-semibold underline">Requirements</h1>
                   <p className="text-sm">{job?.requirements}</p>
                   <h1 className="font-semibold mt-4 underline">About This Job</h1>
@@ -328,7 +363,11 @@ const Jobs = () => {
 
             {open === 3 &&
               <div className="fixed inset-0 z-50 flex border items-start justify-center overflow-y-scroll bg-black/50 p-4 text-black sm:items-center sm:p-8 px-10">
-                <form className="p-4 my-auto w-full max-w-4xl min-h-screen rounded-lg bg-white" onSubmit={handleApplySubmit(onsubmit)}>
+                <form className="p-4 my-auto w-full max-w-4xl min-h-screen rounded-lg bg-white" onSubmit={handleApplySubmit(onsubmit,
+                  (errors) => {
+                    console.log("FORM ERRORS:", errors);
+                  }
+                )}>
                   <div className="flex justify-between mb-2">
                     <h1 className="text-lg sm:text-2xl md:text-3xl">Apply for {job?.jobTitle}</h1>
                     <button type="button" aria-label="Close job application" onClick={handleClose}>
@@ -401,22 +440,22 @@ const Jobs = () => {
                     </div>
                     <div className="flex flex-col space-y-1">
                       <label htmlFor="linkedin" className="text-xs sm:text-sm text-gray-500">Strongest Programming Language</label>
-                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg placeholder:text-xs sm:text-sm" {...registerApply("strongest", {required: "Please indicate your strongest programming language"})}type="text" placeholder="e.g TypeScript,Python" />
+                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg placeholder:text-xs sm:text-sm" {...registerApply("strongest", { required: "Please indicate your strongest programming language" })} type="text" placeholder="e.g TypeScript,Python" />
                       {applyErrors.strongest && <p className="text-red-500 text-xs">{applyErrors.strongest.message}</p>}
                     </div>
                     <div className="flex flex-col space-y-1">
                       <label htmlFor="linkedin" className="text-xs sm:text-sm text-gray-500">Best Project Link</label>
-                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg placeholder:text-xs sm:text-sm"{...registerApply("projectLink", {required: "Please show you best project link"})} type="text" placeholder="https://..." />
+                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg placeholder:text-xs sm:text-sm"{...registerApply("projectLink", { required: "Please show you best project link" })} type="text" placeholder="https://..." />
                       {applyErrors.projectLink && <p className="text-red-500 text-xs">{applyErrors.projectLink.message}</p>}
                     </div>
                     <div className="flex flex-col space-y-1">
                       <label htmlFor="linkedin" className="text-xs sm:text-sm text-gray-500">AI Tools You Use</label>
-                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg placeholder:text-xs sm:text-sm" {...registerApply("llm", {required: "Please indicate your preferred AI tool/tools to use"})}type="text" placeholder="e.g Cursor, Claude Code, Codex " />
+                      <input className="border border-gray-400 not-first:px-2 px-2 py-2 rounded-lg placeholder:text-xs sm:text-sm" {...registerApply("llm", { required: "Please indicate your preferred AI tool/tools to use" })} type="text" placeholder="e.g Cursor, Claude Code, Codex " />
                       {applyErrors.llm && <p className="text-red-500 text-xs">{applyErrors.llm.message}</p>}
                     </div>
                     <div className="flex flex-col space-y-1">
                       <label className="text-gray-500 text-xs sm:text-sm" htmlFor="comfort">Comfort with frontend</label>
-                      <select className="border border-gray-400 rounded-lg px-2 py-3 text-sm text-gray-500" name="frontend" id="frontend">
+                      <select className="border border-gray-400 rounded-lg px-2 py-3 text-sm text-gray-500"{...registerApply("frontend")} name="frontend" id="frontend">
                         <option className="text-gray-500 text-xs sm:text-sm" value="">Select a level </option>
                         <option className="text-gray-500" value="beginner">Beginner</option>
                         <option className="text-gray-500" value="intermediate">Intermediate</option>
@@ -427,7 +466,7 @@ const Jobs = () => {
 
                     <div className="flex flex-col space-y-1">
                       <label className="text-gray-400 text-xs sm:text-sm" htmlFor="comfort">Comfort with backend</label>
-                      <select className="border border-gray-400 rounded-lg px-2 py-3 text-sm text-gray-500" name="frontend" id="frontend">
+                      <select className="border border-gray-400 rounded-lg px-2 py-3 text-sm text-gray-500"{...registerApply("backend")} name="backend" id="backend">
                         <option className="text-gray-500" value="">Select a level </option>
                         <option className="text-gray-500" value="beginner">Beginner</option>
                         <option className="text-gray-500" value="intermediate">Intermediate</option>
@@ -438,7 +477,7 @@ const Jobs = () => {
 
                     <div className="flex flex-col space-y-1">
                       <label className="text-gray-400 text-xs sm:text-sm" htmlFor="comfort">Comfort with databases</label>
-                      <select className="border border-gray-400 rounded-lg px-2 py-3 text-sm text-gray-500" name="frontend" id="frontend">
+                      <select className="border border-gray-400 rounded-lg px-2 py-3 text-sm text-gray-500"{...registerApply("databases")} name="databases" id="databases">
                         <option className="text-gray-500" value="">Select a level </option>
                         <option className="text-gray-500" value="beginner">Beginner</option>
                         <option className="text-gray-500" value="intermediate">Intermediate</option>
@@ -449,7 +488,7 @@ const Jobs = () => {
 
                     <div className="flex flex-col space-y-1">
                       <label className="text-gray-400 text-xs sm:text-sm" htmlFor="comfort">Comfort with AI coding tools</label>
-                      <select className="border border-gray-400 rounded-lg px-2 py-3 text-sm text-gray-500" name="frontend" id="frontend">
+                      <select className="border border-gray-400 rounded-lg px-2 py-3 text-sm text-gray-500"{...registerApply("aiCodingTools")} name="aiCodingTools" id="ai">
                         <option className="text-gray-500" value="">Select a level </option>
                         <option className="text-gray-500" value="beginner">Beginner</option>
                         <option className="text-gray-500" value="intermediate">Intermediate</option>
@@ -460,7 +499,7 @@ const Jobs = () => {
                   </div>
                   <div className="mt-4 max-w-4xl w-full flex flex-col p-3">
                     <label className="text-gray-400 text-xs sm:text-sm mb-1" htmlFor="systems/products">Systems or products you have worked on</label>
-                    <textarea name="systems/products" id="system/products" className="rounded-lg border border-gray-400 h-50 p-2"{...registerApply("systems", {required: "Please confirm systems and products you have worked on"})}></textarea>
+                    <textarea name="systems/products" id="system/products" className="rounded-lg border border-gray-400 h-50 p-2"{...registerApply("systems", { required: "Please confirm systems and products you have worked on" })}></textarea>
                     {applyErrors.systems && <p className="text-red-500 text-xs mt-2">{applyErrors.systems.message}</p>}
                   </div>
                   <div className="flex items-center gap-2 mt-4">
@@ -484,7 +523,7 @@ const Jobs = () => {
 
                   <div className="flex flex-col mt-2 px-3">
                     <div className="flex gap-2">
-                      <input className="ra" type="radio" value="location" {...registerApply("confirm1", { required: "Please confirm you understand this role is location-based" })} />
+                      <input className="ra" type="checkbox" {...registerApply("confirm1", { required: "Please confirm you understand this role is location-based" })} />
                       <p className="text-gray-400 text-xs sm:text-sm">I understand that this is a location-based role.</p>
                     </div>
                     {applyErrors.confirm1 && <p className="text-red-500 text-xs mt-1">{applyErrors.confirm1.message}</p>}
@@ -492,7 +531,7 @@ const Jobs = () => {
 
                   <div className="flex flex-col mt-2 px-3">
                     <div className="flex gap-2">
-                      <input className="ra" type="radio" value="accurate" {...registerApply("confirm2", { required: "Please confirm the information you provided is accurate" })} />
+                      <input className="ra" type="checkbox" {...registerApply("confirm2", { required: "Please confirm the information you provided is accurate" })} />
                       <p className="text-gray-400 text-xs sm:text-sm mb-1 mt-1">I confirm that the information I have provided is accurate</p>
                     </div>
                     {applyErrors.confirm2 && <p className="text-red-500 text-xs">{applyErrors.confirm2.message}</p>}

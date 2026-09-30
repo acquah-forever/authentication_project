@@ -2,6 +2,8 @@ import Profile from '../models/profile'
 import Application from '../models/applications'
 import { RequestHandler } from 'express'
 import createHttpError from 'http-errors'
+import { ZodError } from 'zod'
+import { applicationSchema } from '../validation/application'
 
 
 export const getAuthenticatedProfile: RequestHandler = async (req, res, next) => {
@@ -66,6 +68,8 @@ export const createApplication: RequestHandler<unknown, unknown, ApplyValue, unk
             throw createHttpError(401, "User not authenticated")
         }
 
+        const validateData = applicationSchema.parse(req.body)
+
         const {
             job,
             name,
@@ -89,7 +93,9 @@ export const createApplication: RequestHandler<unknown, unknown, ApplyValue, unk
             aiTools,
             confirm1,
             confirm2
-        } = req.body
+        } = validateData
+
+
 
         const existingApplication = await Application.exists({ user: authenticatedUser, job })
 
@@ -127,6 +133,9 @@ export const createApplication: RequestHandler<unknown, unknown, ApplyValue, unk
 
     }
     catch (error) {
+        if (error instanceof ZodError) {
+            throw createHttpError(400, "Invalid application data")
+        }
         next(error)
     }
 }
