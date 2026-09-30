@@ -189,8 +189,12 @@ const Jobs = () => {
       { ...data, job: selectedJob },
       {
         onSuccess: () => {
+          console.log("Application submitted successfully")
           navigate("/")
         },
+        onError: (error) => {
+          console.error("Application submission failed:", error)
+        }
       }
     )
   }
