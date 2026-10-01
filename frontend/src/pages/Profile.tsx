@@ -7,7 +7,6 @@ import { useProfile, useCreateProfile, useUpdateProfile } from "../authContext/u
 import { useAbout, useCreateAbout, useUpdateAbout } from "../authContext/useAuth4"
 import { ClipLoader } from "react-spinners";
 
-
 countries.registerLocale(en);
 
 interface FormData {
@@ -19,7 +18,6 @@ interface FormData {
   industry: string;
   phoneNumber: string;
   website: string;
-
 }
 
 interface AboutData {
@@ -29,7 +27,7 @@ interface AboutData {
 
 const Profile = () => {
   const { register, handleSubmit, reset, formState: { errors } } = useForm<FormData>()
-  const { register: registerAbout, handleSubmit: handleSubmitAbout, reset: resetAbout, formState: { errors: errorsAbout } } = useForm<AboutData>()
+  const { register: registerAbout, handleSubmit: handleSubmitAbout, formState: { errors: errorsAbout } } = useForm<AboutData>()
   const [edit, setEdit] = useState<null | number>(null)
   const [submitError, setSubmitError] = useState<string | null>(null)
   const { data: profile, isLoading } = useProfile()
@@ -39,7 +37,7 @@ const Profile = () => {
   const { mutate: createAbout, isPending: isCreatingAbout } = useCreateAbout()
   const { mutate: updateAbout, isPending: isUpdatingAbout } = useUpdateAbout()
 
-  const isSaving = isCreating || isUpdating
+  const isSaving = isCreating || isUpdating || isCreatingAbout || isUpdatingAbout
 
   const countryList = countries.getNames("en", {
     select: "official",
@@ -60,7 +58,7 @@ const Profile = () => {
     setEdit(index)
   }
 
-  function onSubmit(data: FormData) {
+  function onSubmitProfile(data: FormData) {
 
     setSubmitError(null)
 
@@ -88,6 +86,34 @@ const Profile = () => {
 
   }
 
+  function onSubmitAbout(data: AboutData) {
+    setSubmitError(null)
+
+    if(info) {
+      updateAbout(
+        {data, id: info._id}, {
+          onSuccess: () => {
+            setEdit(null)
+          },
+          onError: () => {
+          setSubmitError("We couldn't update your about section. Try again later")
+          }
+        }
+      )
+    } else {
+      createAbout(data, {
+        onSuccess: () => {
+          setEdit(null)
+        },
+        onError: () => {
+          setSubmitError("We couldn't create your about section. Try again later")
+
+        }
+      })
+    }
+    
+  }
+
   return (
     <div className="flex flex-col justify-center px-4 py-5 sm:px-8 lg:px-20" id="profile">
       <div className="mx-auto flex w-full max-w-7xl flex-col px-0 sm:px-5">
@@ -106,7 +132,7 @@ const Profile = () => {
                   <X className="cursor-pointer text-black" />
                 </button>
               </div>
-              <form className="mx-0 max-h-[calc(100vh-4rem)] overflow-y-auto px-5 py-3 sm:mx-7" onSubmit={handleSubmit(onSubmit)}>
+              <form className="mx-0 max-h-[calc(100vh-4rem)] overflow-y-auto px-5 py-3 sm:mx-7" onSubmit={handleSubmit(onSubmitProfile)}>
                 <div className="mx-auto mb-3 flex gap-2 sm:justify-between">
                   <div className="flex flex-col">
                     <label className="text-sm" htmlFor="firstName">First name</label>
@@ -227,7 +253,7 @@ const Profile = () => {
         {
           edit === 2 &&
           <div className="fixed inset-0 z-50 flex min-h-screen items-start justify-center overflow-y-auto bg-black/50  text-black sm:items-center">
-            <div className="my-auto w-full h-160 max-w-4xl rounded-lg border bg-white px-5 py-3">
+            <div className="my-auto w-full h-170 max-w-4xl rounded-lg border bg-white px-5 py-3">
               <div className="flex justify-between items-center border-b border-b-gray-300 mb-5">
                 <h1 className="font-semibold text-xl">Edit About</h1>
                 <button type="button" aria-label="Close edit profile dialog" onClick={() => setEdit(null)}>
@@ -235,12 +261,13 @@ const Profile = () => {
                 </button>
               </div>
               <p className="mb-4">You can write about your years of experience, industry, or skills. People also talk about their achievements or previous job experiences.</p>
-              <form onSubmit:handleSubmitAbout={handleSubmit(onSubmit)}>
+              <form onSubmit={handleSubmitAbout(onSubmitAbout)}>
                 <textarea className="border rounded-lg w-full h-110 p-3 resize-none"{...registerAbout("about", { required: "About is required" })} id="about"></textarea>
                 {errorsAbout.about && <span className="text-red-500 text-sm font-semibold flex gap-1 items-center">
                   <OctagonMinus size={15} />
                   {errorsAbout.about.message}
                 </span>}
+                {submitError && <p className="mt-3 text-sm font-semibold text-red-500" role="alert">{submitError}</p>}
                 <div className="mt-3 flex justify-end">
                   <button type="submit" disabled={isSaving} className="cursor-pointer rounded-md bg-blue-500 px-4 py-2 text-white transition-colors hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-60">{isSaving ? "Saving…" : "Submit"}</button>
                 </div>
