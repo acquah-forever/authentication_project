@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import { getAbout, createAbout, updateAbout, type AboutInput } from "../api/about"
 
-export function useGetAbout() {
+export function useAbout() {
     return useQuery({
         queryKey: ["about"],
         queryFn: getAbout,

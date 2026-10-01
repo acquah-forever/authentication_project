@@ -4,6 +4,7 @@ import countries from "i18n-iso-countries";
 import en from "i18n-iso-countries/langs/en.json";
 import { Pencil, X, OctagonMinus } from "lucide-react"
 import { useProfile, useCreateProfile, useUpdateProfile } from "../authContext/useAuth2";
+import { useAbout, useCreateAbout, useUpdateAbout } from "../authContext/useAuth4"
 import { ClipLoader } from "react-spinners";
 
 
@@ -34,6 +35,10 @@ const Profile = () => {
   const { data: profile, isLoading } = useProfile()
   const { mutate: createProfile, isPending: isCreating } = useCreateProfile()
   const { mutate: updateProfile, isPending: isUpdating } = useUpdateProfile()
+  const { data: info, isLoading: aboutLoading} = useAbout()
+  const { mutate: createAbout, isPending: isCreatingAbout } = useCreateAbout()
+  const { mutate: updateAbout, isPending: isUpdatingAbout } = useUpdateAbout()
+
   const isSaving = isCreating || isUpdating
 
   const countryList = countries.getNames("en", {
@@ -213,6 +218,11 @@ const Profile = () => {
               <Pencil className="cursor-pointer" size={25} />
             </button>
           </div>
+          {aboutLoading && <div className="flex justify-center items-center"><ClipLoader size={70} color="#123abc" /></div>}
+          {!aboutLoading && !info && <p className="mt-3 text-white">No "About" details yet. Click the edit button above to add it.</p>}
+
+          {info && 
+          <p className="text-2xl font-semibold">{info.about}</p>}
         </div>
         {
           edit === 2 &&
