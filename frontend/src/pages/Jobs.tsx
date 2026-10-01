@@ -538,12 +538,10 @@ const Jobs = () => {
                       <h2 className="text-2xl font-bold">
                         Application Sent!
                       </h2>
-
                       <p className="mt-2 text-gray-600">
                         Your application has been submitted successfully.
                       </p>
-
-                      <button onClick={() => navigate("/jobs")} className="cursor-pointer mt-6 rounded bg-blue-600 px-6 py-2 text-white">Continue</button>
+                      <button onClick={() => navigate("/")} className="cursor-pointer mt-6 rounded bg-blue-600 px-6 py-2 text-white">Continue</button>
                     </div>
                   </div>
                 )}
