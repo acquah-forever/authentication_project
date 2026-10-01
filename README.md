@@ -1,4 +1,4 @@
-# Authentication System
+# Job Search Clone
 
 A full-stack authentication system built with React, TypeScript, Express, MongoDB, and session-based authentication**.
 
