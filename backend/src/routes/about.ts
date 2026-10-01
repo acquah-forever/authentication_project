@@ -1,8 +1,10 @@
 import express from "express"
-import{ getAbout, createAbout, updateAbout } from "../controllers/about"
+import{ getAuthenticatedUser, createAbout, updateAbout } from "../controllers/about"
 
 const router = express.Router()
 
-router.get("/", getAbout)
+router.get("/", getAuthenticatedUser)
 router.post("/", createAbout)
 router.post("/:id", updateAbout)
+
+export default router
