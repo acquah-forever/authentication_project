@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
-import bcrypt from "bcrypt"
 import users from "../models/users"
 import createHttpError from "http-errors";
+import bcrypt from "bcrypt"
 
 /** Return the public account fields that are safe to send to clients. */
 function userResponse(user: { name: string; email: string }) {

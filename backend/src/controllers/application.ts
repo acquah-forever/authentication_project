@@ -26,12 +26,7 @@ export const getAuthenticatedProfile: RequestHandler = async (req, res, next) =>
     }
 }
 
-type SkillLevel =
-    | ""
-    | "beginner"
-    | "intermediate"
-    | "advanced"
-    | "expert"
+type SkillLevel = | "" | "beginner" | "intermediate" | "advanced" | "expert"
 
 
 interface ApplyValue {

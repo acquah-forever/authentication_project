@@ -4,8 +4,8 @@ import countries from "i18n-iso-countries";
 import en from "i18n-iso-countries/langs/en.json";
 import { Pencil, X, OctagonMinus } from "lucide-react"
 import { useProfile, useCreateProfile, useUpdateProfile } from "../authContext/useAuth2";
+import { useAbout, useCreateAbout, useUpdateAbout } from "../authContext/useAuth4"
 import { ClipLoader } from "react-spinners";
-
 
 countries.registerLocale(en);
 
@@ -20,23 +20,28 @@ interface FormData {
   website: string;
 }
 
+interface AboutData {
+  about: string;
+}
+
 
 const Profile = () => {
   const { register, handleSubmit, reset, formState: { errors } } = useForm<FormData>()
+  const { register: registerAbout, handleSubmit: handleSubmitAbout, formState: { errors: errorsAbout } } = useForm<AboutData>()
   const [edit, setEdit] = useState<null | number>(null)
   const [submitError, setSubmitError] = useState<string | null>(null)
   const { data: profile, isLoading } = useProfile()
   const { mutate: createProfile, isPending: isCreating } = useCreateProfile()
   const { mutate: updateProfile, isPending: isUpdating } = useUpdateProfile()
-  const isSaving = isCreating || isUpdating
+  const { data: info, isLoading: aboutLoading} = useAbout()
+  const { mutate: createAbout, isPending: isCreatingAbout } = useCreateAbout()
+  const { mutate: updateAbout, isPending: isUpdatingAbout } = useUpdateAbout()
 
-
-
+  const isSaving = isCreating || isUpdating || isCreatingAbout || isUpdatingAbout
 
   const countryList = countries.getNames("en", {
     select: "official",
   });
-
 
   function handleEdit(index: number) {
     if (edit === index) {
@@ -53,13 +58,13 @@ const Profile = () => {
     setEdit(index)
   }
 
-  function onSubmit(data: FormData) {
-    
+  function onSubmitProfile(data: FormData) {
+
     setSubmitError(null)
 
     if (profile) {
       updateProfile(
-        { id: profile._id, data }, {
+        { data, id: profile._id }, {
         onSuccess: () => {
           setEdit(null)
         },
@@ -81,8 +86,33 @@ const Profile = () => {
 
   }
 
+  function onSubmitAbout(data: AboutData) {
+    setSubmitError(null)
 
+    if(info) {
+      updateAbout(
+        {data, id: info._id}, {
+          onSuccess: () => {
+            setEdit(null)
+          },
+          onError: () => {
+          setSubmitError("We couldn't update your about section. Try again later")
+          }
+        }
+      )
+    } else {
+      createAbout(data, {
+        onSuccess: () => {
+          setEdit(null)
+        },
+        onError: () => {
+          setSubmitError("We couldn't create your about section. Try again later")
 
+        }
+      })
+    }
+    
+  }
 
   return (
     <div className="flex flex-col justify-center px-4 py-5 sm:px-8 lg:px-20" id="profile">
@@ -90,9 +120,7 @@ const Profile = () => {
         <div className="relative flex flex-col">
           <img className='w-full h-60 rounded-2xl object-cover object-center' src={"https://cdn.pixabay.com/photo/2019/11/30/18/18/course-4663835_1280.jpg"} alt="background-image" />
           <div className="absolute top-40 left-5 rounded-full bg-gray-300 w-40 h-40"></div>
-          <button className="absolute top-65 right-5" type="button" aria-label="Pencil-Edit" onClick={() => handleEdit(1)} disabled={isLoading}>
-            <Pencil className="cursor-pointer" size={25} />
-          </button>
+
         </div>
         {
           edit === 1 &&
@@ -104,7 +132,7 @@ const Profile = () => {
                   <X className="cursor-pointer text-black" />
                 </button>
               </div>
-              <form className="mx-0 max-h-[calc(100vh-4rem)] overflow-y-auto px-5 py-3 sm:mx-7" onSubmit={handleSubmit(onSubmit)}>
+              <form className="mx-0 max-h-[calc(100vh-4rem)] overflow-y-auto px-5 py-3 sm:mx-7" onSubmit={handleSubmit(onSubmitProfile)}>
                 <div className="mx-auto mb-3 flex gap-2 sm:justify-between">
                   <div className="flex flex-col">
                     <label className="text-sm" htmlFor="firstName">First name</label>
@@ -189,24 +217,65 @@ const Profile = () => {
             </div>
           </div>
         }
-        <div className="mt-15 rounded-lg p-5">
+        <div className="flex justify-between mt-20 rounded-lg p-5 bg-white/10 backdrop-blur-xl border-b border-white/20">
           {isLoading && <div className="flex justify-center items-center"><ClipLoader size={70} color="#123abc" /></div>}
           {!isLoading && !profile && <p className="mt-3 text-white">No profile information yet. Click the edit button above to add it.</p>}
           {profile && <>
-            <div className="mt-3 flex gap-1">
-              <p className="text-2xl font-semibold">{profile.firstName} {profile.lastName}</p>
-            </div>
-            <div className="mt-3 flex flex-col gap-2">
-              <p className="text-md">{profile.organization}</p>
-              <p className="text-slate-200 text-sm">{countryList[profile.country] ?? profile.country}</p>
-              <p className="text-slate-200 text-sm">{profile.education}</p>
+            <div>
+              <div className="mt-3 flex gap-1">
+                <p className="text-2xl font-semibold">{profile.firstName} {profile.lastName}</p>
+              </div>
+              <div className="mt-3 flex flex-col gap-2">
+                <p className="text-md">{profile.organization}</p>
+                <p className="text-slate-200 text-sm">{countryList[profile.country] ?? profile.country}</p>
+                <p className="text-slate-200 text-sm">{profile.education}</p>
+              </div>
             </div>
           </>}
+          <button type="button" aria-label="Pencil-Edit" onClick={() => handleEdit(1)} disabled={isLoading}>
+            <Pencil className="cursor-pointer" size={25} />
+          </button>
         </div>
 
+        <div className="mt-2 rounded-lg p-5 bg-white/10 backdrop-blur-xl border-b border-white/20">
+          <div className="flex justify-between mb-5">
+            <h1>About</h1>
+            <button type="button" aria-label="Pencil-Edit" onClick={() => handleEdit(2)} disabled={isLoading}>
+              <Pencil className="cursor-pointer" size={25} />
+            </button>
+          </div>
+          {aboutLoading && <div className="flex justify-center items-center"><ClipLoader size={70} color="#123abc" /></div>}
+          {!aboutLoading && !info && <p className="mt-3 text-white">No "About" details yet. Click the edit button above to add it.</p>}
+
+          {info && 
+          <p className="text-2xl font-semibold">{info.about}</p>}
+        </div>
+        {
+          edit === 2 &&
+          <div className="fixed inset-0 z-50 flex min-h-screen items-start justify-center overflow-y-auto bg-black/50  text-black sm:items-center">
+            <div className="my-auto w-full h-170 max-w-4xl rounded-lg border bg-white px-5 py-3">
+              <div className="flex justify-between items-center border-b border-b-gray-300 mb-5">
+                <h1 className="font-semibold text-xl">Edit About</h1>
+                <button type="button" aria-label="Close edit profile dialog" onClick={() => setEdit(null)}>
+                  <X className="cursor-pointer text-black" />
+                </button>
+              </div>
+              <p className="mb-4">You can write about your years of experience, industry, or skills. People also talk about their achievements or previous job experiences.</p>
+              <form onSubmit={handleSubmitAbout(onSubmitAbout)}>
+                <textarea className="border rounded-lg w-full h-110 p-3 resize-none"{...registerAbout("about", { required: "About is required" })} id="about"></textarea>
+                {errorsAbout.about && <span className="text-red-500 text-sm font-semibold flex gap-1 items-center">
+                  <OctagonMinus size={15} />
+                  {errorsAbout.about.message}
+                </span>}
+                {submitError && <p className="mt-3 text-sm font-semibold text-red-500" role="alert">{submitError}</p>}
+                <div className="mt-3 flex justify-end">
+                  <button type="submit" disabled={isSaving} className="cursor-pointer rounded-md bg-blue-500 px-4 py-2 text-white transition-colors hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-60">{isSaving ? "Saving…" : "Submit"}</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        }
       </div>
-
-
     </div>
   )
 }

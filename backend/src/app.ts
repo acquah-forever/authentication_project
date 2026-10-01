@@ -6,6 +6,7 @@ import authenticationRouter from "./routes/users"
 import jobsRouter from "./routes/jobs"
 import profileRouter from "./routes/profile"
 import applicationRouter from "./routes/application"
+import aboutRouter from "./routes/about"
 import session from "express-session";
 import env from "./util/validateEnv";
 import mongoose from "mongoose";
@@ -54,6 +55,8 @@ app.use("/api/users", authenticationRouter)
 app.use("/api/jobs", jobsRouter)
 app.use("/api/profile", profileRouter)
 app.use("/api/application", applicationRouter)
+app.use("/api/about", aboutRouter)
+
 
 app.use((req, res, next) => {
   next(createHttpError(404, "Endpoint not found"))

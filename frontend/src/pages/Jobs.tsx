@@ -78,12 +78,9 @@ const Jobs = () => {
   const [page, setPage] = useState<number>(1)
   const [employmentType, setEmploymentType] = useState<string>("")
   const [experienceLevel, setExperienceLevel] = useState<string>("")
+  const [showSuccess, setShowSuccess] = useState<boolean>(false);
   const navigate = useNavigate()
   const jobsPerPage = 5
-
-
-
-
 
   function handleClick(index: number) {
     setOpen((prev) => prev === index ? null : index)
@@ -178,7 +175,7 @@ const Jobs = () => {
     setOpen(3)
   }
 
-  function onsubmit(data: ApplicationForm) {
+  function onSubmit(data: ApplicationForm) {
 
     if (!selectedJob) {
       alert("Please select a job before applying")
@@ -189,11 +186,10 @@ const Jobs = () => {
       { ...data, job: selectedJob },
       {
         onSuccess: () => {
-          console.log("Application submitted successfully")
-          navigate("/")
+          setShowSuccess(true)
         },
-        onError: (error) => {
-          console.error("Application submission failed:", error)
+        onError: () => {
+          alert("Application submission failed")
         }
       }
     )
@@ -363,11 +359,7 @@ const Jobs = () => {
 
             {open === 3 &&
               <div className="fixed inset-0 z-50 flex border items-start justify-center overflow-y-scroll bg-black/50 p-4 text-black sm:items-center sm:p-8 px-10">
-                <form className="p-4 my-auto w-full max-w-4xl min-h-screen rounded-lg bg-white" onSubmit={handleApplySubmit(onsubmit,
-                  (errors) => {
-                    console.log("FORM ERRORS:", errors);
-                  }
-                )}>
+                <form className="p-4 my-auto w-full max-w-4xl min-h-screen rounded-lg bg-white" onSubmit={handleApplySubmit(onSubmit)}>
                   <div className="flex justify-between mb-2">
                     <h1 className="text-lg sm:text-2xl md:text-3xl">Apply for {job?.jobTitle}</h1>
                     <button type="button" aria-label="Close job application" onClick={handleClose}>
@@ -540,7 +532,22 @@ const Jobs = () => {
                     <button className="mt-5 btn bg-[#1A77F2] text-white border-[#005fd8] px-25 sm:px-7" type="submit">Submit Application</button>
                   </div>
                 </form>
+                {showSuccess && (
+                  <div className="fixed inset-0 flex items-center justify-center bg-black/50">
+                    <div className="bg-white rounded-lg p-8 shadow-lg text-center">
+                      <h2 className="text-2xl font-bold">
+                        Application Sent!
+                      </h2>
+                      <p className="mt-2 text-gray-600">
+                        Your application has been submitted successfully.
+                      </p>
+                      <button onClick={() => navigate("/")} className="cursor-pointer mt-6 rounded bg-blue-600 px-6 py-2 text-white">Continue</button>
+                    </div>
+                  </div>
+                )}
               </div>
+
+
 
             }
           </div>

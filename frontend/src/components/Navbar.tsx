@@ -112,7 +112,7 @@ const Navbar = () => {
             <AnimatePresence>
                 {open && (
                     <motion.nav variants={parent} initial="hidden" animate="visible" exit={{ opacity: 0, y: 50 }} className='absolute top-15 left-0 w-full bg-white/10 backdrop-blur-md border-b border-white/20 shadow-lg shadow-black/10'>
-                        <section className='px-5 hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 justify-items-center mt-10'>
+                        <section className='px-5 hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 justify-items-center mt-10 mb-10'>
                             <motion.div variants={children} className='space-y-4 mb-7'>
                                 <h2 className='text-md font-bold tracking-tighter' >Resources</h2>
                                 <div className='mt-3 flex space-x-4'>
