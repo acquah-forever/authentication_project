@@ -178,7 +178,7 @@ const Jobs = () => {
     setOpen(3)
   }
 
-  function onsubmit(data: ApplicationForm) {
+  function onSubmit(data: ApplicationForm) {
 
     if (!selectedJob) {
       alert("Please select a job before applying")
@@ -189,11 +189,11 @@ const Jobs = () => {
       { ...data, job: selectedJob },
       {
         onSuccess: () => {
-          console.log("Application submitted successfully")
+          alert("Application submitted successfully")
           navigate("/")
         },
-        onError: (error) => {
-          console.error("Application submission failed:", error)
+        onError: () => {
+          alert("Application submission failed")
         }
       }
     )
@@ -363,11 +363,7 @@ const Jobs = () => {
 
             {open === 3 &&
               <div className="fixed inset-0 z-50 flex border items-start justify-center overflow-y-scroll bg-black/50 p-4 text-black sm:items-center sm:p-8 px-10">
-                <form className="p-4 my-auto w-full max-w-4xl min-h-screen rounded-lg bg-white" onSubmit={handleApplySubmit(onsubmit,
-                  (errors) => {
-                    console.log("FORM ERRORS:", errors);
-                  }
-                )}>
+                <form className="p-4 my-auto w-full max-w-4xl min-h-screen rounded-lg bg-white" onSubmit={handleApplySubmit(onSubmit)}>
                   <div className="flex justify-between mb-2">
                     <h1 className="text-lg sm:text-2xl md:text-3xl">Apply for {job?.jobTitle}</h1>
                     <button type="button" aria-label="Close job application" onClick={handleClose}>
