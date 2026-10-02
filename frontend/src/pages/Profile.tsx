@@ -99,7 +99,7 @@ const Profile = () => {
   }
 
   function onSubmitAbout(data: AboutData) {
-        
+
     setSubmitError(null)
 
     if (info) {
@@ -261,7 +261,7 @@ const Profile = () => {
           {!aboutLoading && !info && <p className="mt-3 text-white">No "About" details yet. Click the edit button above to add it.</p>}
 
           {info &&
-            <p className="text-2xl font-semibold">{info.about}</p>}
+            <p className="text-sm text-wrap">{info.about}</p>}
         </div>
         {
           edit === 2 &&
@@ -273,7 +273,7 @@ const Profile = () => {
                   <X className="cursor-pointer text-black" />
                 </button>
               </div>
-              <p className="mb-4">You can write about your years of experience, industry, or skills. People also talk about their achievements or previous job experiences.</p>
+              <p className="mb-4 text-sm">You can write about your years of experience, industry, or skills. People also talk about their achievements or previous job experiences.</p>
               <form onSubmit={handleSubmitAbout(onSubmitAbout)}>
                 <textarea className="border rounded-lg w-full h-110 p-3 resize-none"{...registerAbout("about", { required: "About is required" })} id="about"></textarea>
                 {errorsAbout.about && <span className="text-red-500 text-sm font-semibold flex gap-1 items-center">
