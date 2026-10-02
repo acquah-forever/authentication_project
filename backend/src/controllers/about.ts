@@ -25,6 +25,26 @@ export const getAuthenticatedUser: RequestHandler = async (req, res, next) => {
 
 }
 
+export const getAbout: RequestHandler = async (req, res, next) => {
+  try {
+    const authenticatedUser = req.session.userId
+
+    if (!authenticatedUser) {
+      throw createHttpError(401, "User not authenticated")
+    }
+
+    const existingAbout = await About.findOne({user: authenticatedUser,}).exec()
+
+    if (!existingAbout) {
+      throw createHttpError(404, "About details not found")
+    }
+
+    res.status(200).json(existingAbout)
+  } catch (error) {
+    next(error)
+  }
+}
+
 interface AboutData {
     about: string
 }
@@ -75,7 +95,7 @@ export const updateAbout: RequestHandler<{id: string}, unknown, AboutData, unkno
         }
 
         const aboutId = req.params.id
-        if(mongoose.isValidObjectId(aboutId)) {
+        if(!mongoose.isValidObjectId(aboutId)) {
             throw createHttpError(400, "Invalid about id")
         }
 

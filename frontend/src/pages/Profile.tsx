@@ -27,13 +27,13 @@ interface AboutData {
 
 const Profile = () => {
   const { register, handleSubmit, reset, formState: { errors } } = useForm<FormData>()
-  const { register: registerAbout, handleSubmit: handleSubmitAbout, formState: { errors: errorsAbout } } = useForm<AboutData>()
+  const { register: registerAbout, handleSubmit: handleSubmitAbout, reset: resetAbout, formState: { errors: errorsAbout } } = useForm<AboutData>()
   const [edit, setEdit] = useState<null | number>(null)
   const [submitError, setSubmitError] = useState<string | null>(null)
   const { data: profile, isLoading } = useProfile()
   const { mutate: createProfile, isPending: isCreating } = useCreateProfile()
   const { mutate: updateProfile, isPending: isUpdating } = useUpdateProfile()
-  const { data: info, isLoading: aboutLoading} = useAbout()
+  const { data: info, isLoading: aboutLoading } = useAbout()
   const { mutate: createAbout, isPending: isCreatingAbout } = useCreateAbout()
   const { mutate: updateAbout, isPending: isUpdatingAbout } = useUpdateAbout()
 
@@ -48,13 +48,25 @@ const Profile = () => {
       setEdit(null)
       return
     }
+
     setSubmitError(null)
 
-    if (profile) {
-      reset(profile)
-    } else {
-      reset()
+    if (index === 1) {
+      if (profile) {
+        reset(profile)
+      } else {
+        reset()
+      }
     }
+
+    if (index === 2) {
+      if (info) {
+        resetAbout(info)
+      } else {
+        resetAbout()
+      }
+    }
+
     setEdit(index)
   }
 
@@ -87,18 +99,19 @@ const Profile = () => {
   }
 
   function onSubmitAbout(data: AboutData) {
+
     setSubmitError(null)
 
-    if(info) {
+    if (info) {
       updateAbout(
-        {data, id: info._id}, {
-          onSuccess: () => {
-            setEdit(null)
-          },
-          onError: () => {
+        { data, id: info._id }, {
+        onSuccess: () => {
+          setEdit(null)
+        },
+        onError: () => {
           setSubmitError("We couldn't update your about section. Try again later")
-          }
         }
+      }
       )
     } else {
       createAbout(data, {
@@ -111,7 +124,7 @@ const Profile = () => {
         }
       })
     }
-    
+
   }
 
   return (
@@ -247,8 +260,8 @@ const Profile = () => {
           {aboutLoading && <div className="flex justify-center items-center"><ClipLoader size={70} color="#123abc" /></div>}
           {!aboutLoading && !info && <p className="mt-3 text-white">No "About" details yet. Click the edit button above to add it.</p>}
 
-          {info && 
-          <p className="text-2xl font-semibold">{info.about}</p>}
+          {info &&
+            <p className="text-sm text-wrap">{info.about}</p>}
         </div>
         {
           edit === 2 &&
@@ -260,7 +273,7 @@ const Profile = () => {
                   <X className="cursor-pointer text-black" />
                 </button>
               </div>
-              <p className="mb-4">You can write about your years of experience, industry, or skills. People also talk about their achievements or previous job experiences.</p>
+              <p className="mb-4 text-sm">You can write about your years of experience, industry, or skills. People also talk about their achievements or previous job experiences.</p>
               <form onSubmit={handleSubmitAbout(onSubmitAbout)}>
                 <textarea className="border rounded-lg w-full h-110 p-3 resize-none"{...registerAbout("about", { required: "About is required" })} id="about"></textarea>
                 {errorsAbout.about && <span className="text-red-500 text-sm font-semibold flex gap-1 items-center">
@@ -269,6 +282,7 @@ const Profile = () => {
                 </span>}
                 {submitError && <p className="mt-3 text-sm font-semibold text-red-500" role="alert">{submitError}</p>}
                 <div className="mt-3 flex justify-end">
+
                   <button type="submit" disabled={isSaving} className="cursor-pointer rounded-md bg-blue-500 px-4 py-2 text-white transition-colors hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-60">{isSaving ? "Saving…" : "Submit"}</button>
                 </div>
               </form>
