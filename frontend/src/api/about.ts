@@ -7,7 +7,7 @@ interface About {
     updatedAt: string
 }
 
-export type AboutInput = Omit<About | "_id" | "createdAt", |"updatedAt">
+export type AboutInput = Omit<About , "_id" | "createdAt" | "updatedAt">;
 
 export async function getAbout(): Promise<About> {
     const response = await fetch(`${API_URL}/about`, {
@@ -40,8 +40,9 @@ export async function createAbout(data: AboutInput): Promise<About> {
     return response.json()
 }
 
-export async function updateAbout(_id: string, data: AboutInput): Promise<About> {
-    const response = await fetch(`${API_URL}/about/id`, {
+export async function updateAbout(id: string, data: AboutInput): Promise<About> {
+
+    const response = await fetch(`${API_URL}/about/${id}`, {
 
         method: "PATCH",
         credentials: "include",
