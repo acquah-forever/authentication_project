@@ -63,7 +63,7 @@ export const createProfile: RequestHandler<unknown, unknown, ProfileInput, unkno
         }
 
         const newProfile = await Profile.create({
-            
+
             user: authenticatedUser,
             firstName,
             lastName,
@@ -93,39 +93,18 @@ export const updateProfile: RequestHandler<{ id: string }, unknown, Update, unkn
             throw createHttpError(401, "User not authenticated")
         }
 
-        const { firstName, lastName, country, organization, education, industry, phoneNumber, website } = req.body
+        const validateData = profileSchema.parse(req.body)
 
-        if (firstName !== undefined && typeof firstName !== "string") {
-            throw createHttpError(400, "Invalid Parameter")
-        }
-
-        if (lastName !== undefined && typeof lastName !== "string") {
-            throw createHttpError(400, "Invalid Parameter")
-        }
-
-        if (country !== undefined && typeof country !== "string") {
-            throw createHttpError(400, "Invalid Parameter")
-        }
-
-        if (organization !== undefined && typeof organization !== "string") {
-            throw createHttpError(400, "Invalid Parameter")
-        }
-
-        if (education !== undefined && typeof education !== "string") {
-            throw createHttpError(400, "Invalid Parameter")
-        }
-
-        if (industry !== undefined && typeof industry !== "string") {
-            throw createHttpError(400, "Invalid Parameter")
-        }
-
-        if (website !== undefined && typeof website !== "string") {
-            throw createHttpError(400, "Invalid Parameter")
-        }
-
-        if (phoneNumber !== undefined && typeof phoneNumber !== "string") {
-            throw createHttpError(400, "Invalid Parameter")
-        }
+        const {
+            firstName,
+            lastName,
+            country,
+            organization,
+            education,
+            industry,
+            phoneNumber,
+            website
+        } = validateData
 
         const profileId = req.params.id
 
@@ -156,7 +135,11 @@ export const updateProfile: RequestHandler<{ id: string }, unknown, Update, unkn
         res.status(200).json(updatedProfile)
 
     }
+
     catch (error) {
-        next(error)
+            if (error instanceof ZodError) {
+                throw createHttpError(400, "Invalid application data")
+            }
+            next(error)
+        }
     }
-}
