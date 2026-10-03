@@ -3,6 +3,9 @@ import Profile from "../models/profile"
 import { RequestHandler } from "express"
 import createHttpError from "http-errors"
 import mongoose from "mongoose"
+import { ZodError } from 'zod'
+import { aboutSchema } from '../validation/about'
+
 
 export const getAuthenticatedUser: RequestHandler = async (req, res, next) => {
     try {
