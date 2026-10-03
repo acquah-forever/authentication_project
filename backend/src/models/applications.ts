@@ -1,7 +1,7 @@
 import { InferSchemaType, model, Schema } from "mongoose"
 
 const applicationSchema = new Schema({
-    user: { type: Schema.Types.ObjectId, ref: "Profile", required: true },
+    user: { type: Schema.Types.ObjectId, ref: "User", required: true, unique: true },
     job: { type: Schema.Types.ObjectId, ref: "Jobs", required: true },
     name: { type: String, required: true, trim: true },
     email: { type: String, required: true, trim: true, lowercase: true },

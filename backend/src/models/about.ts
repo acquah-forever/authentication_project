@@ -1,7 +1,7 @@
 import { model, Schema, InferSchemaType } from "mongoose"
 
 const aboutSchema = new Schema({
-    user: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    user: { type: Schema.Types.ObjectId, ref: "User", required: true, unique: true },
     about: { type: String, required: true, trim: true }
 })
 
