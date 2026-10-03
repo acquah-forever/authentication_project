@@ -4,6 +4,7 @@ export interface Job {
     _id: string;
     jobTitle: string;
     company: string;
+    picture: string,
     jobLocation: string;
     employmentType: string;
     experienceLevel: string;

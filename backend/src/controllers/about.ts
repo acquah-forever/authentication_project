@@ -3,6 +3,9 @@ import Profile from "../models/profile"
 import { RequestHandler } from "express"
 import createHttpError from "http-errors"
 import mongoose from "mongoose"
+import { ZodError } from 'zod'
+import { aboutSchema } from '../validation/about'
+
 
 export const getAuthenticatedUser: RequestHandler = async (req, res, next) => {
     try {
@@ -26,23 +29,27 @@ export const getAuthenticatedUser: RequestHandler = async (req, res, next) => {
 }
 
 export const getAbout: RequestHandler = async (req, res, next) => {
-  try {
-    const authenticatedUser = req.session.userId
+    try {
+        const authenticatedUser = req.session.userId
 
-    if (!authenticatedUser) {
-      throw createHttpError(401, "User not authenticated")
+        if (!authenticatedUser) {
+            throw createHttpError(401, "User not authenticated")
+        }
+
+        const existingAbout = await About.findOne({ user: authenticatedUser, }).exec()
+
+        if (!existingAbout) {
+            throw createHttpError(404, "About details not found")
+        }
+
+        res.status(200).json(existingAbout)
     }
-
-    const existingAbout = await About.findOne({user: authenticatedUser,}).exec()
-
-    if (!existingAbout) {
-      throw createHttpError(404, "About details not found")
-    }
-
-    res.status(200).json(existingAbout)
-  } catch (error) {
-    next(error)
-  }
+        catch (error) {
+            if (error instanceof ZodError) {
+                throw createHttpError(400, "Invalid application data")
+            }
+            next(error)
+        }
 }
 
 interface AboutData {
@@ -58,10 +65,10 @@ export const createAbout: RequestHandler<unknown, unknown, AboutData, unknown> =
 
         }
 
-        const { about } = req.body
-        if (typeof about !== "string") {
-            throw createHttpError(400, "Invalid Parameters")
-        }
+        const validateData = aboutSchema.parse(req.body)
+
+        const { about } = validateData
+
 
         const existingAbout = await About.exists({ user: authenticatedUser, about })
         if (existingAbout) {
@@ -81,38 +88,41 @@ export const createAbout: RequestHandler<unknown, unknown, AboutData, unknown> =
     }
 }
 
-export const updateAbout: RequestHandler<{id: string}, unknown, AboutData, unknown> = async(req, res, next) => {
+export const updateAbout: RequestHandler<{ id: string }, unknown, AboutData, unknown> = async (req, res, next) => {
     try {
         const authenticatedUser = req.session.userId
 
-        if(!authenticatedUser) {
+        if (!authenticatedUser) {
             throw createHttpError(401, "User not authenticated")
         }
-        const { about } = req.body
 
-        if(typeof about !== "string") {
+        const validateData = aboutSchema.parse(req.body)
+        
+        const { about } = validateData
+
+        if (typeof about !== "string") {
             throw createHttpError(400, "Invalid Parameters")
         }
 
         const aboutId = req.params.id
-        if(!mongoose.isValidObjectId(aboutId)) {
+        if (!mongoose.isValidObjectId(aboutId)) {
             throw createHttpError(400, "Invalid about id")
         }
 
-        const updatedAbout = await About.findOneAndUpdate({_id:aboutId, user: authenticatedUser}, {
+        const updatedAbout = await About.findOneAndUpdate({ _id: aboutId, user: authenticatedUser }, {
             about,
-        },  
-        {
+        },
+            {
                 new: true,
                 runValidators: true
             }
-        ). exec()
+        ).exec()
 
         res.status(200).json(updatedAbout)
 
 
     }
-    catch(error) {
+    catch (error) {
         next(error)
     }
 }

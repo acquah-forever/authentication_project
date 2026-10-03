@@ -2,6 +2,8 @@ import Profile from '../models/profile'
 import createHttpError from 'http-errors'
 import { RequestHandler } from 'express'
 import mongoose from 'mongoose'
+import { ZodError } from 'zod'
+import { profileSchema } from "../validation/profile"
 
 export const getProfile: RequestHandler = async (req, res, next) => {
     try {
@@ -41,24 +43,18 @@ export const createProfile: RequestHandler<unknown, unknown, ProfileInput, unkno
             throw createHttpError(401, "User not authenticated")
         }
 
-        const { firstName, lastName, country, organization, education, industry, phoneNumber, website } = req.body
+        const validateData = profileSchema.parse(req.body)
 
-        const typeofString = (
-
-            typeof firstName !== "string" ||
-            typeof lastName !== "string" ||
-            typeof country !== "string" ||
-            typeof organization !== "string" ||
-            typeof education !== "string" ||
-            typeof industry !== "string" ||
-            typeof phoneNumber !== "string" ||
-            typeof website !== "string"
-        )
-
-
-        if (typeofString) {
-            throw createHttpError(400, "Invalid Parameters")
-        }
+        const {
+            firstName,
+            lastName,
+            country,
+            organization,
+            education,
+            industry,
+            phoneNumber,
+            website
+        } = validateData
 
         const existingProfile = await Profile.exists({ user: authenticatedUser })
 
@@ -66,7 +62,7 @@ export const createProfile: RequestHandler<unknown, unknown, ProfileInput, unkno
             throw createHttpError(409, "Profile already exists")
         }
 
-        const newInput = {
+        const newProfile = await Profile.create({
 
             user: authenticatedUser,
             firstName,
@@ -77,9 +73,8 @@ export const createProfile: RequestHandler<unknown, unknown, ProfileInput, unkno
             industry,
             phoneNumber,
             website,
-        }
 
-        const newProfile = await Profile.create(newInput)
+        })
 
         res.status(201).json(newProfile)
     }
@@ -98,39 +93,18 @@ export const updateProfile: RequestHandler<{ id: string }, unknown, Update, unkn
             throw createHttpError(401, "User not authenticated")
         }
 
-        const { firstName, lastName, country, organization, education, industry, phoneNumber, website } = req.body
+        const validateData = profileSchema.parse(req.body)
 
-        if (firstName !== undefined && typeof firstName !== "string") {
-            throw createHttpError(400, "Invalid Parameter")
-        }
-
-        if (lastName !== undefined && typeof lastName !== "string") {
-            throw createHttpError(400, "Invalid Parameter")
-        }
-
-        if (country !== undefined && typeof country !== "string") {
-            throw createHttpError(400, "Invalid Parameter")
-        }
-
-        if (organization !== undefined && typeof organization !== "string") {
-            throw createHttpError(400, "Invalid Parameter")
-        }
-
-        if (education !== undefined && typeof education !== "string") {
-            throw createHttpError(400, "Invalid Parameter")
-        }
-
-        if (industry !== undefined && typeof industry !== "string") {
-            throw createHttpError(400, "Invalid Parameter")
-        }
-
-        if (website !== undefined && typeof website !== "string") {
-            throw createHttpError(400, "Invalid Parameter")
-        }
-
-        if (phoneNumber !== undefined && typeof phoneNumber !== "string") {
-            throw createHttpError(400, "Invalid Parameter")
-        }
+        const {
+            firstName,
+            lastName,
+            country,
+            organization,
+            education,
+            industry,
+            phoneNumber,
+            website
+        } = validateData
 
         const profileId = req.params.id
 
@@ -161,7 +135,11 @@ export const updateProfile: RequestHandler<{ id: string }, unknown, Update, unkn
         res.status(200).json(updatedProfile)
 
     }
+
     catch (error) {
-        next(error)
+            if (error instanceof ZodError) {
+                throw createHttpError(400, "Invalid application data")
+            }
+            next(error)
+        }
     }
-}
