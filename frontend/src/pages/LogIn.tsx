@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { CircleAlert } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import { useLogin } from "../authContext/useAuth";
-import { motion } from "framer-motion"
+import { motion } from "motion/react"
 
 
 const parent = {

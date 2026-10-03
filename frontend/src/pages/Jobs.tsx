@@ -6,7 +6,7 @@ import { useAuthenticatedUser } from "../authContext/useAuth"
 import { useJobs, useJob } from "../authContext/useAuth1"
 import { useCreateApplication } from "../authContext/useAuth3"
 import { ClipLoader } from "react-spinners";
-import { motion, AnimatePresence } from "framer-motion"
+import { motion, AnimatePresence } from "motion/react"
 
 interface QueryValue {
   text: string
