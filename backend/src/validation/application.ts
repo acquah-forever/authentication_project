@@ -1,12 +1,6 @@
 import { z } from "zod";
 
-const skillLevel = z.enum([
-    "",
-    "beginner",
-    "intermediate",
-    "advanced",
-    "expert",
-]);
+ z.enum(["","beginner","intermediate","advanced","expert"]);
 
 export const applicationSchema = z.object({
     job: z.string().min(1, "Invalid Parameters"),
@@ -35,13 +29,13 @@ export const applicationSchema = z.object({
 
     llm: z.string(),
 
-    frontend: skillLevel,
+    frontend: z.enum(["","beginner","intermediate","advanced","expert"]),
+    
+    backend: z.enum(["","beginner","intermediate","advanced","expert"]),
 
-    backend: skillLevel,
+    databases: z.enum(["","beginner","intermediate","advanced","expert"]),
 
-    databases: skillLevel,
-
-    aiCodingTools: skillLevel,
+    aiCodingTools: z.enum(["","beginner","intermediate","advanced","expert"]),
 
     systems: z.string(),
 
