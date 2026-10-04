@@ -529,7 +529,7 @@ const Jobs = () => {
                   </div>
                   <div className="flex items-center gap-2 mt-4">
                     <p className="rounded-full bg-gray-300 w-5 h-5 text-center text-sm">5</p>
-                    <p className="font-semibold text-sm sm:text-lg">Final Confirmation</p>
+                    <p className="font-semibold text-sm sm:text-lg">Final Confirmations</p>
                   </div>
 
                   <div className="flex flex-col mt-2 px-3">
