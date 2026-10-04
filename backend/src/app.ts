@@ -11,7 +11,6 @@ import session from "express-session";
 import env from "./util/validateEnv";
 import mongoose from "mongoose";
 import MongoStore from "connect-mongo";
-import multer from "multer";
 
 
 const app = express()
@@ -72,9 +71,6 @@ app.use((error: unknown, req: Request, res: Response, next: NextFunction) => {
     });
   }
 
-  if (error instanceof multer.MulterError) {
-    return res.status(400).json({ error: error.message });
-  }
 
   if (error instanceof mongoose.Error.ValidationError) {
     return res.status(400).json({

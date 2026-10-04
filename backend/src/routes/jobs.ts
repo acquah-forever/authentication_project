@@ -1,10 +1,7 @@
 import express from "express"
-import { createJob, getJobs, getJobById } from "../controllers/jobs";
-import upload from "../middleware/upload";
+import { getJobs, getJobById } from "../controllers/jobs";
 
 const router = express.Router();
-
-router.post("/", upload.single("logo"), createJob);
 
 router.get("/", getJobs);
 
