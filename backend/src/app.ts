@@ -17,7 +17,7 @@ const app = express()
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "http://localhost:5174",
     credentials: true,
   })
 );
@@ -70,6 +70,7 @@ app.use((error: unknown, req: Request, res: Response, next: NextFunction) => {
       error: error.message,
     });
   }
+
 
   if (error instanceof mongoose.Error.ValidationError) {
     return res.status(400).json({

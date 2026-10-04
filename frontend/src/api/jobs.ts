@@ -4,7 +4,8 @@ export interface Job {
     _id: string;
     jobTitle: string;
     company: string;
-    picture: string,
+    imageUrl: string,
+    imagePublicdId: string,
     jobLocation: string;
     employmentType: string;
     experienceLevel: string;
