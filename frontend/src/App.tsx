@@ -4,6 +4,8 @@ import SignUp from "./pages/SignUp"
 import Login from "./pages/LogIn"
 import Profile from "./pages/Profile"
 import Jobs from "./pages/Jobs"
+import Blog from "./pages/Blog"
+import Insights from "./pages/Insights"
 import Footer from "./components/Footer"
 
 import { Routes, Route } from "react-router-dom"
@@ -21,6 +23,9 @@ const App = () => {
             <Route path="/signup" element={<SignUp />}/>
             <Route path="/profile" element={<Profile />}/>
             <Route path="/jobs" element={<Jobs />}/>
+            <Route path="/blog" element={<Blog />}/>
+            <Route path="/insights" element={<Insights />}/>
+
           </Routes>
         </main>
         <Footer />
