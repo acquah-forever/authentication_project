@@ -118,7 +118,7 @@ const Navbar = () => {
                                 <div className='mt-3 flex space-x-4'>
                                     <House aria-label="House" size={20} />
                                     <motion.div variants={children} whileHover={{ scale: 1.05 }}>
-                                        <NavLink to="/" className='text-sm font-semibold underline' >Blog</NavLink>
+                                        <NavLink to="/blog" className='text-sm font-semibold underline'onClick={() => setOpen(null)} >Blog</NavLink>
                                         <h2 className='text-sm'>Read Industry Insights.</h2>
                                     </motion.div>
                                 </div>
@@ -126,7 +126,7 @@ const Navbar = () => {
                                 <div className='mt-2 flex space-x-4'>
                                     <TableOfContents aria-label="Table of Contents" size={20} />
                                     <motion.div variants={children} whileHover={{ scale: 1.05 }}>
-                                        <a href='/#faq' className='text-sm font-semibold underline' >FAQ</a>
+                                        <a href='/#faq' className='text-sm font-semibold underline'onClick={() => setOpen(null)} >FAQ</a>
                                         <h2 className='text-sm'>Common Questions Asked.</h2>
                                     </motion.div>
                                 </div>
@@ -134,7 +134,7 @@ const Navbar = () => {
                                 <div className='mt-2 flex space-x-4'>
                                     <Handshake aria-label="Handshake" />
                                     <motion.div variants={children} whileHover={{ scale: 1.05 }}>
-                                        <NavLink to="/" className='text-sm font-semibold underline' >Support</NavLink>
+                                        <a href='/#support' className='text-sm font-semibold underline'onClick={() => setOpen(null)} >Support</a>
                                         <h2 className='text-sm'>We are here to help.</h2>
                                     </motion.div>
                                 </div>
@@ -149,7 +149,7 @@ const Navbar = () => {
                                         <h1 className='text-sm font-semibold'>Finding Your Next Role</h1>
                                         <h2 className='text-sm'>Tips for landing positions.</h2>
                                         <motion.div variants={children} whileHover={{ scale: 1.05 }}>
-                                            <NavLink to='/blogpost' className='text-sm underline' >Read More</NavLink>
+                                            <NavLink to='/insights' className='text-sm underline'onClick={() => setOpen(null)} >Read More</NavLink>
                                         </motion.div>
                                     </div>
                                 </div>

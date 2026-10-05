@@ -354,7 +354,7 @@ const Jobs = () => {
                 {isJobLoading && <div className="m-30 sm:m-40 md:m-50 lg:m-90 flex justify-center items-center"><ClipLoader size={50} color="#123abc" /></div>}
                 <motion.div variants={children} className="bg-white/60 rounded-lg p-2 sm:p-3 md:p-4 lg:p-5 text-black min-h-210 mt-4 mb-4">
                   <div className='mb-5'>
-                    <img className='w-full h-77 rounded-2xl object-cover object-center' src={"https://cdn.pixabay.com/photo/2024/09/18/16/40/business-9056542_1280.jpg"} alt="image" />
+                    <img className='w-full h-77 rounded-2xl object-cover object-center' src={"https://cdn.pixabay.com/photo/2024/09/18/16/40/business-9056542_1280.jpg"} alt="job?_imageUrl" />
                   </div>
                   <h1 className="text-2xl font-semibold mb-3">
                     {job?.jobTitle}
