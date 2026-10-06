@@ -17,12 +17,12 @@ const Hero = () => {
             <motion.span variants={children} className="border rounded-full px-4 py-2 text-sm bg-linear-to-br from-cyan-400 to-green-800">100+ jobs available</motion.span>
             <motion.h1 variants={children} className="mt-4 mb-4 text-center text-4xl font-semibold sm:text-5xl md:text-6xl lg:text-7xl">Finding Your Dream <br /><span className="text-rotate text-7xl">
                 <span className="justify-items-center">
-                    <span className='text-4xl sm:text-5xl md:text-6xl lg:text-7xl bg-clip-text bg-linear-to-r from-cyan-400 to-green-800'>Software Engineering</span>
-                    <span className='text-4xl sm:text-5xl md:text-6xl lg:text-7xl bg-clip-text bg-linear-to-r from-cyan-400 to-green-800'>DevOps</span>
-                    <span className='text-4xl sm:text-5xl md:text-6xl lg:text-7xl bg-clip-text bg-linear-to-r from-cyan-400 to-green-800'>Frontend Development</span>
-                    <span className='text-4xl sm:text-5xl md:text-6xl lg:text-7xl bg-clip-text bg-linear-to-r from-cyan-400 to-green-800'>CI/CD</span>
-                    <span className='text-4xl sm:text-5xl md:text-6xl lg:text-7xl bg-clip-text bg-linear-to-r from-cyan-400 to-green-800'>Fullstack Engineering</span>
-                    <span className='text-4xl sm:text-5xl md:text-6xl lg:text-7xl bg-clip-text bg-linear-to-r from-cyan-400 to-green-800'>Cloud Engineering</span>
+                    <span className='text-4xl sm:text-5xl md:text-6xl lg:text-7xl bg-clip-text text-transparent bg-linear-to-br from-sky-300 via-purple-100 to-amber-400'>Software Engineering</span>
+                    <span className='text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-transparent bg-clip-text bg-linear-to-br from-sky-300 via-purple-100 to-amber-400'>DevOps</span>
+                    <span className='text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-transparent bg-clip-text bg-linear-to-br from-sky-300 via-purple-100 to-amber-400'>Frontend Development</span>
+                    <span className='text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-transparent bg-clip-text bg-linear-to-br from-sky-300 via-purple-100 to-amber-400'>CI/CD</span>
+                    <span className='text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-transparent bg-clip-text bg-linear-to-br from-sky-300 via-purple-100 to-amber-400'>Fullstack Engineering</span>
+                    <span className='text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-transparent bg-clip-text bg-linear-to-br from-sky-300 via-purple-100 to-amber-400'>Cloud Engineering</span>
                 </span>
             </span><br /><span className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl">Role Today</span></motion.h1>
             <motion.h2 variants={children} className="mt-5 mb-5 max-w-5xl text-center text-lg sm:text-2xl md:text-3xl">Search through the latest opportunities in software engineering. Get hired fast with positions updated daily</motion.h2>
