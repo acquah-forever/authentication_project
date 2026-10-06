@@ -1,10 +1,11 @@
 
 const Blog = () => {
   return (
-    <div id="/blog">
+    <div>
       
     </div>
   )
 }
 
 export default Blog
+
