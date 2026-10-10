@@ -1,6 +1,5 @@
 import { z } from "zod";
 
- z.enum(["","beginner","intermediate","advanced","expert"]);
 
 export const applicationSchema = z.object({
     job: z.string().min(1, "Invalid Parameters"),

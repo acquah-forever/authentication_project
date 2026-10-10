@@ -5,7 +5,6 @@ import { getAuthenticatedProfile, createApplication } from "../controllers/appli
 const router = express.Router()
 
 router.get("/", getAuthenticatedProfile )
-
 router.post("/", createApplication) 
 
 export default router

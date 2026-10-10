@@ -19,9 +19,6 @@ export const getProfile: RequestHandler = async (req, res, next) => {
         res.status(200).json(existingUser)
     }
     catch (error) {
-        if (error instanceof ZodError) {
-            throw createHttpError(400, "Invalid data")
-        }
         next(error)
     }
 }
