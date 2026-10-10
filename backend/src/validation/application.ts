@@ -24,6 +24,6 @@ export const applicationSchema = z.object({
     aiTools: z.string(),
     confirm1: z.literal(true),
     confirm2: z.literal(true),
-});
+}).strict();
 
 export type ApplicationInput = z.infer<typeof applicationSchema>;
