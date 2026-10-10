@@ -11,6 +11,6 @@ export const profileSchema = z.object({
     phoneNumber: z.string().min(1, "Inavlid Parameters"),
     website: z.string().min(1, "Invalid Parameters")
 
-})
+}).strict();
 
 export type ProfileInput = z.infer<typeof profileSchema>;

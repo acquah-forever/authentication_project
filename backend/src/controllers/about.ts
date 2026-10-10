@@ -100,9 +100,6 @@ export const updateAbout: RequestHandler<{ id: string }, unknown, AboutData, unk
         
         const { about } = validateData
 
-        if (typeof about !== "string") {
-            throw createHttpError(400, "Invalid Parameters")
-        }
 
         const aboutId = req.params.id
         if (!mongoose.isValidObjectId(aboutId)) {

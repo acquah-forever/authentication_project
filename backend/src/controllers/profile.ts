@@ -23,6 +23,7 @@ export const getProfile: RequestHandler = async (req, res, next) => {
     }
 }
 
+
 interface ProfileInput {
     firstName: string,
     lastName: string,
@@ -78,7 +79,11 @@ export const createProfile: RequestHandler<unknown, unknown, ProfileInput, unkno
 
         res.status(201).json(newProfile)
     }
+
     catch (error) {
+        if (error instanceof ZodError) {
+            throw createHttpError(400, "Invalid data")
+        }
         next(error)
     }
 }
@@ -137,9 +142,9 @@ export const updateProfile: RequestHandler<{ id: string }, unknown, Update, unkn
     }
 
     catch (error) {
-            if (error instanceof ZodError) {
-                throw createHttpError(400, "Invalid application data")
-            }
-            next(error)
+        if (error instanceof ZodError) {
+            throw createHttpError(400, "Invalid data")
         }
+        next(error)
     }
+}

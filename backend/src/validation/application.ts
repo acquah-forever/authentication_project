@@ -1,6 +1,5 @@
 import { z } from "zod";
 
- z.enum(["","beginner","intermediate","advanced","expert"]);
 
 export const applicationSchema = z.object({
     job: z.string().min(1, "Invalid Parameters"),
@@ -25,6 +24,6 @@ export const applicationSchema = z.object({
     aiTools: z.string(),
     confirm1: z.literal(true),
     confirm2: z.literal(true),
-});
+}).strict();
 
 export type ApplicationInput = z.infer<typeof applicationSchema>;
